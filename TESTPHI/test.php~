@@ -1,0 +1,7 @@
+<?php
+echo "........Loading...";
+echo "Completed  test";
+exec("./TT");
+//exec("python3 p.py");
+//exec("sh run.sh");
+?>

@@ -1,0 +1,8 @@
+<script>
+function Root(){
+    var now = new Date();
+    var month = parseInt(now.getMonth())+1;
+    var path = "SSN_" + month + "-" + now.getDate() + "-" +now.getFullYear() + ".root";
+    window.location.href="/SSN/Download/"+path;
+}
+</script>

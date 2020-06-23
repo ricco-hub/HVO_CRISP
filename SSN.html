@@ -1,0 +1,92 @@
+<html>
+<head>
+<?php include "/var/www/html/CSS2/header.html" ?>
+<?php include "/var/www/html/CSS2/SSN/java.html" ?>  <!-- specific -->
+</head>
+<style>
+<?php include "/var/www/html/CSS2/style.html" ?>
+</style>
+<body>
+<?php include "/var/www/html/CSS2/menu.html" ?>
+<?php include "/var/www/html/CSS2/SSN/script.html" ?> <!--specific  -->
+              
+<!--  BEGIN code specifico  -->
+<center><h3 style="color:rgb(60, 128, 214);"><b>SUNSPOTS</b></h3></center>
+
+Last updated date: <p id="date"></p> <br>
+<?php include "/var/www/html/CSS2/date.html" ?> <!-- date script -->
+
+
+<!-- TESTO IN COLONNA SX  -->
+<div class="row">
+  <div class="column left">
+
+<div class="jquery-script-clear"></div>
+This section is dedicated to sunspot number (<b>SSN</b>).<br>
+Daily updated data are taken from <a href="http://sidc.oma.be/silso/home">SILSO</a>. <br>
+Daily, Monthly and 13-Smoothed SSN Data are plotted below.
+<br>
+You can select data range manually from dropdown menu or directly from the dinamic plots.<br>
+<i class="fa fa-camera" aria-hidden="true"></i> to take a screenshot press the button on the lower left side of the canvas.<br>
+To download updated data and plots (in <b>.root</b> format) press the button ROOT File.
+<br><br>
+
+</div>
+<!-- TESTO IN COLONNA DX  -->
+<div class="column right">
+   <img src="/sunspot.gif" alt="centered image" style="max-width:68%"
+   height="auto" width="auto" class="responsive" >
+</div>
+</div>
+<!-- END INTRO TEXT-->
+<!-- BEGIN FORM SUNSPOTS -->
+<form action="WWSSN.php" method="get">
+<h5> SSN data-type selection</h5>
+<b>
+ <i class="fas fa-stop" style="font-size:17px;color:#3671D2;"></i> Daily SSN <input type="checkbox" name="station[]" id="station" value="1">&nbsp;&nbsp;&nbsp;&nbsp;
+ <i class="fas fa-stop" style="font-size:17px;color:#12DB19;"></i> Monthly SSN <input type="checkbox" name="station[]" id="station" value="3">&nbsp;&nbsp;&nbsp;&nbsp;
+ <i class="fas fa-stop" style="font-size:17px;color:#1661AB2;"></i> Smoothed SSN <input type="checkbox" name="station[]" id="station" value="5">&nbsp;&nbsp;&nbsp;&nbsp;
+<br> 
+<i class="fas fa-stop" style="font-size:17px;color:#3671D2;"></i> Daily SSN (Errors) <input type="checkbox" name="station[]" id="station" value="2">&nbsp;&nbsp;&nbsp;&nbsp;
+<i class="fas fa-stop" style="font-size:17px;color:#12DB19;"></i> Monthly SSN (Errors) <input type="checkbox" name="station[]" id="station" value="4">&nbsp;&nbsp;&nbsp;&nbsp;
+ <i class="fas fa-stop" style="font-size:17px;color:#1661AB2;"></i> Smoothed SSN (Errors) <input type="checkbox" name="station[]" id="station" value="6">&nbsp;&nbsp;&nbsp;&nbsp;
+</b>
+<br><br>
+<h5>Select date range manually</h5>
+<form method="get" action="WWSSN.php">
+Start Date  <input type="text" name="birthday" value="" class="dropdate"><br><br>
+End Date     <input type="text" name="birthday2" value="" class="dropdate"><br><br>
+ <input type="submit">
+</form>
+<!-- END FORM -->
+<!-- 
+<h5>Select date range manually</h5>
+<form method="get" action="SSN.php">
+Start Date  <input type="text" name="birthday" value="" class="dropdate"><br><br>
+End Date     <input type="text" name="birthday2" value="" class="dropdate"><br><br>
+ <input type="submit">
+</form>
+-->
+<br><br>
+<center>
+<div id="drawing1" style="width:650px; height:400px"></div>
+<button><type="button"><a onclick="Root();">ROOT File</a></button>
+</center>
+<!--
+<br>
+<h5>Select date range manually</h5>
+<form method="get" action="SolarSmoothed.php">
+Start Date  <input type="text" name="birthday" value="" class="dropdate"><br><br>
+End Date     <input type="text" name="birthday2" value="" class="dropdate"><br><br>
+<input type="submit">
+</form>
+<br><br>
+<center>
+<div id="drawing2" style="width:650px; height:400px"></div>
+<button><type="button"><a onclick="Root2();">ROOT File</a></button>
+</center>
+-->
+<!-- END code specifico-->
+<?php include "/var/www/html/CSS2/footer.html" ?>
+</body>
+</html>

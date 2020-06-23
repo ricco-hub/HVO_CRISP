@@ -1,0 +1,34 @@
+<html>
+<head>
+<?php include "/var/www/html/CSS2/ISS/header.html"?>
+</head>
+<style>
+<?php include "/var/www/html/CSS2/style.html"?>
+</style>
+<body>
+<?php include "/var/www/html/CSS2/menu.html"?>
+
+<center><h3 style="color:rgb(60, 128, 214);"><b>PROTON FLUX MODEL</b></h3></center>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+Despite its theoretical approximation, the <b>force field model</b> provides a useful way to parameterize the shape of GCR diffential energy spectrum. <br>
+The differential intensity J of cosmic ray (protons) at 1 AU is given by
+\begin{equation}
+J_{r = 1 AU}(E,t) = \frac{(E + M_p)^2  - M_p^2}{(E + M_p +\phi(t)) ^2 -M_p^2}  J_{lis} (E+ \phi(t)),  &nbsp; &nbsp;&nbsp;  (1)
+\end{equation}
+where <b>E</b> is the kinetic energy (in GeV per nucleon), \( M_p \)  is the proton rest energy and \( \phi \) is the modulated potential.<br>
+\( J_{lis} \) denotes the local interstellar spectrum (LIS) of protons. Here we use a parametrization derived from the latest data from <b>Voyager</b> and <b>AMS-02</b>.
+You can download the code used for LIS <a class="about" href="/CODE.cpp">here</a>.
+<br>
+
+Starting from the derivation of the modulation potential developed by Usoskin in 2011 [<a class="about" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2010JA016105\">ref</a>], we have derived \( \phi \) for the period after 2011 assuming a quadratic relation between neutron monitor count rate \( R(t) \) and Usoskin's potential \( \phi(t) \).
+ <br>
+This relation can be written as
+\begin{equation}
+\phi(R(t)) = A + B \cdot R(t) + C \cdot R(t)^2
+\end{equation}
+The best-fit parameters A, B e C can be used to derive \( \phi \) for next epochs. <br><br>
+We can now reconstruct the proton flux J near Earth from equation (1).
+
+<?php include "/var/www/html/CSS2/footer.html" ?>
+</body>
+</html>

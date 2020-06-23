@@ -1,0 +1,50 @@
+<!DOCTYPE html> 
+<html> 
+      
+<head> 
+    <title> 
+ How to call PHP function 
+        on the click of a Button ? 
+    </title> 
+</head> 
+  
+<body style="text-align:center;"> 
+      
+  <h1 style="color:green;"> 
+ GeeksforGeeks    </h1> 
+      
+   <h4>  How to call PHP function 
+       on the click of a Button ? 
+   </h4>   
+     
+ <?php
+$myfile = fopen("./Output.txt", "w"); 
+$txt = "DAVID PELOSI\n";
+fwrite($myfile, $txt);
+$txt = "DAVID PELOSI\n";
+fwrite($myfile, $txt);
+fclose($myfile);
+echo "RUN This is Button2 that is selected";
+echo "\n"
+?>
+
+<!--
+  <script>
+      function funct() {
+          <?php writeToFile('Output.txt', 'hello'); ?>
+      }
+      window.onload = funct;
+  </script>        
+           
+
+  
+    <form method="post"> 
+        <input type="submit" name="button1"
+                class="button" value="Button1" /> 
+          
+        <input type="submit" name="button2"
+                class="button" value="Button2" /> 
+    </form> 
+</head> 
+  
+</html>

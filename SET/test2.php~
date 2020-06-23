@@ -1,0 +1,15 @@
+<?php
+echo "TEST";
+echo "\n";
+$location = file_get_contents('Output.txt');
+echo $location;
+
+
+$location2 = fopen("Output.txt", "r") or die("Unable to open file!");
+echo $location2;
+//$file = "/SET/Output.txt";
+//$write = "DAVID PELOSI";
+echo "COMPLETED";
+file_put_contents($file , $write , FILE_APPEND);
+?>
+

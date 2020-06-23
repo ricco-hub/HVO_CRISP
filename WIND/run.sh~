@@ -1,0 +1,5 @@
+cd /var/www/html/WIND
+python3 convert.py
+cd WINDRANGE
+source /var/www/html/root/root/bin/thisroot.sh
+./WINDRANGE

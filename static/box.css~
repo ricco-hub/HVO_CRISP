@@ -1,0 +1,19 @@
+.foo {
+ float: inline-start;
+  width: 13px;
+  height: 13px;
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.blue {
+  background: #13b4ff;
+}
+
+.purple {
+  background: #ab3fdd;
+}
+
+.wine {
+  background: #ae163e;
+}
