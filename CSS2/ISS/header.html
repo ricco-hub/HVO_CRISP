@@ -1,0 +1,35 @@
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <title>HVO</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1\
+hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <!-- syntax highlighting CSS -->
+    <link rel="stylesheet" href="syntax.css">
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/super-search.css">
+    <link rel="stylesheet" href="/thickbox.css">
+    <link rel="stylesheet" href="/projects.css">
+    <link rel="stylesheet" type="text/css" href="/main2.css">
+
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <title>HVO</title>
+
+
+                         <script src="node_modules/jquery/dist/jquery.min.js"> </script>
+                             <script src="map/pass.js">  </script>
+
+                                 <script src="node_modules/jquery/dist/jquery.min.js"> </script>
+                                     <script>
+                                             $.getJSON('http://api.open-notify.org/astros.json?callback=?', function(data) {
+                                                     var number = data['number'];
+                                                     $('#spacepeeps').html(number);
+                                                     data['people'].forEach(function (d) {
+                                                       $('#astronames').append('<li>' + d['name'] + '</li>');
+                                                     });
+                                                   });
+                                                 </script>

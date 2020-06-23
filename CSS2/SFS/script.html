@@ -1,0 +1,9 @@
+<script>
+function Root(){
+    var now = new Date();
+    var month = parseInt(now.getMonth())+1;
+    var path = "SPFS_" + month + "-" + now.getDate() + "-" +now.getFullYear() + ".root";
+    window.location.href="/SFS/Download/"+path;
+<!-- window.location.href="/SFS/ROOT/SPFS.root";-->
+}
+</script>

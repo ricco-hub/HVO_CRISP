@@ -1,0 +1,8 @@
+<script type='text/javascript'>
+var filename = "/SFS/ROOT/SPFS.root";
+   JSROOT.OpenFile(filename, function(file) {
+file.ReadObject("SPFS Graph;1", function(obj) {
+       JSROOT.draw("drawing", obj);
+     });
+   });
+</script>

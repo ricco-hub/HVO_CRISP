@@ -1,0 +1,103 @@
+
+<html>
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- <script src="js/jquery.floating-share.js" type="text/javascript"></script> -->
+
+<script type="text/javascript">
+  function hovIn() {
+    var areaID = $(this).attr('id');
+    //alert('['+areaID+']');
+    if (areaID == 'CUST_1') {
+        $('#myDiv1').show();
+    }
+       if (areaID == 'CUST_2') {
+        $('#myDiv2').show();
+    }
+
+
+}
+
+function hovOut() {
+    $('#myDiv2').hide();
+    $('#myDiv1').hide();
+
+}
+
+$('map area').hover(hovIn, hovOut);
+
+
+</script>
+
+
+
+
+<!-- CSS-->
+<style>
+#num_cust1 {
+    padding: 10px;
+    background-color:yellow;
+    position:absolute;
+    top:60px;
+    left:180px;
+}
+#num_cust2 {
+    padding: 10px;
+    background-color:yellow;
+    position:absolute;
+    top:60px;
+    left:40px;
+}
+#num_cust3 {
+    padding: 10px;
+    background-color:yellow;
+    position:absolute;
+    top:160px;
+    left:180px;
+}
+#myDiv1 {
+    display:none;
+    width:30%;
+    height:30px;
+    padding: 5px;
+    background-color:green;
+}
+#myDiv2 {
+    display:none;
+    width:30%;
+    height:30px;
+    padding: 5px;
+    background-color:blue;
+}
+</style>
+</head>
+
+
+
+
+Instructions : MAP neutron monitor
+<!--<img src="http://www.proprofs.com/quiz-school/upload/yuiupload/2014513384.jpg" width="400" height="400" />-->
+<div id="imagemap">
+    <img src="http://ai-sf.it/perugia/logo.png" width="275" height="207" usemap="#Map" border="0" />
+
+    <map name="Map">
+        <area shape="poly" coords="105,26,107,126,257,140,256,27" href="#" id="CUST_1" name="CUST:1" />
+
+
+    <p>
+        <div id="myDiv1">david</div> </p>
+
+        <area shape="circle" coords="0,0,50" href="#" id="CUST_2" name="CUST:2" />
+   <!--     <area shape="poly" coords="10,21,14,178,71,184,69,19" href="#" id="CUST_2" name="CUST:2" /> -->
+      </map>
+    <p>
+        <div id="myDiv2">    <img src="http://ai-sf.it/perugia/newlogo.png" width="175" height="107" usemap="#Map" border="0" />
+        </div> </p>
+</div>
+<!-- Yellow DIV ID numbers overlaid on top of computer components -->
+<div id="num_cust1">A</div>
+<div id="num_cust2">B</div>
+<div id="num_cust3">C</div>
+
+
+</html>
