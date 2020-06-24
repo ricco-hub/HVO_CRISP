@@ -5,6 +5,7 @@
 </head>
 <style>
 <?php include "/var/www/html/CSS2/style.html" ?>
+<?php include "/var/www/html/CSS2/column3.html" ?>
 </style>
 <body>
 <?php include "/var/www/html/CSS2/menu.html" ?>
@@ -43,14 +44,25 @@ To download updated data and plots (in <b>.root</b> format) press the button ROO
 <form action="WWSSN.php" method="get">
 <h5> SSN data-type selection</h5>
 <b>
- <i class="fas fa-stop" style="font-size:17px;color:#3671D2;"></i> Daily SSN <input type="checkbox" name="station[]" id="station" value="1">&nbsp;&nbsp;&nbsp;&nbsp;
- <i class="fas fa-stop" style="font-size:17px;color:#12DB19;"></i> Monthly SSN <input type="checkbox" name="station[]" id="station" value="3">&nbsp;&nbsp;&nbsp;&nbsp;
- <i class="fas fa-stop" style="font-size:17px;color:#1661AB2;"></i> Smoothed SSN <input type="checkbox" name="station[]" id="station" value="5">&nbsp;&nbsp;&nbsp;&nbsp;
-<br> 
-<i class="fas fa-stop" style="font-size:17px;color:#3671D2;"></i> Daily SSN (Errors) <input type="checkbox" name="station[]" id="station" value="2">&nbsp;&nbsp;&nbsp;&nbsp;
-<i class="fas fa-stop" style="font-size:17px;color:#12DB19;"></i> Monthly SSN (Errors) <input type="checkbox" name="station[]" id="station" value="4">&nbsp;&nbsp;&nbsp;&nbsp;
- <i class="fas fa-stop" style="font-size:17px;color:#1661AB2;"></i> Smoothed SSN (Errors) <input type="checkbox" name="station[]" id="station" value="6">&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+<div class="grid-container">
+<div class="item">
+ <i class="fas fa-stop" style="font-size:17px;color:#3671D2;"></i> Daily SSN <input type="checkbox" name="station[]" id="station" value="1">  <br>
+ <i class="fas fa-stop" style="font-size:17px;color:#3671D2;"></i> Daily SSN (Errors) <input type="checkbox" name="station[]" id="station" value="2"> <br>
+</div>
+<div class="item">
+ <i class="fas fa-stop" style="font-size:17px;color:#12DB19;"></i> Monthly SSN <input type="checkbox" name="station[]" id="station" value="3"> <br> 
+ <i class="fas fa-stop" style="font-size:17px;color:#12DB19;"></i> Monthly SSN (Errors) <input type="checkbox" name="station[]" id="station" value="4"> <br> 
+</div>
+<div class="item">
+ <i class="fas fa-stop" style="font-size:17px;color:#1661AB2;"></i> Smoothed SSN <input type="checkbox" name="station[]" id="station" value="5"> <br>
+ <i class="fas fa-stop" style="font-size:17px;color:#1661AB2;"></i> Smoothed SSN (Errors) <input type="checkbox" name="station[]" id="station" value="6"> <br>
+</div>
+
+</div>
 </b>
+
 <br><br>
 <h5>Select date range manually</h5>
 <form method="get" action="WWSSN.php">
