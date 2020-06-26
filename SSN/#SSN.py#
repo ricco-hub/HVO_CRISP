@@ -22,8 +22,9 @@ fout.close()
 
 url = 'http://www.sidc.be/silso/DATA/EISN/EISN_current.txt'
 r = requests.get(url, allow_redirects=True)
-#sovrascrive il mese monthly
 open('/var/www/html/SSN/SSN_Monthly.txt', 'wb').write(r.content)
+# SSN_Monthly continene ssn giornalieri del mese in corso.
+
 
 lines1 = tuple(open("/var/www/html/SSN/backup/SSN_MonthlyP.txt","r"))
 lines2 = tuple(open("/var/www/html/SSN/SSN_Monthly.txt","r"))
@@ -47,9 +48,9 @@ if len(lines2) != 1:
         n2 -= 1
 #per evitare spazi indesiderati iniziali
 
- for aa in range(n1,n2):
+ for ai in range(n1,n2):
      with open("/var/www/html/SSN/SSN_History.txt", "a") as file:
-         file.write(lines2[aa])
+         file.write(lines2[ai])
 #fine if
 
 #a questo punto lo storico contiene tutte le info da 1818 - al giorno corrente
@@ -63,29 +64,27 @@ open('/var/www/html/SSN/backup/SSN_MonthlyP.txt', 'wb').write(r.content)
 #shutil.copy('/Users/David/Desktop/programming/python/modules/Solar/SSN_History.txt', time.strftime("/Users/David/Desktop/programming/python/modules/Solar/Download/SSN(1-1-1818 ; %m-%d-%Y).txt"))
 import re
 infile = open ('/var/www/html/SSN/SSN_History.txt', 'r')
-outfile = open ('/var/www/html/SSN/SSNPLOT.txt', 'w')
-outfile2 = open ('/var/www/html/SSN/SSNLINE.txt', 'w')
+outfile = open ('/var/www/html/SSN/SSNPLOT.txt', 'a')
+outfile2 = open ('/var/www/html/SSN/SSNLINE.txt', 'a')
 column1 = 3
 column2 = 4
 column3 = 5
 
 lines = infile.readlines()
 new = lines
-print(len(a))
+print("old")
+print("new")
 print(len(new))
 
 
-for line in infile:
-    if not re.match('#', line):
-        line = line.strip()
-        sline = line.split()
+for i in range(len(a),len(new)):
+        sline = lines[i].split()
         outfile.write(sline[column1] + ' ')
         outfile.write(sline[column2] + ' ')
         outfile.write('0' + ' ')
         outfile.write(sline[column3] + '\n')
         outfile2.write(sline[column1] + ' ')
         outfile2.write(sline[column2] + ' ' + '\n')
-
 
 
 

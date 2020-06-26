@@ -27,7 +27,7 @@ exec("sh SSN/runSFS.sh");
 
 exec("sh SSN/runEXE.sh");
 
-header("Location: http://10.2.201.68/SSN.html");
+header("Location: /SSN.html");
 exit();
 
 echo "<br>";
