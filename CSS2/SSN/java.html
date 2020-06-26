@@ -1,14 +1,9 @@
 <script type='text/javascript'>
- var filename = "/SSN/ROOT/SSN.root";
+ var filename = "/SSN/SSN.root";
  JSROOT.OpenFile(filename, function(file) {
-   file.ReadObject("Graph;1", function(obj) {
+   file.ReadObject("c1;1", function(obj) {
      JSROOT.draw("drawing1", obj, "APL");
    });
  });
-    var filename = "/SolarSmoothed/ROOT/SolarSmoothed.root";
-       JSROOT.OpenFile(filename, function(file) {
-    file.ReadObject("Smoothed-Monthly NOT LOG;1", function(obj) {
-           JSROOT.draw("drawing2", obj);
-         });
-       });
+    
        </script>

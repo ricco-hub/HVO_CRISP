@@ -16,28 +16,30 @@ a = line
 with open(time.strftime('/var/www/html/SolarSmoothed/SSN_Monthly.txt'), "w") as file:
  for j in range(len(a)):
    sline = a[j].split()
-   if not sline[3] == '-1.0':
+   if not sline[4] == '-1':
         file.write(a[j])
 
 url2 = 'http://www.sidc.be/silso/DATA/SN_ms_tot_V2.0.txt'
 r2 = requests.get(url2, allow_redirects=True)
 #sovrascrive o scrive il 13-smoothed monthly
-open('/var/www/html/SolarSmoothed/SN_13.txt', 'wb').write(r2.content)
+open('/var/www/html/SolarSmoothed/SSN_13.txt', 'wb').write(r2.content)
 
-
-j = 0
 #cancellare +6 e -6 mesi
-
 line = tuple(open(time.strftime('/var/www/html/SolarSmoothed/SSN_13.txt'), "r"))
 a = line
 with open(time.strftime('/var/www/html/SolarSmoothed/SSN_13.txt'), "w") as file:
  for j in range(len(a)):
    sline = a[j].split()
-   if not sline[3] == '-1.0':
+   if not sline[4] == '-1':
         file.write(a[j])
+
+
 
 #creare subito il database da cui fare il grafico
 import re
+line = tuple(open(time.strftime('SSN_13.txt'), "r"))
+a = line
+
 infile = open ('/var/www/html/SolarSmoothed/SSN_13.txt', 'r')
 outfile = open ('/var/www/html/SolarSmoothed/SSN_13PLOT.txt', 'w')
 
