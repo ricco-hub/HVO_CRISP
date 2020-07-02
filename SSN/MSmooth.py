@@ -55,8 +55,9 @@ outfile.close()
 import re
 line = tuple(open(time.strftime('/var/www/html/SSN/SSN_Monthly.txt'), "r"))
 
+
 with open(time.strftime('/var/www/html/SSN/SSN_Monthly.txt'), "w") as outfile2:
- for j in range(len(line)):
+  for j in range(len(line)):
    sline = line[j].split()
    outfile2.write(sline[2] + ' ')
    outfile2.write(sline[3] + ' ')

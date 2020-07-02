@@ -13,6 +13,7 @@ a = line
 
 error = -1
 
+#dallo storico elimino le righe in cui non si hanno dati mancanti che inSILSO vengono indicati con '-1'
 with open(time.strftime('SSN_ALL.txt'), "w") as file:
  for j in range(len(a)):
    sline = a[j].split()
