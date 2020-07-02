@@ -20,20 +20,21 @@ using namespace std;
 int main()
 {
 
-
+  /*
   fstream f;
   f.open("/var/www/html/SSN/E.txt",ios::in);
   double xmin,xmax;
   while (!f.eof()) {
     f>>xmin>>xmax>>ws;
   }
+  */
 
   //daily WITH ERROR ************************************************************
   TCanvas *c1 = new TCanvas("c1","titolo Canvas");
   c1->SetFillColor(0);
   c1->cd();
 
-  TString daily_error = "/var/www/html/SSN/SSN.txt"; //percorso
+  TString daily_error = "/var/www/html/SSN/data_PLOT/SSN_range.txt"; //percorso
 
   TGraphErrors *dE = new TGraphErrors(daily_error);
   dE->SetMarkerColor(kOrange);
@@ -47,7 +48,7 @@ int main()
   dE->SetTitle("SSN Daily + errors");
 
   //daily NO  ERROR *****+++++++++++++++++++++++++++++++++++++++++++++++++++
-  TString daily = "/var/www/html/SSN/SSN.txt"; //percorso
+  TString daily = "/var/www/html/SSN/data_PLOT/SSN_range.txt"; //percorso
   TGraph *d = new TGraph(daily);
   d->SetMarkerColor(kOrange);
   d->SetLineColor(kOrange);
@@ -61,7 +62,7 @@ int main()
   
          
   //Smoothed 13  with ERROR***********************************************************
-  TString smooth13_error = "/var/www/html/SSN/SSN_13.txt"; //percorso
+  TString smooth13_error = "/var/www/html/SSN/data_PLOT/SSN_Smooth_range.txt"; //percorso
   TGraphErrors *smoE = new TGraphErrors(smooth13_error);
   smoE->SetMarkerColor(kBlue);
   smoE->SetLineColor(kBlue);
@@ -74,7 +75,7 @@ int main()
   smoE->SetTitle("SSN smoothed + Errors");
 
   //Smoothed 13 NO ERROR*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  TString smooth = "/var/www/html/SSN/SSN_13.txt"; //percorso
+  TString smooth = "/var/www/html/SSN/data_PLOT/SSN_Smooth_range.txt"; //percorso
   TGraph *smo = new TGraph(smooth);
   smo->SetMarkerColor(kBlue);
   smo->SetLineColor(kBlue);
@@ -87,7 +88,7 @@ int main()
   smo->SetTitle("SSN smoothed");
 
   //Monthly WITH  ERROR***********************************************************************
-  TString monthly_error = "/var/www/html/SSN/SSN_Monthly.txt"; //percorso
+  TString monthly_error = "/var/www/html/SSN/data_PLOT/SSN_Monthly_range.txt"; //percorso
   TGraphErrors *mE = new TGraphErrors(monthly_error);
   mE->GetYaxis()->SetTitle("SSN");
   mE->GetYaxis()->CenterTitle();
@@ -101,7 +102,7 @@ int main()
 
 
   //Monthly NO ERROR ***************************************************************************
-  TString monthly = "/var/www/html/SSN/SSN_Monthly.txt"; //percorso
+  TString monthly = "/var/www/html/SSN/data_PLOT/SSN_Monthly_range.txt"; //percorso
   TGraph *m = new TGraph(monthly);
   m->GetYaxis()->SetTitle("SSN");
   m->GetYaxis()->CenterTitle();
@@ -171,7 +172,7 @@ int main()
   mg->SetTitle("SunSpot Number");
 
   mg->Draw("apl");
-  mg->GetXaxis()->SetRangeUser(xmin,xmax);
+  //  mg->GetXaxis()->SetRangeUser(xmin,xmax);
   //mg->GetXaxis()->CenterTitle();
   mg->GetYaxis()->CenterTitle();
   // mg->GetXaxis()->SetTitle("year");
