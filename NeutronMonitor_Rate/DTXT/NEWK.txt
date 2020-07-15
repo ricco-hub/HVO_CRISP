@@ -3,11 +3,6 @@ Selected station: NEWK
 column 1 - Date in fraction of year.
 column 2 - Monthly rate.
 
-1979.582    87.861
-1979.667    88.250
-1979.749    90.188
-1979.834    90.325
-1979.916    92.269
 1980.001    91.751
 1980.086    91.372
 1980.165    92.286

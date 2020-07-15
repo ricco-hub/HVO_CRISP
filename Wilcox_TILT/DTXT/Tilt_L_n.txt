@@ -2,6 +2,22 @@ Wilcox Solar Observatory data downloaded from HVO:
 column 1 - Date in fraction of year. 
 column 2 - Maximum extent in latitude reached by the computed heliospheric current sheet (HCS) i.e. Tilt Angle of the heliospheric current sheet. Values are provided for the maximum northern extent of the HCS (line-of-sight model).
 
+1976.404    13.600
+1976.477    15.700
+1976.553    26.600
+1976.627    12.200
+1976.701    14.700
+1976.778    14.100
+1976.851    12.800
+1976.925    19.000
+1976.999    15.300
+1977.075    16.900
+1977.149    14.900
+1977.224    17.700
+1977.298    25.400
+1977.374    30.600
+1977.448    27.800
+1977.522    20.600
 1977.599    14.400
 1977.673    19.700
 1977.747    14.600
