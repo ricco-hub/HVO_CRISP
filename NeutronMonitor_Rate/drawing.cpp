@@ -97,7 +97,7 @@ int main()
   legend->Draw();
 
   c1->Write();
-  mg->Write();
+  //  mg->Write();
   ff.Close();
 
   return 0;

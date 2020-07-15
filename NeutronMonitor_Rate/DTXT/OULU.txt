@@ -3,11 +3,6 @@ Selected station: OULU
 column 1 - Date in fraction of year.
 column 2 - Monthly rate.
 
-1979.582    95.431
-1979.667    96.330
-1979.749    98.040
-1979.834    98.151
-1979.916    99.996
 1980.001    99.556
 1980.086    98.884
 1980.165   100.246
