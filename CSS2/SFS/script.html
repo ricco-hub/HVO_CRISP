@@ -1,9 +1,64 @@
 <script>
-function Root(){
+function Zip() {
+    var fileURL ="/Wilcox_SFS/DTXT/SPFS.zip";
+    var fileName = "SPFS.zip"; 
+    if (!window.ActiveXObject) {
+        var save = document.createElement('a');
+        save.href = fileURL;
+        save.target = '_blank';
+        save.download = fileName || 'unknown';
+
+        var evt = new MouseEvent('click', {
+            'view': window,
+            'bubbles': true,
+            'cancelable': false
+        });
+        save.dispatchEvent(evt);
+
+        (window.URL || window.webkitURL).revokeObjectURL(save.href);
+    }
+
+
+    else if ( !! window.ActiveXObject && document.execCommand)     {
+        var _window = window.open(fileURL, '_blank');
+        _window.document.close();
+        _window.document.execCommand('SaveAs', true, fileName || fileURL)
+        _window.close();
+    }
+}
+
+
+
+
+function Root() {
     var now = new Date();
     var month = parseInt(now.getMonth())+1;
-    var path = "SPFS_" + month + "-" + now.getDate() + "-" +now.getFullYear() + ".root";
-    window.location.href="/SFS/Download/"+path;
-<!-- window.location.href="/SFS/ROOT/SPFS.root";-->
+    var fileURL = "/Wilcox_SFS/Download/SPFS_" + month + "-" + now.getDate() + "-" +now.getFullYear() + ".root";
+    var fileName = "SPFS_" + month + "-" + now.getDate() + "-" +now.getFullYear() + ".root";
+    if (!window.ActiveXObject) {
+        var save = document.createElement('a');
+        save.href = fileURL;
+        save.target = '_blank';
+        save.download = fileName || 'unknown';
+
+        var evt = new MouseEvent('click', {
+            'view': window,
+            'bubbles': true,
+            'cancelable': false
+        });
+        save.dispatchEvent(evt);
+
+        (window.URL || window.webkitURL).revokeObjectURL(save.href);
+    }
+
+
+    else if ( !! window.ActiveXObject && document.execCommand)     {
+        var _window = window.open(fileURL, '_blank');
+        _window.document.close();
+        _window.document.execCommand('SaveAs', true, fileName || fileURL)
+        _window.close();
+    }
 }
+
+
 </script>

@@ -1,0 +1,9 @@
+<script type='text/javascript'>
+ var filename = "/NeutronMonitor_Rate/Monitor_Rate.root";
+ JSROOT.OpenFile(filename, function(file) {
+   file.ReadObject("c1;1", function(obj) {
+     JSROOT.draw("drawing1", obj, "APL");
+   });
+ });
+    
+       </script>

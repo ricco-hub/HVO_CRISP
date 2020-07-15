@@ -1,0 +1,131 @@
+<html>
+<head>
+
+
+<?php include "/var/www/html/CSS2/header.html" ?>
+<?php include "/var/www/html/CSS2/NM/java.html" ?>  <!-- specific -->
+</head>
+<style>
+<?php include "/var/www/html/CSS2/style.html" ?>
+<?php include "/var/www/html/CSS2/column3.html" ?>
+    img[usemap] {
+        border: none;
+        height: auto;
+        max-height: 70%;
+        max-width: 60%;
+        width: auto;
+    }
+</style>
+<body>
+<?php include "/var/www/html/CSS2/menu.html" ?>
+<?php include "/var/www/html/CSS2/NM/script.html" ?> <!--specific  -->
+              
+<!--  BEGIN code specifico  -->
+<center><h3 style="color:rgb(60, 128, 214);"><b>NEUTRON MONITOR</b></h3></center>
+
+Last updated date: <p id="date"></p> <br>
+<?php include "/var/www/html/CSS2/date.html" ?> <!-- date script -->
+
+<div class="jquery-script-clear"></div>
+This section is dedicated to <b>Neutron Monitor rate</b>. <br>
+Monthly updated data are taken from <a href="http://www01.nmdb.eu">NMDB Neutron Monitor DataBase</a>.<br>
+You can select <b>neutron monitor stations</b> from the menu above. <br>
+<i class="fa fa-camera" aria-hidden="true"></i> to take a screenshot press the button on the lower left side of the canvas.<br>
+To download updated data and plots (in <b>.root</b> format) press the button <b>ROOT File</b>.
+<br>
+To download data (in <b>.txt</b> format) press the button <b>TXT ZIP</b>.
+<br><br>
+
+<h4><b>Click on the Map to check the main characteristics of the NM stations.</b></h4>
+
+        <center><img src="IMAP.png" width="1024" height="768" usemap="#nm" alt=""/> </center>
+        <map name="nm">
+          <area target="" alt="rect" title="newk"  coords="360,158,264,233" shape="rect"  alt2="STATION: NEWK &#13; Detector-Type : 9-NM64 &#13; Location : Newark, Delaware &#13; Coordinates : 39.68° N 75.75° W &#13; Altitude : 50 m &#13; Cutoff : 2400 MV  ">
+
+          <area target="" alt="mxco" title="mxco"  coords="300,250,140,320" shape="rect" alt2="STATION: MXCO &#13; Detector-Type : 6-NM64 &#13; Location : Mexico City, Mexico &#13; Coordinates : 19.33° N 260.82° E &#13; Altitude : 2274 m &#13; Cutoff : 8200 MV  ">
+          
+<area target="" alt="hrms" title="hrms"  coords="500,500,670,600" shape="rect" alt2="STATION: HRMS &#13; Detector-Type : 12-NM64 &#13; Location : Hermanus, South Africa &#13; Coordinates : 34.43° S 19.23° E &#13; Altitude : 26 m &#13; Cutoff : 4580 MV  ">
+
+
+          <area target="" alt="jung" title="jung" coords="500,158,574,233" shape="rect" alt2="STATION: JUNG &#13; Detector-Type : 3-NM64 &#13; Location : Jungfraujoch, Switzerland &#13; Coordinates : 46.55° N 7.98° E &#13; Altitude : 3570 m &#13; Cutoff : 4500 MV">
+
+
+          <area target="" alt="oulu" title="oulu" coords="479,47,578,116" shape="rect"  alt2="STATION: OULU &#13; Detector-Type : 9-NM64 &#13; Location : Oulu, Finland &#13; Coordinates : 65.05° N 24.47° E &#13; Altitude : 15 m &#13; Cutoff : 810 MV  ">
+
+          <area target="" alt="apty" title="apty"  coords="605,47,686,111" shape="rect" alt2="STATION: APTY &#13; Detector-Type : 18-NM64 &#13; Location : Apatity, Russia &#13; Coordinates : 65.75° N 33.4° E &#13; Altitude : 181 m &#13; Cutoff : 650 MV  ">
+
+          <area target="" alt="mosc" title="mosc"  coords="580,120,700,199" shape="rect"  alt2="STATION MOSC:  &#13; Detector-Type : 24-NM64 &#13; Location : Moscow, Russia &#13; Coordinates : 55.47° N 37.32° E &#13; Altitude : 200 m &#13; Cutoff : 2430 MV  ">
+
+
+        </map>
+
+
+<!-- END INTRO TEXT-->
+<!-- BEGIN FORM SUNSPOTS -->
+<form action="Monitor.php" method="get">
+<br>
+<h4> Neutron Monitor stations</h4>
+<b>
+
+<div class="grid-container">
+<div class="item">
+ <i class="fas fa-stop" style="font-size:17px;color:#FFC300;"></i> OULU <input type="checkbox" name="station[]" id="station" value="OULU">  <br>
+ <i class="fas fa-stop" style="font-size:17px;color:#0333F5;"></i> NEWK <input type="checkbox" name="station[]" id="station" value="NEWK"> <br>
+ <i class="fas fa-stop" style="font-size:17px;color:#2C9916;"></i> APTY <input type="checkbox" name="station[]" id="station" value="APTY"> <br>
+</div>
+
+<div class="item">
+ <i class="fas fa-stop" style="font-size:17px;color:#F82C14;"></i> JUNG <input type="checkbox" name="station[]" id="station" value="JUNG"> <br>
+ <i class="fas fa-stop" style="font-size:17px;color:#20F6F6;"></i> HRMS <input type="checkbox" name="station[]" id="station" value="HRMS"> <br>
+ <i class="fas fa-stop" style="font-size:17px;color:#D615FD;"></i> MOSC <input type="checkbox" name="station[]" id="station" value="MOSC"> <br>
+</div>
+
+<div class="item">
+ <i class="fas fa-stop" style="font-size:17px;color:#030100;"></i> MXCO <input type="checkbox" name="station[]" id="station" value="MXCO">  <br>
+<!-- <i class="fas fa-stop" style="font-size:17px;color:#0333F5;"></i> NEWK <input type="checkbox" name="station[]" id="station" value="NEWK"> <br>
+ <i class="fas fa-stop" style="font-size:17px;color:#0333F5;"></i> APTY <input type="checkbox" name="station[]" id="station" value="APTY"> <br> -->
+</div>
+</div>
+</b>
+
+<br><br>
+<h5>Select date range manually</h5>
+<form method="get" action="Monitor.php">
+Start Date  <input type="text" name="birthday" value="" class="dropdate"><br><br>
+End Date     <input type="text" name="birthday2" value="" class="dropdate"><br><br>
+ <input type="submit">
+</form>
+<!-- END FORM -->
+
+<br><br>
+<center>
+<div id="drawing1" style="width:650px; height:400px"></div>
+
+<a onclick="Root();">
+<button class="btn"><i class="fa fa-download"></i> ROOT File</button>
+</a>
+
+<a href="/NeutronMonitor_Rate/DTXT/NMs.zip" download >
+<button class="btn"><i class="fa fa-download"></i> TXT ZIP</button>
+</a>
+
+
+
+
+<!-------------------------------------------------- SCRIPT    ---------------------------------------------------------------------------->
+  
+    <script src="jquery.rwdImageMaps.min.js"></script> 
+     <script>
+    $(document).ready(function(e) {
+        $('img[usemap]').rwdImageMaps();
+
+        $('area').on('click', function() {
+            alert($(this).attr('alt2'));
+        });
+    });
+    </script>
+
+<!-- END code specifico-->
+<?php include "/var/www/html/CSS2/footer.html" ?>
+</body>
+</html>

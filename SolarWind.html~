@@ -1,0 +1,90 @@
+<html>
+<head>
+
+
+<?php include "/var/www/html/CSS2/header.html" ?>
+<?php include "/var/www/html/CSS2/WIND/java.html" ?>  <!-- specific -->
+</head>
+<style>
+<?php include "/var/www/html/CSS2/style.html" ?>
+<?php include "/var/www/html/CSS2/column3.html" ?>
+</style>
+<body>
+<?php include "/var/www/html/CSS2/menu.html" ?>
+<?php include "/var/www/html/CSS2/WIND/script.html" ?> <!--specific  -->
+              
+<!--  BEGIN code specifico  -->
+<center><h3 style="color:rgb(60, 128, 214);"><b>SOLAR WIND</b></h3></center>
+
+Last updated date: <p id="date"></p> <br>
+<?php include "/var/www/html/CSS2/date.html" ?> <!-- date script -->
+<div class="jquery-script-clear"></div>
+
+<center>   <img src="/wind.png" alt="centered image" style="max-width:55%" height="auto" width="auto" class="responsive">
+</center><br><br>
+This section is dedicated to <b>solar wind</b>.<br>
+<b>Solar Wind Speed</b> and <b>Proton Density</b> are taken from <a href="https://spdf.gsfc.nasa.gov"> Space Physics Data Facility (SPDF)</a>. <br>
+You can select date range manually from dropdown menu or directly from the dinamic plots.<br>
+<i class="fa fa-camera" aria-hidden="true"></i> to take a screenshot press the button on the lower left side of the canvas.<br>
+To download updated data and plots (in <b>.root</b> format) press the button <b>ROOT File</b>.
+<br>
+To download data (in <b>.txt</b> format) press the button <b>TXT ZIP</b>.
+<br>
+
+<!-- END INTRO TEXT -->
+<!-- BEGIN FORM Wind  -->
+<form action="SolarWind.php" method="get">
+<h5> Data-type selection</h5>
+
+<!--
+<div class="grid-container">
+<div class="item">
+ <i class="fas fa-stop" style="font-size:17px;color:#FFC300;"></i> Proton Density <input type="checkbox" name="station[]" id="station" value="1">  <br>
+</div>
+<div class="item">
+ <i class="fas fa-stop" style="font-size:17px;color:#0333F5;"></i> Solar Wind speed <input type="checkbox" name="station[]" id="station" value="2"> <br>
+</div>
+</div>
+-->
+
+<br><br>
+<h5>Select date range manually</h5>
+<form method="get" action="SolarWind.php">
+Start Date  <input type="text" name="birthday" value="" class="dropdate"><br><br>
+End Date     <input type="text" name="birthday2" value="" class="dropdate"><br><br>
+ <input type="submit">
+</form>
+<!-- END FORM -->
+
+<br><br>
+<center>
+<div id="drawing1" style="width:650px; height:400px"></div>
+
+<a onclick="Root();">
+<button class="btn"><i class="fa fa-download"></i> ROOT File</button>
+</a>
+
+<a href="/WIND/DTXT/Wind.zip" download >
+<button class="btn"><i class="fa fa-download"></i> TXT ZIP</button>
+</a>
+
+
+
+<br><br>
+
+<div id="drawing2" style="width:650px; height:400px"></div>
+
+<a onclick="Root();">
+<button class="btn"><i class="fa fa-download"></i> ROOT File</button>
+</a>
+
+<a href="/WIND/DTXT/Wind.zip" download >
+<button class="btn"><i class="fa fa-download"></i> TXT ZIP</button>
+</a>
+
+
+
+<!-- END code specifico-->
+<?php include "/var/www/html/CSS2/footer.html" ?>
+</body>
+</html>

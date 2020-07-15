@@ -1,4 +1,2 @@
-<FilesMatch "\.(?i:root|cpp)$">
-  ForceType application/octet-stream
- Header set Content-Disposition attachment
-</FilesMatch>
+AddType text/plain .txt .root
+AddType application/zip .zip

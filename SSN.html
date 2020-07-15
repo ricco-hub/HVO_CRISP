@@ -1,5 +1,7 @@
 <html>
 <head>
+
+
 <?php include "/var/www/html/CSS2/header.html" ?>
 <?php include "/var/www/html/CSS2/SSN/java.html" ?>  <!-- specific -->
 </head>
@@ -24,13 +26,14 @@ Last updated date: <p id="date"></p> <br>
 
 <div class="jquery-script-clear"></div>
 This section is dedicated to sunspot number (<b>SSN</b>).<br>
-Daily updated data are taken from <a href="http://sidc.oma.be/silso/home">SILSO</a>. <br>
-Daily, Monthly and 13-Smoothed SSN Data are plotted below.
-<br>
-You can select data range manually from dropdown menu or directly from the dinamic plots.<br>
+<b>Daily</b>, <b>monthly</b> and <b>smoothed</b> sunspot number are taken from <a href="http://sidc.oma.be/silso/home">SILSO</a>. <br>
+You can select data-type from the menu above. <br>
+You can select date range manually from dropdown menu or directly from the dinamic plots.<br>
 <i class="fa fa-camera" aria-hidden="true"></i> to take a screenshot press the button on the lower left side of the canvas.<br>
-To download updated data and plots (in <b>.root</b> format) press the button ROOT File.
-<br><br>
+To download updated data and plots (in <b>.root</b> format) press the button <b>ROOT File</b>.
+<br>
+To download data (in <b>.txt</b> format) press the button <b>TXT ZIP</b>.
+<br>
 
 </div>
 <!-- TESTO IN COLONNA DX  -->
@@ -64,11 +67,15 @@ To download updated data and plots (in <b>.root</b> format) press the button ROO
 </div>
 </b>
 
+
+
 <br><br>
 <h5>Select date range manually</h5>
 <form method="get" action="WWSSN.php">
 Start Date  <input type="text" name="birthday" value="" class="dropdate"><br><br>
 End Date     <input type="text" name="birthday2" value="" class="dropdate"><br><br>
+
+<!-- Time-resolution  <input type="text" name="birthday3" value="" class="resolution"><br><br>-->
  <input type="submit">
 </form>
 <!-- END FORM -->
@@ -76,10 +83,25 @@ End Date     <input type="text" name="birthday2" value="" class="dropdate"><br><
 <br><br>
 <center>
 <div id="drawing1" style="width:650px; height:400px"></div>
-<button><type="button"><a onclick="Root();">ROOT File</a></button>
-</center>
 
+<a onclick="Root();" download>
+<button class="btn"><i class="fa fa-download"></i> ROOT FILE</button>
+</a>
 
+<a onclick="Zip();">
+<button class="btn"><i class="fa fa-download"></i> TXT</button>
+</a>
+
+<!--
+<div class="dropdown">
+  <button class="dropbtn">Dropdown</button>
+  <div class="dropdown-content">
+    <a href="#">Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+  </div>
+</div>
+-->
 <!-- END code specifico-->
 <?php include "/var/www/html/CSS2/footer.html" ?>
 </body>

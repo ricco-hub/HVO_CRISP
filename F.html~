@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>The a type attribute</h1>
+
+<p>
+<a href="SSN_ALL.txt" type="text/plain" download>Schools.com</a>
+</p>
+
+</body>
+</html>

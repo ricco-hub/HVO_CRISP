@@ -1,8 +1,8 @@
 <script type='text/javascript'>
-var filename = "/Tilt/ROOT/TILT.root";
+var filename = "/Wilcox_TILT/TILT.root";
    JSROOT.OpenFile(filename, function(file) {
-file.ReadObject("TOTAL Graph;1", function(obj) {
-       JSROOT.draw("drawing", obj);
+file.ReadObject("c1;1", function(obj) {
+       JSROOT.draw("drawing1", obj);
      });
    });
 </script>

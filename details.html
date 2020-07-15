@@ -8,26 +8,59 @@
 <body>
 <?php include "/var/www/html/CSS2/menu.html"?>
 
-<center><h3 style="color:rgb(60, 128, 214);"><b>PROTON FLUX MODEL</b></h3></center>
+  <center><h3 style="color:rgb(60, 128, 214);"><b>PROTON FLUX MODEL</b></h3></center>
+
 <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
-Despite its theoretical approximation, the <b>force field model</b> provides a useful way to parameterize the shape of GCR diffential energy spectrum. <br>
+<br>
+<center><img src="/Force.png" alt="centered image" style="max-width:45%" height="auto" width="auto" class="responsive" > </center><br>
+Despite its theoretical approximation, the <b>force field model</b> provides a useful way to parameterize the shape of GCR differential energy spectrum. <br>
 The differential intensity J of cosmic ray (protons) at 1 AU is given by
 \begin{equation}
 J_{r = 1 AU}(E,t) = \frac{(E + M_p)^2  - M_p^2}{(E + M_p +\phi(t)) ^2 -M_p^2}  J_{lis} (E+ \phi(t)),  &nbsp; &nbsp;&nbsp;  (1)
 \end{equation}
-where <b>E</b> is the kinetic energy (in GeV per nucleon), \( M_p \)  is the proton rest energy and \( \phi \) is the modulated potential.<br>
-\( J_{lis} \) denotes the local interstellar spectrum (LIS) of protons. Here we use a parametrization derived from the latest data from <b>Voyager</b> and <b>AMS-02</b>.
-You can download the code used for LIS <a class="about" href="/CODE.cpp">here</a>.
+where <b>E</b> is the kinetic energy (in GeV per nucleon), \( M_p \)  is the proton rest energy and \( \phi \) is the <b>modulation potential</b>.<br>
+\( J_{lis} \) denotes the local interstellar spectrum (LIS) of protons. Here we use a parametrization derived from the latest data from <b>Voyager</b> and <b>AMS-02</b> <a class="about" href="https://arxiv.org/abs/1511.08790">[ref]</a>.
 <br>
 
-Starting from the derivation of the modulation potential developed by Usoskin in 2011 [<a class="about" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2010JA016105\">ref</a>], we have derived \( \phi \) for the period after 2011 assuming a quadratic relation between neutron monitor count rate \( R(t) \) and Usoskin's potential \( \phi(t) \).
- <br>
+Starting from the derivation of the modulation potential developed by Usoskin in 2011 [<a class="about" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2010JA016105">ref</a>], we have derived \( \phi \) for the period after 2011 assuming a quadratic relation between neutron monitor count rate \( N(t) \) and Usoskin's potential \( \phi(t) \). <br>
 This relation can be written as
 \begin{equation}
-\phi(R(t)) = A + B \cdot R(t) + C \cdot R(t)^2
+\phi(N(t)) = A + B \cdot N(t) + C \cdot N(t)^2
 \end{equation}
 The best-fit parameters A, B e C can be used to derive \( \phi \) for next epochs. <br><br>
 We can now reconstruct the proton flux J near Earth from equation (1).
+
+
+
+
+<!--
+  <a class="about" href="/SSN.html">Sunspot Number</a> (<b>SSN</b>) Data (monthly and daily) are taken from <a href="http://sidc.oma.be/silso/ ">SILSO</a>: World Data Center for the production, preservation and dissemination of the international sunspot number.<br>
+  <br>
+  <a class="about" href="/Tilt.html">Tilt Angle</a> and <a class="about" href="/SFS.html">Solar Polar Field Strenght</a> data are taken from <a href="http://wso.stanford.edu">Wilcox Solar Observatory</a>.<br>
+
+  <li>Tilt Angle data are updated about every month.</li>
+  <li>Solar Polar Field Strength data are updated about every 10 days.</li>
+  <br>
+  <a class="about" href="/Neutron.html">Neutron Monitor</a> count rates data are taken from  <a href="http://www01.nmdb.eu">NMDB</a>.
+  <br>
+
+  <a class="about" href="/WIND.html">Solar wind speed</a> and <a class="about" href="/Density.html">Proton density</a> data are taken
+ from <a href="https://spdf.gsfc.nasa.gov">Space Physics Data Facility (SPDF)</a>. These data are updated monthly.<br><br>
+  Other references <BR>
+  <a href="https://tools.ssdc.asi.it/CosmicRays/ ">ASI-SSDC CosmicRay database at the Italian Space Agency</a> <br>
+  <a href="https://lpsc.in2p3.fr/cosmic-rays-db/">LPSC-CRDB, Database of Charged Cosmic Rays at LPSC/IN2P3 Grenoble</a> <br>
+  <a href="http://cosmicrays.oulu.fi">Sodankyla Geophysical Observatory at Oulu</a> <br>
+  <a href="https://umbra.nascom.nasa.gov">NASA-SDAC, Solar Data Analysis Center</a> <br>
+  <a href="https://oltaris.nasa.gov">NASA-OLTARIS, OnLine Tool for the Assessment of Radiation in Space</a> <br>
+  <a href="https://omniweb.gsfc.nasa.gov">NASA-OmniWeb, Web interface to the OMNI dataset</a> <br>
+  <a href="https://heliophysicsdata.gsfc.nasa.gov">NASA Heliophysics Data</a> <br>
+  <a href="https://ccmc.gsfc.nasa.gov/modelweb">NASA-ModelWeb Modeling Center</a> <br>
+  <a href="https://vepo.gsfc.nasa.gov">NASA-VEPO, Virtual Energetic Particle Observatory</a> <br>
+  <a href="https://voyager.gsfc.nasa.gov">NASA-GSFC Voyager mission data</a> <br>
+  <a href="https://voyager.jpl.nasa.gov"> NASA-JPL Voyager mission page</a> <br>
+  <a href="https://soho.nascom.nasa.gov/data/data.html">SWERTO, Space Weather at Roma Tor Vergata Roma</a> <br>
+  <a href="http://spaceweather.roma2.infn.it">SOHO Solar Heliospheric Observatory</a> <br>
+-->
 
 <?php include "/var/www/html/CSS2/footer.html" ?>
 </body>

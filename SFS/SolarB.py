@@ -1,27 +1,29 @@
 import requests
 import shutil
 import os
+from DECIMAL import decimal_year
 import time
-from SFS import g2j
 from requests.exceptions import RequestException
 from contextlib import closing
 from bs4 import BeautifulSoup
 from mathematicians import simple_get
-#cancellare vecchio salvataggio in Download e aggiornare file con data
-shutil.rmtree("/var/www/html/SFS/backup")
-os.mkdir("/var/www/html/SFS/backup")
-shutil.rmtree("/var/www/html/SFS/Download")
-os.mkdir("/var/www/html/SFS/Download")
+
+
+#shutil.rmtree("/var/www/html/SFS/backup")
+#os.mkdir("/var/www/html/SFS/backup")
+#shutil.rmtree("/var/www/html/SFS/Download")
+#os.mkdir("/var/www/html/SFS/Download")
+
 url = simple_get("http://wso.stanford.edu/Polar.html")
 html = BeautifulSoup(url, 'html.parser')
-f = open(time.strftime('/var/www/html/SFS/backup/Solar_Field_Strenght%m-%d-%Y.txt'), "w")
+f = open(time.strftime('/var/www/html/SFS/Solar_Field_Strenght%m-%d-%Y.txt'), "w")
 for i, pre in enumerate(html.select('pre')):
     f.write("%s" %(pre.text))
 #lo script importa i dati - tabelle complete - e le salva con la data attuale
 
 #elimino la prima riga per avere un format diviso in colonne
-lines1 = tuple(open(time.strftime('/var/www/html/SFS/backup/Solar_Field_Strenght%m-%d-%Y.txt'), "r"))
-with open(time.strftime('/var/www/html/SFS/backup/Solar_Field_Strenght%m-%d-%Y.txt'), "w+") as file:
+lines1 = tuple(open(time.strftime('/var/www/html/SFS/Solar_Field_Strenght%m-%d-%Y.txt'), "r"))
+with open(time.strftime('/var/www/html/SFS/Solar_Field_Strenght%m-%d-%Y.txt'), "w+") as file:
  for i in range(len(lines1)):
     if i > 2:
         file.write(lines1[i])
@@ -37,6 +39,7 @@ fileNf = open(time.strftime('/var/www/html/SFS/SFSNf.txt'), "a")
 fileSf =  open(time.strftime('/var/www/html/SFS/SFSSf.txt'), "a")
 fileAf =  open(time.strftime('/var/www/html/SFS/SFSAvgf.txt'), "a")
 lines2 = tuple(open(('/var/www/html/SFS/SFSNorth.txt'), "r"))
+'''
 n1 = len(lines1);
 n2 = len(lines2);
 print(n1)
@@ -49,9 +52,9 @@ if n2 != 0:
  for i in range(n2):
     if lines2[i] == "\n":
         n2 -= 1
-
+'''
 #inizio dei cici for per importare i corretti valori per i grafici
-for j in range(n2+2,n1):
+for j in range(len(lines1)):
    year  = int(lines1[j][0]+lines1[j][1]+lines1[j][2]+lines1[j][3])
    month = int(lines1[j][5]+lines1[j][6])
    day   = int(lines1[j][8]+lines1[j][9])
@@ -74,8 +77,8 @@ for j in range(n2+2,n1):
    #fileN.write(str(g2j(year,month,day)) + "  " + sline[1] + "\n")
    #fileA.write(str(g2j(year,month,day)) + "  " + sline[3] + "\n")
    #fileS.write(str(g2j(year,month,day)) + "  " + sline[2] + "\n")
-   print(str(g2j(year,month,day)))
-   a = str(g2j(year,month,day))
+   print(str(decimal_year(year,month,day)))
+   a = str(decimal_year(year,month,day))
    fileN.write(a + "  " + sline[1] + "\n")
    fileA.write(a  + "  " + sline[3] + "\n")
    fileS.write(a  + "  " + sline[2] + "\n")
