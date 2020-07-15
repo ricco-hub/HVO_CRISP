@@ -1,0 +1,17 @@
+<script type='text/javascript'>
+ var filename = "/WIND/Graph/SolarWind.root";
+ JSROOT.OpenFile(filename, function(file) {
+   file.ReadObject("Proton_Density;1", function(obj) {
+     JSROOT.draw("drawing1", obj, "APL");
+   });
+ });
+
+
+ var filename = "/WIND/Graph/SolarWind.root";
+ JSROOT.OpenFile(filename, function(file) {
+   file.ReadObject("Solar_wind_Speed;1", function(obj) {
+     JSROOT.draw("drawing2", obj, "APL");
+   });
+ });
+    
+       </script>

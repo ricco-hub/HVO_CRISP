@@ -1,75 +1,91 @@
 <html>
 <head>
-  <?php include "/var/www/html/CSS2/header.html" ?>
-  <?php include "/var/www/html/CSS2/SFS/java.html" ?>  <!-- specific -->
-  </head>
-  <style>
-  <?php include "/var/www/html/CSS2/style.html" ?>
-  </style>
-  <body>
-  <?php include "/var/www/html/CSS2/menu.html" ?>
-  <?php include "/var/www/html/CSS2/SFS/script.html" ?> <!--specific  -->
 
 
-<center><h3 style="color:rgb(60, 128, 214);"><b>SOLAR POLAR FIELD STRENGTH</b></h3></center>
-<br>
+<?php include "/var/www/html/CSS2/header.html" ?>
+<?php include "/var/www/html/CSS2/SFS/java.html" ?>  <!-- specific -->
+</head>
+<style>
+<?php include "/var/www/html/CSS2/style.html" ?>
+<?php include "/var/www/html/CSS2/column3.html" ?>
+</style>
+<body>
+<?php include "/var/www/html/CSS2/menu.html" ?>
+<?php include "/var/www/html/CSS2/SFS/script.html" ?> <!-- specific  -->
+<!--  BEGIN code specifico  -->
+<center><h3 style="color:rgb(60, 128, 214);"><b>Sun's Polar Field strength</b></h3></center>
+
+Last updated date: <p id="date"></p> <br>
+<?php include "/var/www/html/CSS2/date.html" ?> <!-- date script -->
+
+
 <!-- TESTO IN COLONNA SX  -->
 <div class="row">
   <div class="column left">
-<div class="jquery-script-clear"></div>
-This section is dedicated to sunspot number (<b>SSN</b>).<br>
-Daily updated data are taken from <a href="http://sidc.oma.be/silso/home">SILSO</a>. <br>
-Daily, Monthly and 13-Smoothed SSN Data are plotted below.
-<br>
-You can select data range manually from dropdown menu or directly from the dinamic plots.<br>
-<i class="fa fa-camera" aria-hidden="true"></i> to take a screenshot press the button on the lower left side o\
-f the canvas.<br>
-To download updated data and plots (in <b>.root</b> format) press the button ROOT File.
-<br><br>
-</div>
 
+<div class="jquery-script-clear"></div>
+This section is dedicated to <b>Sun's Polar Field strength data</b> (<b>SFS</b>).<br>
+Data are taken from <a href="http://wso.stanford.edu">Wilcox Solar Observatory</a>. <br>
+You can select data-type from the menu above. A 20nhz low pass filtered values eliminate yearly geometric projection effects. <br>
+You can select date range manually from dropdown menu or directly from the dinamic plots.<br>
+<i class="fa fa-camera" aria-hidden="true"></i> to take a screenshot press the button on the lower left side of the canvas.<br>
+To download updated data and plots (in <b>.root</b> format) press the button <b>ROOT File</b>.
+<br>
+To download data (in <b>.txt</b> format) press the button <b>TXT ZIP</b>.
+<br>
+
+</div>
 <!-- TESTO IN COLONNA DX  -->
 <div class="column right">
-<img src="/magneticSUN.png" alt="centered image" style="max-width:70%" height="auto" width="auto" class="responsive" >
+   <img src="/magneticSUN.png" alt="centered image" style="max-width:68%"
+   height="auto" width="auto" class="responsive" >
 </div>
 </div>
 <!-- END INTRO TEXT-->
-
-
-<div class="jquery-script-clear"></div>
-
-<div class="jquery-script-clear"></div>
-
-<form action="WWSFS2.php" method="get">
+<!-- BEGIN FORM SUNSPOTS -->
+<form action="WWSFS.php" method="get">
+<h5> Sun's Polar Field strength data-type selection</h5>
 <b>
-  <i class="fas fa-stop" style="font-size:17px;color:#3671D2;"></i> North <input type="checkbox" name="station[]" id="station" value="1">&nbsp;&nbsp;&nbsp;&nbsp;
- <i class="fas fa-stop" style="font-size:17px;color:#3671D2;"></i> North 20 Hz  <input type="checkbox" name="station[]" id="station" value="3">&nbsp;&nbsp;&nbsp;&nbsp;
- <!--<i class="fas fa-stop" style="font-size:17px;color:#ED120F;"></i> South <input type="checkbox" name="station[]" id="station" value="2">&nbsp;&nbsp;&nbsp;&nbsp; -->
- <i class="fas fa-stop" style="font-size:17px;color:#12DB19;"></i> Avg <input type="checkbox" name="station[]" id="station" value="5">&nbsp;&nbsp;&nbsp;&nbsp;
-<br>
-<i class="fas fa-stop" style="font-size:17px;color:#ED120F;"></i> South <input type="checkbox" name="station[]" id="station" value="2">&nbsp;&nbsp;&nbsp;&nbsp;
- <!-- <i class="fas fa-stop" style="font-size:17px;color:#3671D2;"></i> North 20 Hz  <input type="checkbox" name="station[]" id="station" value="3">&nbsp;&nbsp;&nbsp;&nbsp; -->
-  <i class="fas fa-stop" style="font-size:17px;color:#ED120F;"></i> South 20 Hz <input type="checkbox" name="station[]" id="station" value="4">&nbsp;&nbsp;&nbsp;&nbsp;
- <i class="fas fa-stop" style="font-size:17px;color:#12DB19;"></i> Avg 20 Hz <input type="checkbox" name="station[]" id="station" value="6">&nbsp;&nbsp;&nbsp;&nbsp;<br>
+
+
+<div class="grid-container">
+<div class="item">
+ <i class="fas fa-stop" style="font-size:17px;color:#33FF3D;"></i> North <input type="checkbox" name="station[]" id="station" value="1">  <br>
+ <i class="fas fa-stop" style="font-size:17px;color:#33FF3D;"></i> North 20 Hz <input type="checkbox" name="station[]" id="station" value="2"> <br>
+</div>
+<div class="item">
+ <i class="fas fa-stop" style="font-size:17px;color:#FF0629;"></i> South <input type="checkbox" name="station[]" id="station" value="3"> <br>
+ <i class="fas fa-stop" style="font-size:17px;color:#FF0629;"></i> South 20 Hz<input type="checkbox" name="station[]" id="station" value="4"> <br>
+</div>
+
+<div class="item">
+ <i class="fas fa-stop" style="font-size:17px;color:#0333F5;"></i> Average <input type="checkbox" name="station[]" id="station" value="5"> <br>
+ <i class="fas fa-stop" style="font-size:17px;color:#0333F5;"></i> Average 20 Hz <input type="checkbox" name="station[]" id="station" value="6"> <br>
+</div>
+
+</div>
 </b>
-
-
+<br><br>
 <h5>Select date range manually</h5>
-<form method="get" action="WWSFS2.php">
 Start Date  <input type="text" name="birthday" value="" class="dropdate"><br><br>
 End Date     <input type="text" name="birthday2" value="" class="dropdate"><br><br>
  <input type="submit">
 </form>
+<!-- END FORM -->
 
-
-<br>
+<br><br>
 <center>
-<div id="drawing" style="width:650px; height:400px"></div>
+<div id="drawing1" style="width:650px; height:400px"></div>
 
+<a onclick="Root();">
+<button class="btn"><i class="fa fa-download"></i> ROOT File</button>
+</a>
 
-<button><type="button"><a onclick="Root();">ROOT File</a></button>
-</center>
+<a onclick="Zip()">
+<button class="btn"><i class="fa fa-download"></i> TXT ZIP</button>
+</a>
 
+<!-- END code specifico-->
 <?php include "/var/www/html/CSS2/footer.html" ?>
 </body>
 </html>

@@ -1,0 +1,9 @@
+<script type='text/javascript'>
+ var filename = "/SSN/SSN.root";
+ JSROOT.OpenFile(filename, function(file) {
+   file.ReadObject("c1;1", function(obj) {
+     JSROOT.draw("drawing1", obj, "APL");
+   });
+ });
+    
+       </script>

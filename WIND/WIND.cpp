@@ -17,6 +17,24 @@
 #include <fstream>
 using namespace std;
 //------------------------------------------------------------------------------
+
+double fractional(int day, int year)
+{
+  
+  double out;
+
+  if ((year-1976)%4 == 0) {
+    //bisesto
+    out = year + (day)/366.; // fract day of the year         
+    return out;
+   }
+
+  else { out= year + (day)/365.; // fract day of the year                           
+    return out;
+      }
+     
+}
+
 int main()
 {
  
@@ -141,6 +159,11 @@ int main()
 
   righe = righe/55;  //righe totali da leggere
      
+
+  ofstream Proton("/var/www/html/WIND/Proton.txt");
+  ofstream Speed("/var/www/html/WIND/Speed.txt");
+
+
   while( iL < righe){
 
     fileNM>>
@@ -200,30 +223,43 @@ int main()
       AU_INDEX >>
       MAC;
 
-    // --- cout<< iYear<<"    " <<iDay<<endl; ---
+    
 
     // ---- compute fractional year ----
-    double fDOY = ((double)iDay)/365.; // fract day of the year
-    fYear = (double)iYear + fDOY; // fract year
-    cout<< iYear<< "       "<<iDay<<"           "<< FlowPressure<<endl;
+    //double fDOY = ((double)iDay)/365.; // fract day of the year
+    //fYear = (double)iYear + fDOY; // fract year
 
-     
+    fYear = fractional(iDay , iYear);
+   
+    
+
+    // cout<<iYear<<" - "<<iDay<<"  PROTON   ----> "<<ProtonDensity<<endl;
+    //cout<<iYear<<" - "<<iDay<<" SPEED   ----> "<<WindSpeed<<endl;
+    
     // --- wind speed  ---
     if(WindSpeed>0 && WindSpeed<9999){
-      grWindSpeedVSTime->SetPoint(iWindSpeed, fYear, WindSpeed);
-      iWindSpeed++;
+      cout<<iYear<<" - "<<iDay<<"   "<<std::setprecision(7)<<  fYear <<"   Wind->   "     <<std::setprecision(7)<<WindSpeed<<endl;  
+      Speed <<  std::setprecision(7)     <<fYear <<"    " <<  std::setprecision(7)   <<WindSpeed<<endl;  
+    //grWindSpeedVSTime->SetPoint(iWindSpeed, fYear, WindSpeed);
+      
     }
 
     // --- proton density ---
     if(ProtonDensity>0 && ProtonDensity<999){
-      grProtonDensityVSTime->SetPoint(iPrDensity, fYear, ProtonDensity);
-      iPrDensity++;
+      cout<<iYear<<" - "<<iDay<<"   "<<std::setprecision(7) << fYear <<"  Proton-->   " <<std::setprecision(7)<<ProtonDensity<<endl;
+      Proton <<   std::setprecision(7) << fYear <<"    " <<  std::setprecision(7) << ProtonDensity<<endl;
+      //grProtonDensityVSTime->SetPoint(iPrDensity, fYear, ProtonDensity);
+      //iPrDensity++;
     }
+
+    
+    cout<<"*********************************************"<<endl;
   
     // increment line
     iL++;
   }
 
+  /*
   TCanvas *c1 = new TCanvas("TOTAL Graph","titolo Canvas");
   c1->SetFillColor(0);
     
@@ -233,22 +269,13 @@ int main()
   grWindSpeedVSTime->Draw("l");
   grProtonDensityVSTime->Draw("l");
 
-  
-
-
+ 
   grWindSpeedVSTime->Write();
   grProtonDensityVSTime->Write();
-    
-
   outFile->Write();
   outFile->Close();
-  
-  
- 
+  */  
 
-
-
-
-  return 0;
+return 0;
 }
 

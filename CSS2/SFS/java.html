@@ -1,8 +1,8 @@
 <script type='text/javascript'>
-var filename = "/SFS/ROOT/SPFS.root";
+var filename = "/Wilcox_SFS/SFS.root";
    JSROOT.OpenFile(filename, function(file) {
-file.ReadObject("SPFS Graph;1", function(obj) {
-       JSROOT.draw("drawing", obj);
+file.ReadObject("c1;1", function(obj) {
+       JSROOT.draw("drawing1", obj);
      });
    });
 </script>

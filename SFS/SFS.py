@@ -1,28 +1,17 @@
-def g2j(year, month, day):
- lines2 = tuple(open('/var/www/html/SSN/SSN_History.txt', "r"))
- fyear = []
- fmonth = []
- fday = []
- fractional = []
- for h in range(len(lines2)):
-   sline2 = lines2[h].split()
-   fyear.append(sline2[0])
-   fmonth.append(sline2[1])
-   fday.append(sline2[2])
-   fractional.append(sline2[3])
+import requests
+import shutil
+import os
+from DECIMAL import decimal_year
+import time
+from requests.exceptions import RequestException
+from contextlib import closing
+from bs4 import BeautifulSoup
+from mathematicians import simple_get
 
-#ricercare il giusto valore di fractional                                                                                  
- for i in range(len(fyear)):
-  if int(fyear[i]) == year:
-   for k in range(i,len(fyear)):
-    if int(fmonth[k]) == month:
-     for j in range(k,len(fyear)):
-      if int(fday[j]) == day:
-       return(fractional[j])
-      # break                                                                                                              
-      #break                                                                                                               
-  # break                                                                                                                  
 
-  #se il valore è oltre la lista restituire comunque il current - date                                                     
+url = simple_get("http://wso.stanford.edu/Polar.html")
+html = BeautifulSoup(url, 'html.parser')
+f = open('/var/www/html/SFS/SFS.txt', "w")
+for i, pre in enumerate(html.select('pre')):
+    f.write("%s" %(pre.text))
 
- return(fractional[len(fyear)-1])

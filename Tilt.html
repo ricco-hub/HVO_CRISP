@@ -1,18 +1,17 @@
 <html>
 <head>
-<?php include "/var/www/html/CSS2/header.html" ?>
-<?php include "/var/www/html/CSS2/TILT/java.html" ?>
-</head>
 
+
+<?php include "/var/www/html/CSS2/header.html" ?>
+<?php include "/var/www/html/CSS2/TILT/java.html" ?>  <!-- specific -->
+</head>
 <style>
 <?php include "/var/www/html/CSS2/style.html" ?>
+<?php include "/var/www/html/CSS2/column3.html" ?>
 </style>
-
 <body>
 <?php include "/var/www/html/CSS2/menu.html" ?>
 <?php include "/var/www/html/CSS2/TILT/script.html" ?> <!--specific  -->
-
-
 <!--  BEGIN code specifico  -->
 <center><h3 style="color:rgb(60, 128, 214);"><b>TILT ANGLE</b></h3></center>
 
@@ -22,44 +21,47 @@ Last updated date: <p id="date"></p> <br>
 
 
 <div class="jquery-script-clear"></div>
-<img src="/HCS.gif" alt="centered image" style="max-width:55%" height="auto" width="auto" class="responsive" >
-<br>This section is dedicated to Tilt angle of the Heliospheric Current Sheet.<br>
+<center>
+<img src="/HCS.gif" alt="centered image" style="max-width:70%" height="auto" width="auto" class="responsive" >
+</center>
+<br>This section is dedicated to <b>Tilt angle of the Heliospheric Current Sheet </b>.<br>
 Data are taken from <a href="http://wso.stanford.edu/Tilts.html">The Wilcox Solar Observatory</a>.
 <br>
+Values are provided for the maximum <b>northern</b> and <b>southern</b> extent of the HCS as well as the <b>average</b>. The classic model <b>L</b> uses a line-of-sight boundary condition at the photosphere and includes a significant polar field correction. A newer, possibly more accurate, model <b>R</b> uses a radial boundary condition at the photosphere, and requires no polar field correction.<br>
 Data is updated about every month.<br>
+You can select data-type from the menu above. <br>
+You can select date range manually from dropdown menu or directly from the dinamic plots.<br>
 <i class="fa fa-camera" aria-hidden="true"></i> to take a screenshot press the button on the lower left side of the canvas.<br>
-You can select data range manually from dropdown menu or directly from the dinamic plot.<br>
-To download updated data and plot (in <b>.root</b> format) press the button ROOT File.
-<br><br>
+To download updated data and plots (in <b>.root</b> format) press the button <b>ROOT File</b>.
+<br>
+To download data (in <b>.txt</b> format) press the button <b>TXT ZIP</b>.
+<br>
 
-<!-- TESTO IN COLONNA DX  
-<div class="column right">
-<img src="/HCS.gif" alt="centered image" style="max-width:170%" height="auto" width="auto" class="responsive" >
+
+<form action="Tilt.php" method="get">
+<h5> Data-type selection</h5>
+<b>
+
+<div class="grid-container">
+<div class="item">
+ <i class="fas fa-stop" style="font-size:17px;color:#FFC300;"></i> Northern (L)<input type="checkbox" name="station[]" id="station" value="2">  <br>
+ <i class="fas fa-stop" style="font-size:17px;color:#9E05B9;"></i> Northern (R) <input type="checkbox" name="station[]" id="station" value="5"> <br>
 </div>
 
-<?php
-$line2 = $_GET["birthday"];
-$line = $_GET["birthday2"];
-echo $line2;
-echo "  -  ";
-echo $line;
-?>
-</center>
-<?php
-$myfile2 = fopen("Tilt/E.txt", "w") or die("Unable to open file!");
-$line2 = $_GET["birthday"];
-$line = $_GET["birthday2"];
-$data = $line2 . PHP_EOL . $line;
-fwrite($myfile2, $line2);
-//echo $line2;
-//echo "\n\n\n";
-//echo $line;
-fwrite($myfile2, "\r\n");
-fwrite($myfile2, $line);
-fclose($myfile2);
-exec("sh Tilt/run.sh");
-?>
- END INTRO TEXT-->
+<div class="item">
+ <i class="fas fa-stop" style="font-size:17px;color:#FF0629;"></i> Southern (L) <input type="checkbox" name="station[]" id="station" value="3"> <br>
+ <i class="fas fa-stop" style="font-size:17px;color:#0BAF13;"></i> Southern (R) <input type="checkbox" name="station[]" id="station" value="6"> <br>
+</div>
+
+<div class="item">
+ <i class="fas fa-stop" style="font-size:17px;color:#0333F5;"></i>Average (L)<input type="checkbox" name="station[]" id="station" value="1"> <br>
+ <i class="fas fa-stop" style="font-size:17px;color:#F07405;"></i>Average (R)<input type="checkbox" name="station[]" id="station" value="4"> <br>
+</div>
+
+</div>
+</b>
+
+<br>
 
 <h5>Select date range manually</h5>
 <form method="get" action="Tilt.php">
@@ -70,12 +72,18 @@ End Date     <input type="text" name="birthday2" value="" class="dropdate"><br><
 
 <br><br>
 <center>
-<div id="drawing" style="width:650px; height:400px"></div>
+<div id="drawing1" style="width:650px; height:400px"></div>
 
-<button><type="button"><a onclick="Root();">ROOT File</a></button>
-</center>
+<a onclick="Root();">
+<button class="btn"><i class="fa fa-download"></i> ROOT File</button>
+</a>
 
+<a onclick="Zip();">
+<button class="btn"><i class="fa fa-download"></i> TXT ZIP</button>
+</a>
 
+<!-- END code specifico-->
 <?php include "/var/www/html/CSS2/footer.html" ?>
 </body>
 </html>
+
