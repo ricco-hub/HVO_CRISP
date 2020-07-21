@@ -17,8 +17,10 @@ with open("/var/www/html/WIND/Speed.txt", "r") as infile:
     for i in range(len(SSN_all)):
      sline = SSN_all[i].split()
      if(  float(date[0])<= float(sline[0]) <= float(date[1])) :
-         ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1]) ))
-         ssnr.write('\n')
+         ssnr.write('%8.3f'   % (float(sline[0])))
+         ssnr.write( "\t"  +  str( float(sline[1]))  + "\n" )
+        # ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1]) ))
+        # ssnr.write('\n')
 
 
 
@@ -29,8 +31,10 @@ with open("/var/www/html/WIND/Proton.txt", "r") as infile:
     for i in range(len(SSN_all)):
      sline = SSN_all[i].split()
      if(  float(date[0])<= float(sline[0]) <= float(date[1])) :
-         ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1]) ))
-         ssnr.write('\n')
+         ssnr.write('%8.3f'   % (float(sline[0])))
+         ssnr.write( "\t"  +  str( float(sline[1]))  + "\n" )         
+#ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1]) ))
+#         ssnr.write('\n')
 
 
 # ***************************************************   txt download download version

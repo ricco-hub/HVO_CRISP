@@ -21,6 +21,17 @@ fwrite($myfile3, $line3);
 fwrite($myfile3, "\r\n");
 fwrite($myfile3, $line4);
 
+
+$myfile4 = fopen("NeutronMonitor_Rate/Res.txt", "w") or die("Unable to open file!");
+$res = $_GET['resolution'];
+foreach ($res as $resolution){
+ fwrite($myfile4, $resolution);
+ fwrite($myfile4, "\n");
+}
+
+
+
+fclose($myfile4);
 fclose($myfile);
 fclose($myfile3);
 exec("sh NeutronMonitor_Rate/runSFS.sh");

@@ -21,8 +21,16 @@ fwrite($myfile3, $line3);
 fwrite($myfile3, "\r\n");
 fwrite($myfile3, $line4);
 
+
+$myfile4 = fopen("SSN/Res.txt", "w") or die("Unable to open file!");
+$lineres = $_GET["selColor"];
+fwrite($myfile4, $lineres);
+
+
+
 fclose($myfile);
 fclose($myfile3);
+fclose($myfile4);
 exec("sh SSN/runSFS.sh");
 
 exec("sh SSN/runEXE.sh");

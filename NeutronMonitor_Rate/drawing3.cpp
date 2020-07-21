@@ -1,0 +1,104 @@
+#include <iostream>
+#include <iomanip>
+#include <TAxis.h>
+#include <TGraphErrors.h>
+#include <TGraph.h>
+#include <TH1D.h>
+#include <TMultiGraph.h>
+#include <TCanvas.h>
+#include <TFile.h>
+#include <TApplication.h>
+#include <TStyle.h>
+#include <TPad.h>
+#include <TLegend.h>
+#include <TROOT.h>
+#include <TColor.h>
+#include <TVirtualPad.h>
+#include <fstream>
+using namespace std;
+//---------------------------------------------------------------------------
+int main()
+{
+
+  TCanvas *c1 = new TCanvas("c1","titolo Canvas");
+  c1->SetFillColor(0);
+  c1->cd();
+
+  //selected stations
+  vector<string> variable;
+  ifstream set;
+  string path ="/var/www/html/NeutronMonitor_Rate/Set.txt";
+    
+
+  set.open(path);
+  string sx;
+  while (!set.eof()) {
+    set>>sx>>ws;
+    variable.push_back(sx);
+  }
+
+
+  TFile ff("/var/www/html/NeutronMonitor_Rate/Monitor_Rate.root" , "recreate");
+  ff.cd();
+  TMultiGraph *mg = new TMultiGraph();
+  TLegend *legend = new TLegend(.75,.75,.89,.89);
+    
+  for (int i=0; i<variable.size(); i++) {
+    //selected stations NM  ************************************************************
+    TString north = "/var/www/html/NeutronMonitor_Rate/data_PLOT/"+variable[i]+"carr.txt"; //percorso
+    TGraphErrors *n = new TGraphErrors(north);
+    
+    if(variable[i] == "OULU"){n->SetMarkerColor(kOrange);
+      n->SetLineColor(kOrange);}
+    
+    if(variable[i] == "NEWK"){n->SetMarkerColor(kBlue);
+      n->SetLineColor(kBlue);}
+
+    if(variable[i] == "APTY"){n->SetMarkerColor(kGreen+2);
+      n->SetLineColor(kGreen+2);}
+
+    if(variable[i] == "JUNG"){n->SetMarkerColor(kRed);
+      n->SetLineColor(kRed);}
+
+    if(variable[i] == "HRMS"){n->SetMarkerColor(kCyan-7);
+      n->SetLineColor(kCyan-7);}
+
+    if(variable[i] == "MOSC"){n->SetMarkerColor(kViolet);
+      n->SetLineColor(kViolet);}
+    if(variable[i] == "MXCO"){n->SetMarkerColor(kBlack);
+      n->SetLineColor(kBlack);}
+
+    n->SetMarkerStyle(20);
+    n->SetMarkerSize(0.1);
+    n->SetLineWidth(1);
+    TString name = variable[i];
+    n->SetName(name);
+    n->GetYaxis()->SetTitle("Rate [Hz]");
+    n->GetYaxis()->CenterTitle();
+    n->SetTitle(name + "  Time Resolution: 1 Carr. rot.");
+  
+    mg->Add(n);
+    n->Write();
+    legend->AddEntry(n,name,"l");
+    
+  }
+
+
+  mg->SetTitle("Neutron Monitor Rate Time Resolution: 1 Carr. rot.");
+
+  mg->Draw("apl");
+  mg->GetYaxis()->CenterTitle();
+  mg->GetYaxis()->SetTitle("Rate [Hz]");
+  mg->SetName("NMs Rate");
+
+  legend->SetHeader("","C"); // option "C" allows to center the heade         
+  legend->SetX1NDC(0.01);
+  legend->SetX2NDC(0.9);
+  legend->Draw();
+
+  c1->Write();
+  //  mg->Write();
+  ff.Close();
+
+  return 0;
+}

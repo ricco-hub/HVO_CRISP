@@ -1,3 +1,0 @@
-cd FFModel
-source /var/www/html/root/root/bin/thisroot.sh
-./FF  >log.txt 2>&1

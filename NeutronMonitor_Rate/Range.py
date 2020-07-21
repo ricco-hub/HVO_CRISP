@@ -14,17 +14,26 @@ with open('/var/www/html/NeutronMonitor_Rate/NMStations.txt') as fp:
    line = fp.readline()
 stat = line.split()
 
-# for each station NM
+# for each station NM for every T resolution
 
-for i in range(len(stat)):
-  ssnr = open("/var/www/html/NeutronMonitor_Rate/data_PLOT/"+stat[i]+".txt","w")
-  with open("/var/www/html/NeutronMonitor_Rate/"+stat[i]+".txt", "r") as infile:
+with open('/var/www/html/NeutronMonitor_Rate/ResT.txt') as fp3:
+   linet = fp3.readline()
+title = linet.split()
+with open('/var/www/html/NeutronMonitor_Rate/Resolution.txt') as fp2:
+   lineres = fp2.readline()
+res = lineres.split()
+
+for w in range(len(res)):
+ for i in range(len(stat)):
+  ssnr = open("/var/www/html/NeutronMonitor_Rate/data_PLOT/"+stat[i]+title[w]+".txt","w")
+  with open("/var/www/html/NeutronMonitor_Rate/"+stat[i]+title[w]+".txt", "r") as infile:
     SSN_all = infile.readlines()
     for i in range(len(SSN_all)):
      sline = SSN_all[i].split()
      if(  float(date[0])<= float(sline[0]) <= float(date[1])) :
-         ssnr.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])   ))
-         ssnr.write('\n')
+         ssnr.write('%8.3f'   % (float(sline[0]) ))
+         ssnr.write( "\t"  +  str( float(sline[1]))  + "\n" )
+
 
 
 

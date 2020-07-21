@@ -1,9 +1,0 @@
-cd FFModel
-source /var/www/html/root/root/bin/thisroot.sh
-./FF
-python3 p.py
-sudo python3 download.py
-cd /var/www/html/Neutron
-./Neutron
-sudo python3 download.py
-echo "completed"

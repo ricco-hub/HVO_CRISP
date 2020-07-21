@@ -20,6 +20,3 @@ with open("/var/www/html/NeutronMonitor_Rate/Set.txt", "w") as g:
  g.write('JUNG\n')
  g.write('APTY')
  
-
-
-
