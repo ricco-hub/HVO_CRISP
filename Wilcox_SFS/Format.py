@@ -13,8 +13,10 @@ with open("/var/www/html/Wilcox_SFS/data_PLOT/North_range.txt", "r") as infile:
  for i in range(len(SSN_all)):
   sline = SSN_all[i].split()
   print(sline)
-  file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
-  file4.write("\n")
+  file4.write('%8.3f'   % (float(sline[0])))
+  file4.write( "\t"  +  str( float(sline[1]))  + "\n" )
+ # file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
+ # file4.write("\n")
 
 
 
@@ -27,8 +29,11 @@ with open("/var/www/html/Wilcox_SFS/data_PLOT/North_F_range.txt", "r") as infile
  for i in range(len(SSN_all)):
   sline = SSN_all[i].split()
   print(sline)
-  file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
-  file4.write("\n")
+  file4.write('%8.3f'   % (float(sline[0])))
+  file4.write( "\t"  +  str( float(sline[1]))  + "\n" ) 
+
+# file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
+ # file4.write("\n")
 
 
 #SOUTH                                                                                                                                                          
@@ -40,8 +45,11 @@ with open("/var/www/html/Wilcox_SFS/data_PLOT/South_range.txt", "r") as infile:
  for i in range(len(SSN_all)):
   sline = SSN_all[i].split()
   print(sline)
-  file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
-  file4.write("\n")
+  file4.write('%8.3f'   % (float(sline[0])))
+  file4.write( "\t"  +  str( float(sline[1]))  + "\n" ) 
+
+# file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
+ # file4.write("\n")
 
 
 #NORTH filtered                                                                                                                                                     
@@ -53,8 +61,11 @@ with open("/var/www/html/Wilcox_SFS/data_PLOT/South_F_range.txt", "r") as infile
  for i in range(len(SSN_all)):
   sline = SSN_all[i].split()
   print(sline)
-  file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
-  file4.write("\n")
+  file4.write('%8.3f'   % (float(sline[0])))
+  file4.write( "\t"  +  str( float(sline[1]))  + "\n" ) 
+
+# file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
+ # file4.write("\n")
 
 
 
@@ -67,8 +78,11 @@ with open("/var/www/html/Wilcox_SFS/data_PLOT/Avg_range.txt", "r") as infile:
  for i in range(len(SSN_all)):
   sline = SSN_all[i].split()
   print(sline)
-  file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
-  file4.write("\n")
+  file4.write('%8.3f'   % (float(sline[0])))
+  file4.write( "\t"  +  str( float(sline[1]))  + "\n" ) 
+
+# file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
+ # file4.write("\n")
 
 
 #Avg filtered                                                                                                                                                     
@@ -80,8 +94,11 @@ with open("/var/www/html/Wilcox_SFS/data_PLOT/Avg_F_range.txt", "r") as infile:
  for i in range(len(SSN_all)):
   sline = SSN_all[i].split()
   print(sline)
-  file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
-  file4.write("\n")
+  file4.write('%8.3f'   % (float(sline[0])))
+  file4.write( "\t"  +  str( float(sline[1]))  + "\n" )
+ 
+# file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
+#  file4.write("\n")
 
 
 '''

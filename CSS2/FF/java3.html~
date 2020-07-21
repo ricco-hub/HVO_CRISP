@@ -1,0 +1,8 @@
+<script type='text/javascript'>
+var filename = "/Wilcox_SFS/SFS.root";
+   JSROOT.OpenFile(filename, function(file) {
+file.ReadObject("c1;1", function(obj) {
+       JSROOT.draw("drawing1", obj);
+     });
+   });
+</script>

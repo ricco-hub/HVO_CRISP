@@ -1,0 +1,23 @@
+   <script type='text/javascript'>
+     var filename = "/NeutronMonitor_Rate/Monitor_Rate.root";
+ JSROOT.OpenFile(filename, function(file) {
+   file.ReadObject("c1;1", function(obj) {
+     JSROOT.draw("drawing1", obj, "APL");
+   });
+ });
+
+   
+   var filename = "/Forecast/ForceFieldPHI.root";
+       JSROOT.OpenFile(filename, function(file) {
+    file.ReadObject("c1", function(obj) {
+           JSROOT.draw("drawing3", obj);
+         });
+       });
+    var filename = "/Forecast/ForceFieldJMOD.root";
+       JSROOT.OpenFile(filename, function(file) {
+    file.ReadObject("c2", function(obj) {
+           JSROOT.draw("drawing4", obj);
+         });
+       });
+
+    </script>

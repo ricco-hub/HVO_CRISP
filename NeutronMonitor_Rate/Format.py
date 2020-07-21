@@ -10,18 +10,26 @@ stat = line.split()
 
 # for each station NM
 
-for i in range(len(stat)):
 
- file4 = open("/var/www/html/NeutronMonitor_Rate/DTXT/"+ stat[i] + ".txt","w")
- file4.write("NEUTRON MONITOR DATA downloaded from HVO:\nSelected station: " + stat[i]+ " \ncolumn 1 - Date in fraction of year.\ncolumn 2 - Monthly rate.\n\n")
+with open('/var/www/html/NeutronMonitor_Rate/ResT.txt') as fp3:
+   linet = fp3.readline()
+title = linet.split()
 
- with open("/var/www/html/NeutronMonitor_Rate/data_PLOT/" + stat[i] + ".txt", "r") as infile:
-  SSN_all = infile.readlines()
-  for i in range(len(SSN_all)):
-   sline = SSN_all[i].split()
-   print(sline)
-   file4.write('%8.3f  %8.3f' % (float(sline[0]), float(sline[1])))
-   file4.write("\n")
+for w in range(len(title)):
+ for i in range(len(stat)):
+
+  file4 = open("/var/www/html/NeutronMonitor_Rate/DTXT/"+ stat[i]+title[w] + ".txt","w")
+  file4.write("NEUTRON MONITOR DATA downloaded from HVO:\nSelected station: " + stat[i]+ " \ncolumn 1 - Date in fraction of year.\ncolumn 2 - Time resolution 1 "+title[w]+".\n\n")
+
+  with open("/var/www/html/NeutronMonitor_Rate/data_PLOT/" + stat[i]+title[w] + ".txt", "r") as infile:
+   SSN_all = infile.readlines()
+   for i in range(len(SSN_all)):
+    sline = SSN_all[i].split()
+    print(sline)
+    file4.write('%8.3f'   % (float(sline[0])))
+    file4.write( "\t"  +  str( float(sline[1]))  + "\n" )
+   # file4.write('%8.3f  %8.3f' % (float(sline[0]), float(sline[1])))
+   # file4.write("\n")
 
 
 

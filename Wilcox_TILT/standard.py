@@ -14,7 +14,7 @@ with open("/var/www/html/Wilcox_TILT/E.txt", "w") as f:
  f.write(str(decimal_year(Y,m,d)))
 
 
-with open("/var/www/html/SSN/Set.txt", "w") as g:
+with open("/var/www/html/Wilcox_TILT/Set.txt", "w") as g:
  g.write('5\n')
  g.write('2\n')
  g.write('3\n')

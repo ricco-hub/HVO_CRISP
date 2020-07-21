@@ -17,8 +17,13 @@ with open("/var/www/html/SSN/SSN.txt", "r") as infile:
     for i in range(len(SSN_all)):
      sline = SSN_all[i].split()
      if(  float(date[0])<= float(sline[0]) <= float(date[1])) :
-         ssnr.write('%8.3f   %8.3f   %8.3f  %8.3f'   % (float(sline[0]), float(sline[1]), float(sline[2]), float(sline[3])))
-         ssnr.write('\n')
+         ssnr.write('%8.3f'   % (float(sline[0]) ))
+         ssnr.write( "\t"  +  str( float(sline[1])) )
+         ssnr.write("\t"     + str( float (sline[2]))  )
+         ssnr.write( "\t"  +  str( float(sline[3]))  + "\n" )
+#ssnr.write('%8.3f   %8.3f   %8.3f  %8.3f'   % (float(sline[0]), float(sline[1]), float(sline[2]), float(sline[3])))
+#         ssnr.write('\n')
+
 
 # ssn monthly
 ssnr = open("/var/www/html/SSN/data_PLOT/SSN_Monthly_range.txt","w")
@@ -27,8 +32,12 @@ with open("/var/www/html/SSN/SSN_Monthly.txt", "r") as infile:
     for i in range(len(SSN_all)):
      sline = SSN_all[i].split()
      if(  float(date[0])<= float(sline[0]) <= float(date[1])) :
-         ssnr.write('%8.3f   %8.3f   %8.3f  %8.3f'   % (float(sline[0]), float(sline[1]), float(sline[2]), float(sline[3])))
-         ssnr.write('\n')
+         ssnr.write('%8.3f'   % (float(sline[0]) ))
+         ssnr.write( "\t"  +  str( float(sline[1])) )
+         ssnr.write("\t"     + str( float (sline[2]))  )
+         ssnr.write( "\t"  +  str( float(sline[3]))  + "\n" )
+#ssnr.write('%8.3f   %8.3f   %8.3f  %8.3f'   % (float(sline[0]), float(sline[1]), float(sline[2]), float(sline[3])))
+ #        ssnr.write('\n')
 
 # 13 smoothed
 ssnr = open("/var/www/html/SSN/data_PLOT/SSN_Smooth_range.txt","w")
@@ -39,8 +48,15 @@ with open("/var/www/html/SSN/SSN_13.txt", "r") as infile:
     for i in range(len(SSN_all)):
      sline = SSN_all[i].split()
      if(  float(date[0])<= float(sline[0]) <= float(date[1])) :
-          ssnr.write('%8.3f   %8.3f   %8.3f  %8.3f'   % (float(sline[0]), float(sline[1]), float(sline[2]), float(sline[3])))
-          ssnr.write('\n')
+         ssnr.write('%8.3f'   % (float(sline[0]) ))
+         ssnr.write( "\t"  +  str( float(sline[1])) )
+         ssnr.write("\t"     + str( float (sline[2]))  )
+         ssnr.write( "\t"  +  str( float(sline[3]))  + "\n" )
+
+
+
+#ssnr.write('%8.3f   %8.3f   %8.3f  %8.3f'   % (float(sline[0]), float(sline[1]), float(sline[2]), float(sline[3])))
+#         ssnr.write('\n')
 
 
 ## ***************************************************   txt download download version

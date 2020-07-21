@@ -21,8 +21,11 @@ with open("/var/www/html/Wilcox_SFS/SFSNorth.txt", "r") as infile:
      sline = SSN_all[i].split()
      if(sline[0] != stop1 and sline[0] != stop2 ):
        if(  float(date[0])<= float(sline[0]) <= float(date[1])) :
-         ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1])))
-         ssnr.write('\n')
+         ssnr.write('%8.3f'   % (float(sline[0])))
+         ssnr.write( "\t"  +  str( float(sline[1]))  + "\n" )
+
+#         ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1])))
+#         ssnr.write('\n')
 
 print("end")
 
@@ -34,8 +37,10 @@ with open("/var/www/html/Wilcox_SFS/SFSNf.txt", "r") as infile:
      sline = SSN_all[i].split()
      if(sline[0] != stop1 and sline[0] != stop2):
       if(  float(date[0])<= float(sline[0]) <= float(date[1])) :
-         ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1])))
-         ssnr.write('\n')
+         ssnr.write('%8.3f'   % (float(sline[0])))
+         ssnr.write( "\t"  +  str( float(sline[1]))  + "\n" )
+# ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1])))
+#         ssnr.write('\n')
 
 
 #SFS SOUTH                                                                                                             
@@ -46,8 +51,11 @@ with open("/var/www/html/Wilcox_SFS/SFSSouth.txt", "r") as infile:
      sline = SSN_all[i].split()
      if(sline[0] != stop1 and sline[0] != stop2):
       if(  float(date[0])<= float(sline[0]) <= float(date[1])) :
-         ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1])))
-         ssnr.write('\n')
+         ssnr.write('%8.3f'   % (float(sline[0])))
+         ssnr.write( "\t"  +  str( float(sline[1]))  + "\n" )
+
+       # ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1])))
+       #  ssnr.write('\n')
 
 
 #SFS South  Filtered                                                                                                          
@@ -58,8 +66,11 @@ with open("/var/www/html/Wilcox_SFS/SFSSf.txt", "r") as infile:
      sline = SSN_all[i].split()
      if(sline[0] != stop1 and  sline[0] != stop2):
       if(  float(date[0])<= float(sline[0]) <= float(date[1])) :
-         ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1])))
-         ssnr.write('\n')
+         ssnr.write('%8.3f'   % (float(sline[0])))
+         ssnr.write( "\t"  +  str( float(sline[1]))  + "\n" )
+
+ #ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1])))
+ #        ssnr.write('\n')
 
 #SFS Avg                                                                                                                        
 ssnr = open("/var/www/html/Wilcox_SFS/data_PLOT/Avg_range.txt","w")
@@ -69,8 +80,10 @@ with open("/var/www/html/Wilcox_SFS/SFSAvg.txt", "r") as infile:
      sline = SSN_all[i].split()
      if(sline[0] != stop1 and sline[0] != stop2):
       if(  float(date[0])<= float(sline[0]) <= float(date[1])) :
-         ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1])))
-         ssnr.write('\n')
+         ssnr.write('%8.3f'   % (float(sline[0])))
+         ssnr.write( "\t"  +  str( float(sline[1]))  + "\n" )
+#ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1])))
+#         ssnr.write('\n')
 
 
 #SFS AVg   Filtered                                                                                                             
@@ -81,5 +94,7 @@ with open("/var/www/html/Wilcox_SFS/SFSAvgf.txt", "r") as infile:
      sline = SSN_all[i].split()
      if(sline[0] != stop1 or sline[0] != stop2):     
        if(  float(date[0])<= float(sline[0]) <= float(date[1])) :
-         ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1])))
-         ssnr.write('\n')
+         ssnr.write('%8.3f'   % (float(sline[0])))
+         ssnr.write( "\t"  +  str( float(sline[1]))  + "\n" )
+#        ssnr.write('%8.3f   %8.3f'   % (float(sline[0]), float(sline[1])))
+#         ssnr.write('\n')

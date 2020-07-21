@@ -12,8 +12,10 @@ with open("/var/www/html/Wilcox_TILT/data_PLOT/Tilt_L_n.txt", "r") as infile:
  for i in range(len(SSN_all)):
   sline = SSN_all[i].split()
   print(sline)
-  file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
-  file4.write("\n")
+  file4.write('%8.3f'   % (float(sline[0])))
+  file4.write( "\t"  +  str( float(sline[1]))  + "\n" )
+ # file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
+ # file4.write("\n")
 
 
 # l s
@@ -24,8 +26,10 @@ with open("/var/www/html/Wilcox_TILT/data_PLOT/Tilt_L_s.txt", "r") as infile:
  for i in range(len(SSN_all)):
   sline = SSN_all[i].split()
   print(sline)
-  file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
-  file4.write("\n")
+  file4.write('%8.3f'   % (float(sline[0])))
+  file4.write( "\t"  +  str( float(sline[1]))  + "\n" )
+# file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
+#  file4.write("\n")
 
 # l avg
 file4 = open("/var/www/html/Wilcox_TILT/DTXT/Tilt_L_av.txt","w")
@@ -35,8 +39,10 @@ with open("/var/www/html/Wilcox_TILT/data_PLOT/Tilt_L_av.txt", "r") as infile:
  for i in range(len(SSN_all)):
   sline = SSN_all[i].split()
   print(sline)
-  file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
-  file4.write("\n")
+  file4.write('%8.3f'   % (float(sline[0])))
+  file4.write( "\t"  +  str( float(sline[1]))  + "\n" )
+ # file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
+ # file4.write("\n")
 
 
 # R avg
@@ -47,8 +53,10 @@ with open("/var/www/html/Wilcox_TILT/data_PLOT/Tilt_R_av.txt", "r") as infile:
  for i in range(len(SSN_all)):
   sline = SSN_all[i].split()
   print(sline)
-  file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
-  file4.write("\n")
+  file4.write('%8.3f'   % (float(sline[0])))
+  file4.write( "\t"  +  str( float(sline[1]))  + "\n" ) 
+# file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
+ # file4.write("\n")
 
 
 
@@ -60,8 +68,10 @@ with open("/var/www/html/Wilcox_TILT/data_PLOT/Tilt_R_av.txt", "r") as infile:
    for i in range(len(SSN_all)):
     sline = SSN_all[i].split()
     print(sline)
-    file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
-    file4.write("\n")
+    file4.write('%8.3f'   % (float(sline[0])))
+    file4.write( "\t"  +  str( float(sline[1]))  + "\n" )
+  #  file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
+  # file4.write("\n")
 
 
 
@@ -73,5 +83,7 @@ with open("/var/www/html/Wilcox_TILT/data_PLOT/Tilt_R_av.txt", "r") as infile:
    for i in range(len(SSN_all)):
     sline = SSN_all[i].split()
     print(sline)
-    file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
-    file4.write("\n")
+    file4.write('%8.3f'   % (float(sline[0])))
+    file4.write( "\t"  +  str( float(sline[1]))  + "\n" )   
+# file4.write('%8.3f  %8.3f'   % (float(sline[0]), float(sline[1])))
+#    file4.write("\n")
