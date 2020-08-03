@@ -1611,3 +1611,4 @@ column 2 - Sun's Polar Field strength in South emisphere.
 2020.438	-55.0
 2020.466	-46.0
 2020.493	-43.0
+2020.520	-40.0
