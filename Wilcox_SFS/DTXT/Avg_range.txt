@@ -1611,3 +1611,4 @@ column 2 - Sun's Polar Field strength (average).
 2020.438	60.0
 2020.466	59.0
 2020.493	58.0
+2020.520	59.0

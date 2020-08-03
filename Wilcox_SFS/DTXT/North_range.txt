@@ -1611,3 +1611,4 @@ column 2 - Sun's Polar Field strength in North emisphere.
 2020.438	66.0
 2020.466	72.0
 2020.493	74.0
+2020.520	79.0

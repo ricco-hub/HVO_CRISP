@@ -843,3 +843,4 @@ column 3 - Monthly mean standard deviation of the input sunspot numbers.
 2019.788	2.6	0.4
 2019.873	2.0	0.4
 2019.955	1.8	0.4
+2020.040	2.2	0.4
