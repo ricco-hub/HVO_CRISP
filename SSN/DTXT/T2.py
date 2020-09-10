@@ -27,6 +27,9 @@ for i in range(len(kind2)):
    print("5 or 6")
    z.write("SSN_Smooth_range.txt") 
    #z.write("/var/www/html/SSN/DTXT/SSN_Smooth_range.txt")
-
+ if(kind[0] == '7' or kind[0] == '8'):
+   print("7 or 8")
+   z.write("SSN_Year_range.txt")
+   #z.write("/var/www/html/SSN/DTXT/SSN_Smooth_range.txt")  
 z.close()
 #os.mkdir("/var/www/html/SSN/DTXT/Davidinho")

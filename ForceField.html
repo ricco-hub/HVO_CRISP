@@ -82,6 +82,16 @@ Here we have implemented a method to calculate proton flux at the top of the atm
 </div>
 </b>
 <br>
+<b>Time Resolution of Neutron Monitor data</b>
+<select id="myList" name="resolution[]" id="resolution">
+        <option></option>
+        <option name="resolution[]" id="resolution" value="day">1 Day</option>
+        <option name="resolution[]" id="resolution" value="month">1 Month</option>
+        <option name="resolution[]" id="resolution" value="year">1 Year</option>
+        <option name="resolution[]" id="resolution" value="carr">1 Carr. rot.</option>
+</select>
+
+<br><br>
 
 <b>Select Energy for Proton Flux Model [GeV]:</b> <input type="text" name="energy"><br>
 
@@ -98,8 +108,7 @@ End Date     <input type="text" name="birthday2" value="" class="dropdate"><br><
         <option name="resolution[]" id="resolution" value="month">1 Month</option>
         <option name="resolution[]" id="resolution" value="year">1 Year</option>
         <option name="resolution[]" id="resolution" value="carr">1 Carr. rot.</option>    
-</select>
--->
+</select> -->
 <br>
 <input type="submit">
 </form>
@@ -109,22 +118,30 @@ End Date     <input type="text" name="birthday2" value="" class="dropdate"><br><
 
 <center>
     <div id="drawing" style="width:650px; height:400px"></div>
-    <button><type="button"><a onclick="Root();">Plots</a></button>
-    <br><br>
-    <br><br>
+<a onclick="Root3();">
+<button class="btn"><i class="fa fa-download"></i> ROOT File</button>
+</a>
 
+<a onclick="Zip3();">
+<button class="btn"><i class="fa fa-download"></i> TXT ZIP</button>
+</a>
+    <br><br>
+    <br><br>
 
     <br><br>
     <div id="drawing1" style="width:650px; height:400px"></div>
-    <button><type="button"><a onclick="Root();">ROOT FILE</a></button>
-    <button><type="button"><a onclick="Zip();">TXT ZIP</a></button>   
- <br><br>
-   <br><br>
+    
+    <a onclick="Root();"><button class="btn"><i class="fa fa-download"></i> ROOT File</button>
+    </a>
+    <a onclick="Zip();"><button class="btn"><i class="fa fa-download"></i> TXT ZIP</button>
+    </a>
+
+<br><br><br><br>
     <div id="drawing2" style="width:650px; height:400px"></div>
-
-    <button><type="button"><a onclick="Root2();">ROOT FILE</a></button>
-    <button><type="button"><a onclick="Zip();">TXT ZIP</a></button>
-
+    <a onclick="Root2();"><button class="btn"><i class="fa fa-download"></i> ROOT File</button>
+    </a>
+    <a onclick="Zip();"><button class="btn"><i class="fa fa-download"></i> TXT ZIP</button>
+    </a>
 
 <!-------------------------------------------------- SCRIPT    ---------------------------------------------------------------------------->
   

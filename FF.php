@@ -21,11 +21,6 @@ fwrite($myfile3, $line3);
 fwrite($myfile3, "\r\n");
 fwrite($myfile3, $line4);
 
-exec("sh Forecast/convert.sh");
-
-
-exec("sh Forecast/runEXE.sh");
-
 
 
 
@@ -44,9 +39,13 @@ fwrite($myfile3N, "\r\n");
 fwrite($myfile3N, $line4N);
 
 
-$myfile4N = fopen("NeutronMonitor_Rate/Res.txt", "w") or die("Unable to open file!");
-fwrite($myfile4N, "month\n");
 
+$myfile4N = fopen("NeutronMonitor_Rate/Res.txt", "w") or die("Unable to open file!");
+$res = $_GET['resolution'];
+foreach ($res as $resolution){
+ fwrite($myfile4N, $resolution);
+ fwrite($myfile4N, "\n");
+}
 
 
 
@@ -60,7 +59,10 @@ exec("sh NeutronMonitor_Rate/runSFS.sh");
 exec("sh NeutronMonitor_Rate/runEXE.sh");
 
 
+exec("sh Forecast/convert.sh");
 
+
+exec("sh Forecast/runEXE.sh");
 
 
 header("Location: ForceField.html");

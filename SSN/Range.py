@@ -25,6 +25,21 @@ with open("/var/www/html/SSN/SSN.txt", "r") as infile:
 #         ssnr.write('\n')
 
 
+
+# ssn yearly
+                                                                                                                            
+ssnr = open("/var/www/html/SSN/data_PLOT/SSN_Yearly_range.txt","w")
+with open("/var/www/html/SSN/SSN_Y.txt", "r") as infile:
+    SSN_all = infile.readlines()
+    for i in range(len(SSN_all)):
+     sline = SSN_all[i].split()
+     if(  float(date[0])<= float(sline[0]) <= float(date[1])) :
+         ssnr.write('%8.3f'   % (float(sline[0]) ))  
+         ssnr.write( "\t"  +  str( float(sline[1])) )
+         ssnr.write("\t"     + str( float (sline[2]))  )
+         ssnr.write( "\t"  +  str( float(sline[3]))  + "\n" )
+
+
 # ssn monthly
 ssnr = open("/var/www/html/SSN/data_PLOT/SSN_Monthly_range.txt","w")
 with open("/var/www/html/SSN/SSN_Monthly.txt", "r") as infile:

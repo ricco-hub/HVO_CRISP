@@ -20,6 +20,21 @@ with open(time.strftime('/var/www/html/SSN/SSN_Monthly.txt'), "w") as file:
         file.write(monthly[j])
 #monthly completed
 
+url3 = 'http://sidc.oma.be/silso/DATA/SN_y_tot_V2.0.txt'
+r3 = requests.get(url3, allow_redirects=True)
+open('/var/www/html/SSN/SSN_Y.txt', 'wb').write(r3.content)
+#scrivoyear                                                                                                                        
+line = tuple(open(time.strftime('/var/www/html/SSN/SSN_Y.txt'), "r"))
+smooth = line
+with open(time.strftime('/var/www/html/SSN/SSN_Y.txt'), "w") as file:
+ for j in range(len(smooth)):
+   sline = smooth[j].split()
+   if not sline[1] == '-1.0' or sline[1] == '-1':  #non stampo i valori non disponibili che SILSO indica con -1 o -1.0                   
+     file.write(smooth[j])
+#smooth completed   
+
+#fine 
+
 url2 = 'http://www.sidc.be/silso/DATA/SN_ms_tot_V2.0.txt'
 r2 = requests.get(url2, allow_redirects=True)
 open('/var/www/html/SSN/SSN_13.txt', 'wb').write(r2.content)
@@ -36,6 +51,7 @@ with open(time.strftime('/var/www/html/SSN/SSN_13.txt'), "w") as file:
 #smooth completed
 
 day = 15
+
 
 #creare subito il database da cui fare il grafico
 import re
@@ -57,7 +73,6 @@ outfile.close()
 import re
 line = tuple(open(time.strftime('/var/www/html/SSN/SSN_Monthly.txt'), "r"))
 
-
 with open(time.strftime('/var/www/html/SSN/SSN_Monthly.txt'), "w") as outfile2:
   for j in range(len(line)):
    sline = line[j].split()
@@ -68,3 +83,19 @@ with open(time.strftime('/var/www/html/SSN/SSN_Monthly.txt'), "w") as outfile2:
    else: outfile2.write('0' + ' ' +sline[4] + ' '+'\n')
 
 outfile2.close()
+
+
+import re
+line = tuple(open(time.strftime('/var/www/html/SSN/SSN_Y.txt'), "r"))
+
+with open(time.strftime('/var/www/html/SSN/SSN_Y.txt'), "w") as outfile3:
+  for j in range(len(line)):
+   sline = line[j].split()
+  # outfile2.write(str(decimal_year(int(sline[0]),int(sline[1]),day)) + ' ')
+   outfile3.write(sline[0] + ' ')
+   outfile3.write(sline[1] + ' ')
+   if sline[2] == '-1.0' or sline[2] == '-1':  #stampo 0 se non sono disponibili gli errori che SILSO indica con -1 o -1.0                                                
+      outfile3.write('0' +' '+ '0'+'\n')
+   else: outfile3.write('0' + ' ' +sline[2] + ' '+'\n')
+
+outfile3.close()  

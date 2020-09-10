@@ -15,9 +15,7 @@ with open("/var/www/html/Wilcox_TILT/E.txt", "w") as f:
 
 
 with open("/var/www/html/Wilcox_TILT/Set.txt", "w") as g:
- g.write('5\n')
- g.write('2\n')
- g.write('3\n')
- g.write('6\n')
+ g.write('1\n')
+ g.write('4\n')
 
 
