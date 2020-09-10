@@ -174,6 +174,7 @@ int main()
 
   cout<<sxE<<endl;
   
+
   //PLOT
  
   vector<double> date;
@@ -198,10 +199,26 @@ int main()
       stats.push_back(sx);
     }
   
+
+    vector<string> stats_f;
+    ifstream res_f;
+    string path_res ="/var/www/html/NeutronMonitor_Rate/Res.txt";
+    cout<<path<<endl;
+
+    res_f.open(path_res);
+    string res1;
+    while (!res_f.eof()) {
+      res_f>>res1>>ws;
+      stats_f.push_back(res1);
+    }
+
+
+
+
     //    ifstream file;    
     //lista delle stazioni completa
     for (int i=0; i<stats.size(); i++) {
-      string s = "/var/www/html/NeutronMonitor_Rate/" + stats[i]+"month.txt";      
+      string s = "/var/www/html/NeutronMonitor_Rate/" + stats[i]+stats_f[0]+".txt";      
       cout<<s<<endl;
        SetDataNM(rate,date,s); // vector contiene tutti i rate
        GetModulationPotential(stats[i],phi,rate);
@@ -221,7 +238,7 @@ int main()
 
       myfile2.open ("/var/www/html/Forecast/JMOD"+ stats[i]+".txt");
     
-      for (int j=0; j<JMOD.size(); j++) {
+      for (int j=0; j<JMOD.size()-1; j++) {
 	//	cout<<"JMOD NO PREcision --> "<<JMOD[j]<<endl;
 	// cout<<"JMOD --> "<<std::setprecision(std::numeric_limits<double>::digits10)<<JMOD[j]<<endl;
 	// cout<<"********************"<<endl;	

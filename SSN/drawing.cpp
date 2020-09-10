@@ -59,6 +59,34 @@ int main()
   d->GetYaxis()->SetTitle("SSN");
   d->GetYaxis()->CenterTitle();
   d->SetTitle("SSN Daily");
+
+
+  //Year  with ERROR***********************************************************                                                                                    
+  TString year_error = "/var/www/html/SSN/data_PLOT/SSN_Yearly_range.txt"; //percorso                                                                                 
+  TGraphErrors *yE = new TGraphErrors(year_error);
+  yE->SetMarkerColor(kGreen);
+  yE->SetLineColor(kGreen);
+  yE->SetMarkerStyle(20);
+  yE->SetMarkerSize(0.1);
+  yE->SetLineWidth(1);
+  yE->SetName("SSN_yearly_errors");
+  yE->GetYaxis()->SetTitle("SSN");
+  yE->GetYaxis()->CenterTitle();
+  yE->SetTitle("SSN Yearly + Errors");
+
+  //Year NO ERROR*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++                                                                                   
+  TString year = "/var/www/html/SSN/data_PLOT/SSN_Yearly_range.txt"; //percorso                                                                                         
+  TGraph *y = new TGraph(year);
+  y->SetMarkerColor(kGreen);
+  y->SetLineColor(kGreen);
+  y->SetMarkerStyle(20);
+  y->SetMarkerSize(0.1);
+  y->SetLineWidth(2);
+  y->SetName("SSN_yearly");
+  y->GetYaxis()->SetTitle("SSN");
+  y->GetYaxis()->CenterTitle();
+  y->SetTitle("SSN Yearly");
+
   
          
   //Smoothed 13  with ERROR***********************************************************
@@ -165,6 +193,17 @@ int main()
       mg->Add(smoE);
       smoE->Write();
       legend->AddEntry(smoE,"SSN Smoothed","l");
+      break;
+
+    case '7':
+      mg->Add(y);
+      y->Write();
+      legend->AddEntry(y,"SSN Yearly ","l");
+      break;
+    case '8':
+      mg->Add(yE);
+      yE->Write();
+      legend->AddEntry(yE,"SSN Yearly","l");
       break;
     }
   }
