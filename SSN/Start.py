@@ -14,13 +14,13 @@ if(current_time.day != 1 and current_time.day != 2):
  #scarico storico
  open('/var/www/html/SSN/SSN_ALL.txt', 'wb').write(r.content)
 
- line = tuple(open(time.strftime('SSN_ALL.txt'), "r"))
+ line = tuple(open(time.strftime('/var/www/html/SSN/SSN_ALL.txt'), "r"))
  a = line
 
  error = -1
 
 #dallo storico elimino le righe in cui non si hanno dati mancanti che inSILSO vengono indicati con '-1'
- with open(time.strftime('SSN_ALL.txt'), "w") as file:
+ with open(time.strftime('/var/www/html/SSN/SSN_ALL.txt'), "w") as file:
   for j in range(len(a)):
    sline = a[j].split()
    if not  sline[4] == '-1' or sline[4] == '-1.0':
