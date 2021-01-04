@@ -44,7 +44,7 @@ with open("/var/www/html/SSN/SSN_ALL.txt", "w") as f:
 
 #merging
 filenames = ['/var/www/html/SSN/SSN_ALL.txt', '/var/www/html/SSN/SSN_current.txt']
-with open('/var/www/html/SSN/SSN_Hist.txt', 'w') as outfile:
+with open('/var/www/html/SSN/SSN_Hist.txt', 'w+') as outfile:
     for fname in filenames:
         with open(fname) as infile:
             for line in infile:
