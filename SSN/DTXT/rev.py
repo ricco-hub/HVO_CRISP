@@ -4,8 +4,8 @@ def revert(input):
     y = 0
     d = 0
     m = 0
-    comp = input
-    rnd = int(input)
+    comp = float(input)
+    rnd = int(float(input))
 #print( round(comp - rnd,3))
 #print(rnd)
     for month in range(1,13):

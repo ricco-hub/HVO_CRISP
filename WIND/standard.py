@@ -16,6 +16,7 @@ with open("/var/www/html/WIND/E.txt", "w") as f:
 
 with open("/var/www/html/WIND/Set.txt", "w") as g:
  g.write('1')
+ g.write("\n")
  g.write('2')
 
 
