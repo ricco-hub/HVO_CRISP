@@ -47,10 +47,10 @@ int main()
   nf->SetMarkerStyle(20);
   nf->SetMarkerSize(0.1);
   nf->SetLineWidth(4);
-  nf->SetName("North_20 Hz");
+  nf->SetName("North_20 nHz");
   nf->GetYaxis()->SetTitle("Sun's Polar Field strength");
   nf->GetYaxis()->CenterTitle();
-  nf->SetTitle("North 20 Hz");
+  nf->SetTitle("North 20 nHz");
     
     
   //SOUTH  ************************************************************
@@ -76,10 +76,10 @@ int main()
   sf->SetMarkerSize(0.1);
   sf->SetLineWidth(4);
   sf->SetLineStyle(2);
-  sf->SetName("South 20 Hz");
+  sf->SetName("South 20 nHz");
   sf->GetYaxis()->SetTitle("Sun's Polar Field strength");
   sf->GetYaxis()->CenterTitle();
-  sf->SetTitle("South 20 Hz");
+  sf->SetTitle("South 20 nHz");
     
     
   //avg  ************************************************************
@@ -107,10 +107,10 @@ int main()
     af->SetMarkerStyle(20);
     af->SetMarkerSize(0.1);
     af->SetLineWidth(4); af->SetLineStyle(2);
-    af->SetName("Average 20 Hz");
+    af->SetName("Average 20 nHz");
     af->GetYaxis()->SetTitle("Sun's Polar Field strength");
     af->GetYaxis()->CenterTitle();
-    af->SetTitle("Average 20 Hz");
+    af->SetTitle("Average 20 nHz");
     
     
 
@@ -145,7 +145,7 @@ int main()
     case '2':
       mg->Add(nf);
       nf->Write();
-      legend->AddEntry(nf,"North 20 Hz","l");
+      legend->AddEntry(nf,"North 20 nHz","l");
       break;
     case '3':
       mg->Add(s);
@@ -155,7 +155,7 @@ int main()
     case '4':
       mg->Add(sf);
       sf->Write();
-      legend->AddEntry(sf,"South 20 Hz","l");
+      legend->AddEntry(sf,"South 20 nHz","l");
       break;
     case '5':
       mg->Add(a);
@@ -165,7 +165,7 @@ int main()
     case '6':
       mg->Add(af);
       af->Write();
-      legend->AddEntry(af,"Average 20 Hz","l");
+      legend->AddEntry(af,"Average 20 nHz","l");
       break;
     }
   }

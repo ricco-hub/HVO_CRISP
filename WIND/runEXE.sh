@@ -7,5 +7,7 @@ cd /var/www/html/WIND/Graph
 cd /var/www/html/WIND
 python3 download.py
 cd /var/www/html/WIND/DTXT
+python3 comma.py
+python3 T2CSV.py
 python3 T2.py
 echo "completed"
