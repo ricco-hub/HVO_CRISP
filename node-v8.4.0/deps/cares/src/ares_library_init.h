@@ -39,4 +39,3 @@ extern fpGetAdaptersAddresses_t ares_fpGetAdaptersAddresses;
 #endif /* USE_WINSOCK */
 
 #endif /* HEADER_CARES_LIBRARY_INIT_H */
-

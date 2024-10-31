@@ -2,7 +2,7 @@ import requests
 import os
 import time
 import shutil
-#begin 
+#begin
 
 #NORTH
 file4 = open("/var/www/html/Wilcox_SFS/DTXT/North_range.txt","w")
@@ -18,7 +18,7 @@ with open("/var/www/html/Wilcox_SFS/data_PLOT/North_range.txt", "r") as infile:
 
 
 
-#NORTH filtered                                                                                                                                                                
+#NORTH filtered
 file4 = open("/var/www/html/Wilcox_SFS/DTXT/North_F_range.txt","w")
 file4.write("Wilcox Solar Observatory data downloaded from HVO: \ncolumn 1 - Date in fraction of year. \ncolumn 2 - Sun's Polar Field strength in North emisphere. A 20nhz low pass filtered values eliminate yearly geometric projection effects.\n\n")
 
@@ -31,7 +31,7 @@ with open("/var/www/html/Wilcox_SFS/data_PLOT/North_F_range.txt", "r") as infile
   file4.write("\n")
 
 
-#SOUTH                                                                                                                                                          
+#SOUTH
 file4 = open("/var/www/html/Wilcox_SFS/DTXT/South_range.txt","w")
 file4.write("Wilcox Solar Observatory data downloaded from HVO: \ncolumn 1 - Date in fraction of year. \ncolumn 2 - Sun's Polar Field strength in South emisphere.\n\n")
 
@@ -44,7 +44,7 @@ with open("/var/www/html/Wilcox_SFS/data_PLOT/South_range.txt", "r") as infile:
   file4.write("\n")
 
 
-#NORTH filtered                                                                                                                                                     
+#NORTH filtered
 file4 = open("/var/www/html/Wilcox_SFS/DTXT/South_F_range.txt","w")
 file4.write("Wilcox Solar Observatory data downloaded from HVO: \n 1 - Date in fraction of year. \n 2 - Sun's Polar Field strength in South emisphere. A 20nhz low pass filtered values eliminate yearly geometric projection effects.\n\n")
 
@@ -58,7 +58,7 @@ with open("/var/www/html/Wilcox_SFS/data_PLOT/South_F_range.txt", "r") as infile
 
 
 
-#Avg                                                                                                                                                  
+#Avg
 file4 = open("/var/www/html/Wilcox_SFS/DTXT/Avg_range.txt","w")
 file4.write("Wilcox Solar Observatory data downloaded from HVO: \n 1 - Date in fraction of year. \n 2 - Sun's Polar Field strength (average).\n\n")
 
@@ -71,7 +71,7 @@ with open("/var/www/html/Wilcox_SFS/data_PLOT/Avg_range.txt", "r") as infile:
   file4.write("\n")
 
 
-#Avg filtered                                                                                                                                                     
+#Avg filtered
 file4 = open("/var/www/html/Wilcox_SFS/DTXT/Avg_F_range.txt","w")
 file4.write("Wilcox Solar Observatory data downloaded from HVO: \n 1 - Date in fraction of year. \n 2 - Sun's Polar Field strength in North emisphere. A 20nhz low pass filtered values eliminate yearly geometric projection effects.\n\n")
 
@@ -86,7 +86,7 @@ with open("/var/www/html/Wilcox_SFS/data_PLOT/Avg_F_range.txt", "r") as infile:
 
 '''
 
-#daily 
+#daily
 file4 = open("/var/www/html/SSN/DTXT/SSN_range.txt","w")
 file4.write("DAILY SUNSPOT NUMBER DATA downloaded from HVO: \n 1 - Date in fraction of year \n 2 - Daily total sunspot number. \n 3 - Daily standard deviation of the input sunspot numbers from individual stations.\n\n")
 with open("/var/www/html/SSN/data_PLOT/SSN_range.txt", "r") as infile:

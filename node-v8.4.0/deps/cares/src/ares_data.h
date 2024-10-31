@@ -69,4 +69,3 @@ struct ares_data {
 };
 
 void *ares_malloc_data(ares_datatype type);
-

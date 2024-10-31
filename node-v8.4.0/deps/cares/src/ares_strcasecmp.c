@@ -63,4 +63,3 @@ int ares_strncasecmp(const char *a, const char *b, size_t n)
 #endif
 }
 #endif
-

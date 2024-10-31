@@ -55,7 +55,7 @@
 <li><a class="about" href="/Resources.html"><b>RESOURCES</b></a></li>
               <li><a class="about" href="/Neutron.html"><b>NEUTRON MONITOR</b></a></li>
 
-       
+
 
  </ul>
       </div>
@@ -70,12 +70,12 @@
 >
 <?php
 
-$myfile2 = fopen("SET/E.txt", "w") or die("Unable to open file!");    
+$myfile2 = fopen("SET/E.txt", "w") or die("Unable to open file!");
 $line2 = $_GET['energy'];
 fwrite($myfile2, $line2);
-$myfile = fopen("SET/NM_Set1.txt", "w") or die("Unable to open file!"); 
+$myfile = fopen("SET/NM_Set1.txt", "w") or die("Unable to open file!");
 $name = $_GET['station'];
-foreach ($name as $station){ 
+foreach ($name as $station){
  fwrite($myfile, $station);
  fwrite($myfile, "\n");
 }

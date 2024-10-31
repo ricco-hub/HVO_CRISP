@@ -11,4 +11,3 @@ all_deps += $(obj).target/deps/v8/src/natives_blob.stamp
 # Add target alias
 .PHONY: natives_blob
 natives_blob: $(obj).target/deps/v8/src/natives_blob.stamp
-

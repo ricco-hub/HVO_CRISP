@@ -9,10 +9,10 @@ while IFS= read -r line
 do
   echo "$line"
   if [ "$line" = "day" ]; then
-    ./MONITOR_RANGE_day 
+    ./MONITOR_RANGE_day
   fi
   if [ "$line" = "month" ]; then
-    ./MONITOR_RANGE_month 
+    ./MONITOR_RANGE_month
   fi
   if [ "$line" = "year" ]; then
     ./MONITOR_RANGE_year

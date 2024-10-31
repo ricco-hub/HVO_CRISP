@@ -78,4 +78,4 @@ case "$1" in
     echo "Usage: $0 fast|slow|default|singlecore|dualcore|all|limit_cores"
     exit 1
     ;;
-esac 
+esac

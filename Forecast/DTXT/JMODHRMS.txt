@@ -1,5 +1,5 @@
 Differential intensity (J) of cosmic ray (protons) near-Earth values downloaded from HVO:
- Starting from HRMS station monthly rate: 
+ Starting from HRMS station monthly rate:
 column 1 - Date in fraction of year.
 column 2 - J values [GeV^-1 m^-2 s^-1 sr^-1].
 

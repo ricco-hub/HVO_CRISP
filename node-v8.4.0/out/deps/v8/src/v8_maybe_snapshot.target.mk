@@ -15,4 +15,3 @@ v8_maybe_snapshot: $(obj).target/deps/v8/src/v8_maybe_snapshot.stamp
 # Add target alias to "all" target.
 .PHONY: all
 all: v8_maybe_snapshot
-

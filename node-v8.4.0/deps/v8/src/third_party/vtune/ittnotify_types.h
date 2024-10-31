@@ -110,4 +110,3 @@ typedef struct ___itt_group_list
     }
 
 #endif /* _ITTNOTIFY_TYPES_H_ */
-

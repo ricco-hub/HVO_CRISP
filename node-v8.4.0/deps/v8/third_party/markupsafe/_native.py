@@ -17,14 +17,15 @@ def escape(s):
     sequences.  Use this if you need to display text that might contain
     such characters in HTML.  Marks return value as markup string.
     """
-    if hasattr(s, '__html__'):
+    if hasattr(s, "__html__"):
         return s.__html__()
-    return Markup(text_type(s)
-        .replace('&', '&amp;')
-        .replace('>', '&gt;')
-        .replace('<', '&lt;')
-        .replace("'", '&#39;')
-        .replace('"', '&#34;')
+    return Markup(
+        text_type(s)
+        .replace("&", "&amp;")
+        .replace(">", "&gt;")
+        .replace("<", "&lt;")
+        .replace("'", "&#39;")
+        .replace('"', "&#34;")
     )
 
 

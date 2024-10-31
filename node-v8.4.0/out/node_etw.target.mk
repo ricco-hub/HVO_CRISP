@@ -15,4 +15,3 @@ node_etw: $(obj).target/node_etw.stamp
 # Add target alias to "all" target.
 .PHONY: all
 all: node_etw
-

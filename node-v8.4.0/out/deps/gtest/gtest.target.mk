@@ -117,4 +117,3 @@ gtest: $(obj).target/deps/gtest/libgtest.a
 # Add target alias to "all" target.
 .PHONY: all
 all: gtest
-

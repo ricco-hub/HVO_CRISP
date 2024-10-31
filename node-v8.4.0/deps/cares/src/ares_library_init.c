@@ -164,5 +164,3 @@ int ares_library_initialized(void)
 #endif
   return ARES_SUCCESS;
 }
-
-

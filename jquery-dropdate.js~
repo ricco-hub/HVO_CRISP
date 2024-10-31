@@ -1,7 +1,7 @@
 /*
  * Jquery DropDown Date v1.0
  * https://github.com/luonghuycuong/jquery-dropdate
- * 
+ *
  */
 (function ( $, window, document, undefined ) {
 
@@ -25,9 +25,9 @@
 		str += '</select>';
 		return str;
 	}
-	
+
 	function dropdate(el, options) {
-		
+
 		var s = this;
 
         s.opts = $.extend( {}, defaults, options );
@@ -39,11 +39,11 @@
 
         	var d = s.elem.val();
         	d = d ? d : s.opts.defaultDate;
-        	
+
         	s.opts.day = $(genselect(1, 31, 'Day'));
         	s.opts.month = $(genselect(1, 12, 'Month'));
         	s.opts.year = $(genselect(s.opts.minYear, s.opts.maxYear, 'Year'));
-        	
+
 			var date = Date.parse(d);
 			if(isNaN(date)){
 				date = new Date();
@@ -57,11 +57,11 @@
 			}
 
 			var required = s.elem.prop('required');
-			
+
 			s.opts.day.prop('required', required).addClass(s.opts.className);
 			s.opts.month.prop('required', required).addClass(s.opts.className);
 			s.opts.year.prop('required', required).addClass(s.opts.className);
-        	
+
     		s.elem.after(s.opts.day);
     		s.elem.after(s.opts.month);
     		s.elem.after(s.opts.year);
@@ -75,13 +75,13 @@
                 	s.elem.val('');
                 }
             }
-        	
+
     		s.opts.year.on('change', selectchange);
     		s.opts.month.on('change', selectchange);
     		s.opts.day.on('change', selectchange);
         }
 	}
-	
+
     $.fn[name] = function ( options ) {
         return this.each(function () {
             if (!$.data(this, name)) {
@@ -89,5 +89,5 @@
             }
         });
     };
-	
+
 })( jQuery, window, document );

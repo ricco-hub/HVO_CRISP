@@ -83,4 +83,3 @@ Section "Uninstall"
 	RMDir "$INSTDIR"
 	DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\libuv-${ARCH}-${VERSION}"
 SectionEnd
-

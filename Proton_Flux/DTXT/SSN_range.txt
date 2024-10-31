@@ -1,6 +1,6 @@
-DAILY SUNSPOT NUMBER DATA downloaded from HVO: 
-column 1 - Date in fraction of year 
-column 2 - Daily total sunspot number. 
+DAILY SUNSPOT NUMBER DATA downloaded from HVO:
+column 1 - Date in fraction of year
+column 2 - Daily total sunspot number.
 column 3 - Daily standard deviation of the input sunspot numbers from individual stations.
 
 1950.001    143.000       8.000

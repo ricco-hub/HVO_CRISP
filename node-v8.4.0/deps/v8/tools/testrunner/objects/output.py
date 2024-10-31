@@ -30,32 +30,31 @@ import signal
 
 from ..local import utils
 
+
 class Output(object):
+    def __init__(self, exit_code, timed_out, stdout, stderr, pid):
+        self.exit_code = exit_code
+        self.timed_out = timed_out
+        self.stdout = stdout
+        self.stderr = stderr
+        self.pid = pid
 
-  def __init__(self, exit_code, timed_out, stdout, stderr, pid):
-    self.exit_code = exit_code
-    self.timed_out = timed_out
-    self.stdout = stdout
-    self.stderr = stderr
-    self.pid = pid
+    def HasCrashed(self):
+        if utils.IsWindows():
+            return 0x80000000 & self.exit_code and not (0x3FFFFF00 & self.exit_code)
+        else:
+            # Timed out tests will have exit_code -signal.SIGTERM.
+            if self.timed_out:
+                return False
+            return self.exit_code < 0 and self.exit_code != -signal.SIGABRT
 
-  def HasCrashed(self):
-    if utils.IsWindows():
-      return 0x80000000 & self.exit_code and not (0x3FFFFF00 & self.exit_code)
-    else:
-      # Timed out tests will have exit_code -signal.SIGTERM.
-      if self.timed_out:
-        return False
-      return (self.exit_code < 0 and
-              self.exit_code != -signal.SIGABRT)
+    def HasTimedOut(self):
+        return self.timed_out
 
-  def HasTimedOut(self):
-    return self.timed_out
+    def Pack(self):
+        return [self.exit_code, self.timed_out, self.stdout, self.stderr, self.pid]
 
-  def Pack(self):
-    return [self.exit_code, self.timed_out, self.stdout, self.stderr, self.pid]
-
-  @staticmethod
-  def Unpack(packed):
-    # For the order of the fields, refer to Pack() above.
-    return Output(packed[0], packed[1], packed[2], packed[3], packed[4])
+    @staticmethod
+    def Unpack(packed):
+        # For the order of the fields, refer to Pack() above.
+        return Output(packed[0], packed[1], packed[2], packed[3], packed[4])

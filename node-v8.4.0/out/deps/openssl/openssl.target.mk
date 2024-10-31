@@ -868,4 +868,3 @@ openssl: $(obj).target/deps/openssl/libopenssl.a
 # Add target alias to "all" target.
 .PHONY: all
 all: openssl
-

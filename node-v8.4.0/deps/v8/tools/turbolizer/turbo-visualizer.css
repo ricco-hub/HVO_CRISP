@@ -69,8 +69,8 @@ body {
     user-select: none;
 }
 
-p { 
-    text-align: center; 
+p {
+    text-align: center;
     overflow: overlay;
     position: relative;
 }
@@ -97,21 +97,21 @@ div.scrollable {
     overflow-y: _croll; overflow-x: hidden;
 }
 
-g.control rect { 
+g.control rect {
     fill: #EFCC00;
     stroke: #080808;
     stroke-width: 5px;
 }
 
-g.javascript rect { 
+g.javascript rect {
     fill: #DD7E6B;
 }
 
-g.simplified rect { 
+g.simplified rect {
     fill: #3C78D8;
 }
 
-g.machine rect { 
+g.machine rect {
     fill: #6AA84F;
 }
 
@@ -256,7 +256,7 @@ span.linkable-text:hover {
 }
 
 #middle {
-    float:left; height: 100%; background-color: #F8F8F8; 
+    float:left; height: 100%; background-color: #F8F8F8;
     -webkit-transition: all 1s ease-in-out;
     -moz-transition: all 1s ease-in-out;
     -o-transition: all 1s ease-in-out;
@@ -265,7 +265,7 @@ span.linkable-text:hover {
 }
 
 #right {
-    float: right; background-color: #FFFFFF; 
+    float: right; background-color: #FFFFFF;
     -webkit-transition: all 1s ease-in-out;
     -moz-transition: all 1s ease-in-out;
     -o-transition: all 1s ease-in-out;

@@ -78,17 +78,17 @@ The differential intensity J of cosmic ray (protons) at 1 AU is given by
 J_{r = 1 AU}(E,t) = \frac{(E + M_p)^2  - M_p^2}{(E + M_p +\phi(t)) ^2 -M_p^2}  J_{lis} (E+ \phi(t)),  &nbsp; &nbsp;&nbsp;  (1)
 \end{equation}
 where <b>E</b> is the kinetic energy (in GeV per nucleon), \( M_p \)  is the proton rest energy and \( \phi \) is the modulated potential.<br>
-\( J_{lis} \) denotes the local interstellar spectrum (LIS) of protons. Here we use a parametrization derived from the latest data from <b>Voyager</b> and <b>AMS-02</b>. 
-You can download the code used for LIS <a class="about" href="/CODE.cpp">here</a>.  
+\( J_{lis} \) denotes the local interstellar spectrum (LIS) of protons. Here we use a parametrization derived from the latest data from <b>Voyager</b> and <b>AMS-02</b>.
+You can download the code used for LIS <a class="about" href="/CODE.cpp">here</a>.
 <br>
 
 Starting from the derivation of the modulation potential developed by Usoskin in 2011 [<a class="about" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2010JA016105">ref</a>], we have derived \( \phi \) for the period after 2011 assuming a quadratic relation between neutron monitor count rate \( N(t) \) and Usoskin's potential \( \phi(t) \). <br>
-This relation can be written as 
+This relation can be written as
 \begin{equation}
 \phi(N(t)) = A + B \cdot N(t) + C \cdot N(t)^2
-\end{equation}   
+\end{equation}
 The best-fit parameters A, B e C can be used to derive \( \phi \) for next epochs. <br><br>
-We can now reconstruct the proton flux J near Earth from equation (1). 
+We can now reconstruct the proton flux J near Earth from equation (1).
 
 
 <!-- fine codice e inizio del Footer-->

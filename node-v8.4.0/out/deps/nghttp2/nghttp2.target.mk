@@ -129,4 +129,3 @@ nghttp2: $(obj).target/deps/nghttp2/libnghttp2.a
 # Add target alias to "all" target.
 .PHONY: all
 all: nghttp2
-

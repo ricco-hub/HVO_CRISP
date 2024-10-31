@@ -139,4 +139,3 @@ v8_libsampler: $(obj).target/deps/v8/src/libv8_libsampler.a
 # Add target alias to "all" target.
 .PHONY: all
 all: v8_libsampler
-

@@ -5,4 +5,3 @@ R_ALL     =     $(R_LADFLAGS) $(R_LIBS) $(R_CFLAGS)
 
 SunSpot: drawing.cpp
 	g++ -o SunSpot drawing.cpp $(R_ALL)
-

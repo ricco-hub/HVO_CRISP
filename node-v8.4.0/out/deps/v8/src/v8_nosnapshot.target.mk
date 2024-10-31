@@ -145,4 +145,3 @@ v8_nosnapshot: $(obj).target/deps/v8/src/libv8_nosnapshot.a
 # Add target alias to "all" target.
 .PHONY: all
 all: v8_nosnapshot
-

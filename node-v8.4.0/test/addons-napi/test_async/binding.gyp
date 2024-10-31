@@ -1,8 +1,1 @@
-{
-  "targets": [
-    {
-      "target_name": "test_async",
-      "sources": [ "test_async.cc" ]
-    }
-  ]
-}
+{"targets": [{"target_name": "test_async", "sources": ["test_async.cc"]}]}

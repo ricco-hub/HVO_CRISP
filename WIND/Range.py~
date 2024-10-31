@@ -6,11 +6,11 @@ import shutil
 
 with open("/var/www/html/WIND/E.txt", "r") as infile:
    date = infile.readlines()
-   
+
 print(date[0])
 print(date[1])
 
-#   speed range                                      
+#   speed range
 ssnr = open("/var/www/html/WIND/data_PLOT/Speed_range.txt","w")
 with open("/var/www/html/WIND/Speed.txt", "r") as infile:
     SSN_all = infile.readlines()
@@ -56,9 +56,9 @@ for i in range(len(SSN_all)):
      print(sline[0] + "   " + sline[1] + "   " + sline[2])
      file5.write('%8.3f   %8.3f    %8.3f'   % (float(sline[0]), float(sline[1]), float(sline[3])))
      file5.write('\n')
-     
 
-with open("/var/www/html/SSN/DTXT/SSN_Smooth_range.txt", "r") as i:    
+
+with open("/var/www/html/SSN/DTXT/SSN_Smooth_range.txt", "r") as i:
  old = i.readlines()
  print(len(old))
 

@@ -27,54 +27,57 @@
 
 
 class Peer(object):
-  def __init__(self, address, jobs, rel_perf, pubkey):
-    self.address = address  # string: IP address
-    self.jobs = jobs  # integer: number of CPUs
-    self.relative_performance = rel_perf
-    self.pubkey = pubkey # string: pubkey's fingerprint
-    self.shells = set()  # set of strings
-    self.needed_work = 0
-    self.assigned_work = 0
-    self.tests = []  # list of TestCase objects
-    self.trusting_me = False  # This peer trusts my public key.
-    self.trusted = False  # I trust this peer's public key.
+    def __init__(self, address, jobs, rel_perf, pubkey):
+        self.address = address  # string: IP address
+        self.jobs = jobs  # integer: number of CPUs
+        self.relative_performance = rel_perf
+        self.pubkey = pubkey  # string: pubkey's fingerprint
+        self.shells = set()  # set of strings
+        self.needed_work = 0
+        self.assigned_work = 0
+        self.tests = []  # list of TestCase objects
+        self.trusting_me = False  # This peer trusts my public key.
+        self.trusted = False  # I trust this peer's public key.
 
-  def __str__(self):
-    return ("Peer at %s, jobs: %d, performance: %.2f, trust I/O: %s/%s" %
-            (self.address, self.jobs, self.relative_performance,
-             self.trusting_me, self.trusted))
+    def __str__(self):
+        return "Peer at %s, jobs: %d, performance: %.2f, trust I/O: %s/%s" % (
+            self.address,
+            self.jobs,
+            self.relative_performance,
+            self.trusting_me,
+            self.trusted,
+        )
 
-  def AddTests(self, shell):
-    """Adds tests from |shell| to this peer.
+    def AddTests(self, shell):
+        """Adds tests from |shell| to this peer.
 
-    Stops when self.needed_work reaches zero, or when all of shell's tests
-    are assigned."""
-    assert self.needed_work > 0
-    if shell.shell not in self.shells:
-      self.shells.add(shell.shell)
-    while len(shell.tests) > 0 and self.needed_work > 0:
-      t = shell.tests.pop()
-      self.needed_work -= t.duration
-      self.assigned_work += t.duration
-      shell.total_duration -= t.duration
-      self.tests.append(t)
+        Stops when self.needed_work reaches zero, or when all of shell's tests
+        are assigned."""
+        assert self.needed_work > 0
+        if shell.shell not in self.shells:
+            self.shells.add(shell.shell)
+        while len(shell.tests) > 0 and self.needed_work > 0:
+            t = shell.tests.pop()
+            self.needed_work -= t.duration
+            self.assigned_work += t.duration
+            shell.total_duration -= t.duration
+            self.tests.append(t)
 
-  def ForceAddOneTest(self, test, shell):
-    """Forcibly adds another test to this peer, disregarding needed_work."""
-    if shell.shell not in self.shells:
-      self.shells.add(shell.shell)
-    self.needed_work -= test.duration
-    self.assigned_work += test.duration
-    shell.total_duration -= test.duration
-    self.tests.append(test)
+    def ForceAddOneTest(self, test, shell):
+        """Forcibly adds another test to this peer, disregarding needed_work."""
+        if shell.shell not in self.shells:
+            self.shells.add(shell.shell)
+        self.needed_work -= test.duration
+        self.assigned_work += test.duration
+        shell.total_duration -= test.duration
+        self.tests.append(test)
 
+    def Pack(self):
+        """Creates a JSON serializable representation of this Peer."""
+        return [self.address, self.jobs, self.relative_performance]
 
-  def Pack(self):
-    """Creates a JSON serializable representation of this Peer."""
-    return [self.address, self.jobs, self.relative_performance]
-
-  @staticmethod
-  def Unpack(packed):
-    """Creates a Peer object built from a packed representation."""
-    pubkey_dummy = ""  # Callers of this don't care (only the server does).
-    return Peer(packed[0], packed[1], packed[2], pubkey_dummy)
+    @staticmethod
+    def Unpack(packed):
+        """Creates a Peer object built from a packed representation."""
+        pubkey_dummy = ""  # Callers of this don't care (only the server does).
+        return Peer(packed[0], packed[1], packed[2], pubkey_dummy)

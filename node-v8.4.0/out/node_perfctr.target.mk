@@ -15,4 +15,3 @@ node_perfctr: $(obj).target/node_perfctr.stamp
 # Add target alias to "all" target.
 .PHONY: all
 all: node_perfctr
-

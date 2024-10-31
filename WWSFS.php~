@@ -55,7 +55,7 @@
 <li><a class="about" href="/Resources.html"><b>RESOURCES</b></a></li>
               <li><a class="about" href="/Neutron.html"><b>NEUTRON MONITOR</b></a></li>
 
-       
+
 
  </ul>
       </div>
@@ -67,13 +67,13 @@
 <center><h3 style="color:rgb(60, 128, 214);"><b>NM Station Set</b></h3></center
 >
 <?php
-$myfile = fopen("SFS/Set.txt", "w") or die("Unable to open file!"); 
+$myfile = fopen("SFS/Set.txt", "w") or die("Unable to open file!");
 $name = $_GET['station'];
-foreach ($name as $station){ 
+foreach ($name as $station){
  fwrite($myfile, $station);
  fwrite($myfile, "\n");
 }
-  
+
 echo "Data selected: ";
 $name = $_GET['station'];
 foreach ($name as $station){

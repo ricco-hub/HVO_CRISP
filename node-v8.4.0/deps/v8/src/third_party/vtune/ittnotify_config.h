@@ -481,4 +481,3 @@ typedef struct ___itt_global
 }
 
 #endif /* _ITTNOTIFY_CONFIG_H_ */
-

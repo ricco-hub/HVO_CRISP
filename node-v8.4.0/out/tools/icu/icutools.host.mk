@@ -543,4 +543,3 @@ icutools: $(obj).host/tools/icu/libicutools.a
 # Add target alias to "all" target.
 .PHONY: all
 all: icutools
-

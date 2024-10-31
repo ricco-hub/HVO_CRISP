@@ -32,115 +32,117 @@ import threading
 
 
 class PerfDataEntry(object):
-  def __init__(self):
-    self.avg = 0.0
-    self.count = 0
+    def __init__(self):
+        self.avg = 0.0
+        self.count = 0
 
-  def AddResult(self, result):
-    kLearnRateLimiter = 99  # Greater value means slower learning.
-    # We use an approximation of the average of the last 100 results here:
-    # The existing average is weighted with kLearnRateLimiter (or less
-    # if there are fewer data points).
-    effective_count = min(self.count, kLearnRateLimiter)
-    self.avg = self.avg * effective_count + result
-    self.count = effective_count + 1
-    self.avg /= self.count
+    def AddResult(self, result):
+        kLearnRateLimiter = 99  # Greater value means slower learning.
+        # We use an approximation of the average of the last 100 results here:
+        # The existing average is weighted with kLearnRateLimiter (or less
+        # if there are fewer data points).
+        effective_count = min(self.count, kLearnRateLimiter)
+        self.avg = self.avg * effective_count + result
+        self.count = effective_count + 1
+        self.avg /= self.count
 
 
 class PerfDataStore(object):
-  def __init__(self, datadir, arch, mode):
-    filename = os.path.join(datadir, "%s.%s.perfdata" % (arch, mode))
-    self.database = shelve.open(filename, protocol=2)
-    self.closed = False
-    self.lock = threading.Lock()
+    def __init__(self, datadir, arch, mode):
+        filename = os.path.join(datadir, "%s.%s.perfdata" % (arch, mode))
+        self.database = shelve.open(filename, protocol=2)
+        self.closed = False
+        self.lock = threading.Lock()
 
-  def __del__(self):
-    self.close()
+    def __del__(self):
+        self.close()
 
-  def close(self):
-    if self.closed: return
-    self.database.close()
-    self.closed = True
+    def close(self):
+        if self.closed:
+            return
+        self.database.close()
+        self.closed = True
 
-  def GetKey(self, test):
-    """Computes the key used to access data for the given testcase."""
-    flags = "".join(test.flags)
-    return str("%s.%s.%s" % (test.suitename(), test.path, flags))
+    def GetKey(self, test):
+        """Computes the key used to access data for the given testcase."""
+        flags = "".join(test.flags)
+        return str("%s.%s.%s" % (test.suitename(), test.path, flags))
 
-  def FetchPerfData(self, test):
-    """Returns the observed duration for |test| as read from the store."""
-    key = self.GetKey(test)
-    if key in self.database:
-      return self.database[key].avg
-    return None
+    def FetchPerfData(self, test):
+        """Returns the observed duration for |test| as read from the store."""
+        key = self.GetKey(test)
+        if key in self.database:
+            return self.database[key].avg
+        return None
 
-  def UpdatePerfData(self, test):
-    """Updates the persisted value in the store with test.duration."""
-    testkey = self.GetKey(test)
-    self.RawUpdatePerfData(testkey, test.duration)
+    def UpdatePerfData(self, test):
+        """Updates the persisted value in the store with test.duration."""
+        testkey = self.GetKey(test)
+        self.RawUpdatePerfData(testkey, test.duration)
 
-  def RawUpdatePerfData(self, testkey, duration):
-    with self.lock:
-      if testkey in self.database:
-        entry = self.database[testkey]
-      else:
-        entry = PerfDataEntry()
-      entry.AddResult(duration)
-      self.database[testkey] = entry
+    def RawUpdatePerfData(self, testkey, duration):
+        with self.lock:
+            if testkey in self.database:
+                entry = self.database[testkey]
+            else:
+                entry = PerfDataEntry()
+            entry.AddResult(duration)
+            self.database[testkey] = entry
 
 
 class PerfDataManager(object):
-  def __init__(self, datadir):
-    self.datadir = os.path.abspath(datadir)
-    if not os.path.exists(self.datadir):
-      os.makedirs(self.datadir)
-    self.stores = {}  # Keyed by arch, then mode.
-    self.closed = False
-    self.lock = threading.Lock()
+    def __init__(self, datadir):
+        self.datadir = os.path.abspath(datadir)
+        if not os.path.exists(self.datadir):
+            os.makedirs(self.datadir)
+        self.stores = {}  # Keyed by arch, then mode.
+        self.closed = False
+        self.lock = threading.Lock()
 
-  def __del__(self):
-    self.close()
+    def __del__(self):
+        self.close()
 
-  def close(self):
-    if self.closed: return
-    for arch in self.stores:
-      modes = self.stores[arch]
-      for mode in modes:
-        store = modes[mode]
-        store.close()
-    self.closed = True
+    def close(self):
+        if self.closed:
+            return
+        for arch in self.stores:
+            modes = self.stores[arch]
+            for mode in modes:
+                store = modes[mode]
+                store.close()
+        self.closed = True
 
-  def GetStore(self, arch, mode):
-    with self.lock:
-      if not arch in self.stores:
-        self.stores[arch] = {}
-      modes = self.stores[arch]
-      if not mode in modes:
-        modes[mode] = PerfDataStore(self.datadir, arch, mode)
-      return modes[mode]
+    def GetStore(self, arch, mode):
+        with self.lock:
+            if not arch in self.stores:
+                self.stores[arch] = {}
+            modes = self.stores[arch]
+            if not mode in modes:
+                modes[mode] = PerfDataStore(self.datadir, arch, mode)
+            return modes[mode]
 
 
 class NullPerfDataStore(object):
-  def UpdatePerfData(self, test):
-    pass
+    def UpdatePerfData(self, test):
+        pass
 
-  def FetchPerfData(self, test):
-    return None
+    def FetchPerfData(self, test):
+        return None
 
 
 class NullPerfDataManager(object):
-  def __init__(self):
-    pass
+    def __init__(self):
+        pass
 
-  def GetStore(self, *args, **kwargs):
-    return NullPerfDataStore()
+    def GetStore(self, *args, **kwargs):
+        return NullPerfDataStore()
 
-  def close(self):
-    pass
+    def close(self):
+        pass
 
 
 def GetPerfDataManager(context, datadir):
-  if context.use_perf_data:
-    return PerfDataManager(datadir)
-  else:
-    return NullPerfDataManager()
+    if context.use_perf_data:
+        return PerfDataManager(datadir)
+    else:
+        return NullPerfDataManager()

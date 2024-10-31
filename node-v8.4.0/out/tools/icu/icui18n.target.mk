@@ -326,4 +326,3 @@ icui18n: $(obj).target/tools/icu/libicui18n.a
 # Add target alias to "all" target.
 .PHONY: all
 all: icui18n
-

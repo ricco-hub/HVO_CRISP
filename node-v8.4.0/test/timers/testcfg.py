@@ -34,67 +34,67 @@ import shlex
 FAKETIME_FLAGS_PATTERN = re.compile(r"//\s+FaketimeFlags:(.*)")
 FAKETIME_BIN_PATH = os.path.join("tools", "faketime", "src", "faketime")
 
+
 class TimersTestCase(test.TestCase):
+    def __init__(self, path, file, arch, mode, context, config):
+        super(TimersTestCase, self).__init__(context, path, arch, mode)
+        self.file = file
+        self.config = config
+        self.arch = arch
+        self.mode = mode
 
-  def __init__(self, path, file, arch, mode, context, config):
-    super(TimersTestCase, self).__init__(context, path, arch, mode)
-    self.file = file
-    self.config = config
-    self.arch = arch
-    self.mode = mode
+    def GetLabel(self):
+        return "%s %s" % (self.mode, self.GetName())
 
-  def GetLabel(self):
-    return "%s %s" % (self.mode, self.GetName())
+    def GetName(self):
+        return self.path[-1]
 
-  def GetName(self):
-    return self.path[-1]
+    def GetCommand(self):
+        result = [FAKETIME_BIN_PATH]
 
-  def GetCommand(self):
-    result = [FAKETIME_BIN_PATH];
+        source = open(self.file).read()
+        faketime_flags_match = FAKETIME_FLAGS_PATTERN.search(source)
+        if faketime_flags_match:
+            result += shlex.split(faketime_flags_match.group(1).strip())
 
-    source = open(self.file).read()
-    faketime_flags_match = FAKETIME_FLAGS_PATTERN.search(source)
-    if faketime_flags_match:
-      result += shlex.split(faketime_flags_match.group(1).strip())
+        result += [self.config.context.GetVm(self.arch, self.mode)]
+        result += [self.file]
 
-    result += [self.config.context.GetVm(self.arch, self.mode)]
-    result += [self.file]
+        return result
 
-    return result
-
-  def GetSource(self):
-    return open(self.file).read()
+    def GetSource(self):
+        return open(self.file).read()
 
 
 class TimersTestConfiguration(test.TestConfiguration):
+    def __init__(self, context, root):
+        super(TimersTestConfiguration, self).__init__(context, root)
 
-  def __init__(self, context, root):
-    super(TimersTestConfiguration, self).__init__(context, root)
+    def Ls(self, path):
+        def SelectTest(name):
+            return name.startswith("test-") and name.endswith(".js")
 
-  def Ls(self, path):
-    def SelectTest(name):
-      return name.startswith('test-') and name.endswith('.js')
-    return [f[:-3] for f in os.listdir(path) if SelectTest(f)]
+        return [f[:-3] for f in os.listdir(path) if SelectTest(f)]
 
-  def ListTests(self, current_path, path, arch, mode):
-    all_tests = [current_path + [t] for t in self.Ls(join(self.root))]
-    result = []
-    for test in all_tests:
-      if self.Contains(path, test):
-        file_path = join(self.root, reduce(join, test[1:], "") + ".js")
-        result.append(TimersTestCase(test, file_path, arch, mode,
-                                     self.context, self))
-    return result
+    def ListTests(self, current_path, path, arch, mode):
+        all_tests = [current_path + [t] for t in self.Ls(join(self.root))]
+        result = []
+        for test in all_tests:
+            if self.Contains(path, test):
+                file_path = join(self.root, reduce(join, test[1:], "") + ".js")
+                result.append(
+                    TimersTestCase(test, file_path, arch, mode, self.context, self)
+                )
+        return result
 
-  def GetBuildRequirements(self):
-    return ['sample', 'sample=shell']
+    def GetBuildRequirements(self):
+        return ["sample", "sample=shell"]
 
-  def GetTestStatus(self, sections, defs):
-    status_file = join(self.root, 'simple.status')
-    if exists(status_file):
-      test.ReadConfigurationInto(status_file, sections, defs)
-
+    def GetTestStatus(self, sections, defs):
+        status_file = join(self.root, "simple.status")
+        if exists(status_file):
+            test.ReadConfigurationInto(status_file, sections, defs)
 
 
 def GetConfiguration(context, root):
-  return TimersTestConfiguration(context, root)
+    return TimersTestConfiguration(context, root)

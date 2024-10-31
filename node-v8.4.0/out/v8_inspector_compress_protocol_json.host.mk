@@ -79,7 +79,7 @@ $(OBJS): | $(action__var_www_matissewebsite_node_v8_4_0_node_gyp_v8_inspector_co
 $(obj).host/v8_inspector_compress_protocol_json.stamp: | $(action__var_www_matissewebsite_node_v8_4_0_node_gyp_v8_inspector_compress_protocol_json_host_v8_inspector_compress_protocol_json_outputs)
 
 # Preserve order dependency of special output on deps.
-$(action__var_www_matissewebsite_node_v8_4_0_node_gyp_v8_inspector_compress_protocol_json_host_v8_inspector_compress_protocol_json_outputs): | 
+$(action__var_www_matissewebsite_node_v8_4_0_node_gyp_v8_inspector_compress_protocol_json_host_v8_inspector_compress_protocol_json_outputs): |
 
 $(obj).host/v8_inspector_compress_protocol_json.stamp: TOOLSET := $(TOOLSET)
 $(obj).host/v8_inspector_compress_protocol_json.stamp:  FORCE_DO_CMD
@@ -93,4 +93,3 @@ v8_inspector_compress_protocol_json: $(obj).host/v8_inspector_compress_protocol_
 # Add target alias to "all" target.
 .PHONY: all
 all: v8_inspector_compress_protocol_json
-

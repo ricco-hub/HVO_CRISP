@@ -27,85 +27,89 @@
 
 
 import cStringIO as StringIO
+
 try:
-  import ujson as json
+    import ujson as json
 except ImportError:
-  import json
+    import json
 import os
 import struct
 import zlib
 
 from . import constants
 
+
 def Send(obj, sock):
-  """
-  Sends a JSON encodable object over the specified socket (zlib-compressed).
-  """
-  obj = json.dumps(obj)
-  compression_level = 2  # 1 = fastest, 9 = best compression
-  compressed = zlib.compress(obj, compression_level)
-  payload = struct.pack('>i', len(compressed)) + compressed
-  sock.sendall(payload)
+    """
+    Sends a JSON encodable object over the specified socket (zlib-compressed).
+    """
+    obj = json.dumps(obj)
+    compression_level = 2  # 1 = fastest, 9 = best compression
+    compressed = zlib.compress(obj, compression_level)
+    payload = struct.pack(">i", len(compressed)) + compressed
+    sock.sendall(payload)
 
 
 class Receiver(object):
-  def __init__(self, sock):
-    self.sock = sock
-    self.data = StringIO.StringIO()
-    self.datalength = 0
-    self._next = self._GetNext()
+    def __init__(self, sock):
+        self.sock = sock
+        self.data = StringIO.StringIO()
+        self.datalength = 0
+        self._next = self._GetNext()
 
-  def IsDone(self):
-    return self._next == None
+    def IsDone(self):
+        return self._next == None
 
-  def Current(self):
-    return self._next
+    def Current(self):
+        return self._next
 
-  def Advance(self):
-    try:
-      self._next = self._GetNext()
-    except:
-      raise
-
-  def _GetNext(self):
-    try:
-      while self.datalength < constants.SIZE_T:
+    def Advance(self):
         try:
-          chunk = self.sock.recv(8192)
+            self._next = self._GetNext()
         except:
-          raise
-        if not chunk: return None
-        self._AppendData(chunk)
-      size = self._PopData(constants.SIZE_T)
-      size = struct.unpack(">i", size)[0]
-      while self.datalength < size:
+            raise
+
+    def _GetNext(self):
         try:
-          chunk = self.sock.recv(8192)
+            while self.datalength < constants.SIZE_T:
+                try:
+                    chunk = self.sock.recv(8192)
+                except:
+                    raise
+                if not chunk:
+                    return None
+                self._AppendData(chunk)
+            size = self._PopData(constants.SIZE_T)
+            size = struct.unpack(">i", size)[0]
+            while self.datalength < size:
+                try:
+                    chunk = self.sock.recv(8192)
+                except:
+                    raise
+                if not chunk:
+                    return None
+                self._AppendData(chunk)
+            result = self._PopData(size)
+            result = zlib.decompress(result)
+            result = json.loads(result)
+            if result == constants.END_OF_STREAM:
+                return None
+            return result
         except:
-          raise
-        if not chunk: return None
-        self._AppendData(chunk)
-      result = self._PopData(size)
-      result = zlib.decompress(result)
-      result = json.loads(result)
-      if result == constants.END_OF_STREAM:
-        return None
-      return result
-    except:
-      raise
+            raise
 
-  def _AppendData(self, new):
-    self.data.seek(0, os.SEEK_END)
-    self.data.write(new)
-    self.datalength += len(new)
+    def _AppendData(self, new):
+        self.data.seek(0, os.SEEK_END)
+        self.data.write(new)
+        self.datalength += len(new)
 
-  def _PopData(self, length):
-    self.data.seek(0)
-    chunk = self.data.read(length)
-    remaining = self.data.read()
-    self.data.close()
-    self.data = StringIO.StringIO()
-    self.data.write(remaining)
-    assert self.datalength - length == len(remaining)
-    self.datalength = len(remaining)
-    return chunk
+    def _PopData(self, length):
+        self.data.seek(0)
+        chunk = self.data.read(length)
+        remaining = self.data.read()
+        self.data.close()
+        self.data = StringIO.StringIO()
+        self.data.write(remaining)
+        assert self.datalength - length == len(remaining)
+        self.datalength = len(remaining)
+        return chunk

@@ -114,7 +114,7 @@ So:
    depends on the right list of files. Because the GN and GYP files know
    nothing about test steps, we have to have some way of mapping back
    and forth between test steps and build targets. That mapping
-   is *not* currently available to MB (or GN or GYP), and so we have to 
+   is *not* currently available to MB (or GN or GYP), and so we have to
    enough information to make it possible for the caller to do the mapping.
 
 3. We might also want to know when test targets are affected by data files
@@ -209,7 +209,7 @@ Any of the three inputs may be an empty list:
   addition to the test targets.
 
 * It doesn't make sense to call analyze if you don't want to compile
-  anything at all, so passing [] for both test_targets and 
+  anything at all, so passing [] for both test_targets and
   additional_compile_targets should probably return an error.
 
 In the output case, an empty list indicates that there was nothing to

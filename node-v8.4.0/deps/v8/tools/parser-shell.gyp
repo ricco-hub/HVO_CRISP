@@ -26,35 +26,38 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 {
-  'variables': {
-    'v8_code': 1,
-    'v8_enable_i18n_support%': 1,
-  },
-  'includes': ['../gypfiles/toolchain.gypi', '../gypfiles/features.gypi'],
-  'targets': [
-    {
-      'target_name': 'parser-shell',
-      'type': 'executable',
-      'dependencies': [
-        '../src/v8.gyp:v8',
-        '../src/v8.gyp:v8_libbase',
-        '../src/v8.gyp:v8_libplatform',
-      ],
-      'conditions': [
-        ['v8_enable_i18n_support==1', {
-          'dependencies': [
-            '<(icu_gyp_path):icui18n',
-            '<(icu_gyp_path):icuuc',
-          ],
-        }],
-      ],
-      'include_dirs+': [
-        '..',
-      ],
-      'sources': [
-        'parser-shell.cc',
-        'shell-utils.h',
-      ],
+    "variables": {
+        "v8_code": 1,
+        "v8_enable_i18n_support%": 1,
     },
-  ],
+    "includes": ["../gypfiles/toolchain.gypi", "../gypfiles/features.gypi"],
+    "targets": [
+        {
+            "target_name": "parser-shell",
+            "type": "executable",
+            "dependencies": [
+                "../src/v8.gyp:v8",
+                "../src/v8.gyp:v8_libbase",
+                "../src/v8.gyp:v8_libplatform",
+            ],
+            "conditions": [
+                [
+                    "v8_enable_i18n_support==1",
+                    {
+                        "dependencies": [
+                            "<(icu_gyp_path):icui18n",
+                            "<(icu_gyp_path):icuuc",
+                        ],
+                    },
+                ],
+            ],
+            "include_dirs+": [
+                "..",
+            ],
+            "sources": [
+                "parser-shell.cc",
+                "shell-utils.h",
+            ],
+        },
+    ],
 }

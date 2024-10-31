@@ -5,16 +5,16 @@
 # there's nothing to do in these targets.
 
 {
-  'targets': [
-    {
-      'target_name': 'icuuc',
-      'type': 'none',
-      'toolsets': [ 'host', 'target' ],
-    },
-    {
-      'target_name': 'icui18n',
-      'type': 'none',
-      'toolsets': [ 'host', 'target' ],
-    },
-  ],
+    "targets": [
+        {
+            "target_name": "icuuc",
+            "type": "none",
+            "toolsets": ["host", "target"],
+        },
+        {
+            "target_name": "icui18n",
+            "type": "none",
+            "toolsets": ["host", "target"],
+        },
+    ],
 }

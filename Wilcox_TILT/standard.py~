@@ -18,6 +18,3 @@ with open("/var/www/html/SSN/Set.txt", "w") as g:
  g.write('1\n')
  g.write('2\n')
  g.write('3\n')
-
-
-

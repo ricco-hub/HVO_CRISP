@@ -15,4 +15,3 @@ icu_uconfig_target: $(obj).target/tools/icu/icu_uconfig_target.stamp
 # Add target alias to "all" target.
 .PHONY: all
 all: icu_uconfig_target
-

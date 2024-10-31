@@ -9,27 +9,42 @@
 
 
 def _CommonChecks(input_api, output_api):
-  results = []
+    results = []
 
-  # Validate the format of the mb_config.pyl file.
-  mb_script = input_api.os_path.join(input_api.PresubmitLocalPath(), '..',
-                                     '..', 'tools', 'mb', 'mb.py')
-  mb_config_path = input_api.os_path.join(input_api.PresubmitLocalPath(),
-                                          'mb_config.pyl')
-  cmd = [input_api.python_executable, mb_script, 'validate', '--config-file',
-         mb_config_path]
-  kwargs = {'cwd': input_api.PresubmitLocalPath()}
-  results.extend(input_api.RunTests([
-      input_api.Command(name='mb_validate',
-                        cmd=cmd, kwargs=kwargs,
-                        message=output_api.PresubmitError)]))
+    # Validate the format of the mb_config.pyl file.
+    mb_script = input_api.os_path.join(
+        input_api.PresubmitLocalPath(), "..", "..", "tools", "mb", "mb.py"
+    )
+    mb_config_path = input_api.os_path.join(
+        input_api.PresubmitLocalPath(), "mb_config.pyl"
+    )
+    cmd = [
+        input_api.python_executable,
+        mb_script,
+        "validate",
+        "--config-file",
+        mb_config_path,
+    ]
+    kwargs = {"cwd": input_api.PresubmitLocalPath()}
+    results.extend(
+        input_api.RunTests(
+            [
+                input_api.Command(
+                    name="mb_validate",
+                    cmd=cmd,
+                    kwargs=kwargs,
+                    message=output_api.PresubmitError,
+                )
+            ]
+        )
+    )
 
-  return results
+    return results
 
 
 def CheckChangeOnUpload(input_api, output_api):
-  return _CommonChecks(input_api, output_api)
+    return _CommonChecks(input_api, output_api)
 
 
 def CheckChangeOnCommit(input_api, output_api):
-  return _CommonChecks(input_api, output_api)
+    return _CommonChecks(input_api, output_api)

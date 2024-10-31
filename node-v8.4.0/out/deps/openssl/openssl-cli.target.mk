@@ -199,4 +199,3 @@ openssl-cli: $(builddir)/openssl-cli
 # Add executable to "all" target.
 .PHONY: all
 all: $(builddir)/openssl-cli
-

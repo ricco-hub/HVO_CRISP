@@ -28,7 +28,7 @@ int main()
   vector<string> variable;
   ifstream set;
   string path ="/var/www/html/NeutronMonitor_Rate/Set.txt";
-    
+
 
   set.open(path);
   string sx;
@@ -42,15 +42,15 @@ int main()
   ff.cd();
   TMultiGraph *mg = new TMultiGraph();
   TLegend *legend = new TLegend(.75,.75,.89,.89);
-    
+
   for (int i=0; i<variable.size(); i++) {
     //selected stations NM  ************************************************************
     TString north = "/var/www/html/NeutronMonitor_Rate/data_PLOT/"+variable[i]+"year.txt"; //percorso
     TGraphErrors *n = new TGraphErrors(north);
-    
+
     if(variable[i] == "OULU"){n->SetMarkerColor(kOrange);
       n->SetLineColor(kOrange);}
-    
+
     if(variable[i] == "NEWK"){n->SetMarkerColor(kBlue);
       n->SetLineColor(kBlue);}
 
@@ -76,11 +76,11 @@ int main()
     n->GetYaxis()->SetTitle("Rate [Hz]");
     n->GetYaxis()->CenterTitle();
     n->SetTitle(name + "  Time Resolution: 1 year");
-  
+
     mg->Add(n);
     n->Write();
     legend->AddEntry(n,name,"l");
-    
+
   }
 
 
@@ -91,7 +91,7 @@ int main()
   mg->GetYaxis()->SetTitle("Rate [Hz]");
   mg->SetName("NMs Rate");
 
-  legend->SetHeader("","C"); // option "C" allows to center the heade         
+  legend->SetHeader("","C"); // option "C" allows to center the heade
   legend->SetX1NDC(0.01);
   legend->SetX2NDC(0.9);
   legend->Draw();

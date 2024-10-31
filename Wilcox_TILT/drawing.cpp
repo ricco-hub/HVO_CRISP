@@ -37,8 +37,8 @@ int main()
   ln->GetYaxis()->CenterTitle();
   ln->SetTitle("Tilt L Northern");
 
-    
-    
+
+
 
   //south L    ************************************************************
   TString southL = "/var/www/html/Wilcox_TILT/data_PLOT/Tilt_L_s.txt"; //percorso
@@ -52,8 +52,8 @@ int main()
   ls->GetYaxis()->SetTitle("Computed Tilt Angle of the Heliospheric Current Sheet (deg)");
   ls->GetYaxis()->CenterTitle();
   ls->SetTitle("Tilt L Southern");
-    
-    
+
+
   //avg L    ************************************************************
   TString avgL = "/var/www/html/Wilcox_TILT/data_PLOT/Tilt_L_av.txt"; //percorso
   TGraphErrors *lavg = new TGraphErrors(avgL);
@@ -66,10 +66,10 @@ int main()
   lavg->GetYaxis()->SetTitle("Computed Tilt Angle of the Heliospheric Current Sheet (deg)");
   lavg->GetYaxis()->CenterTitle();
   lavg->SetTitle("Tilt L average");
-    
-    
-    
-    
+
+
+
+
   //NORTH R   ************************************************************
   TString northR = "/var/www/html/Wilcox_TILT/data_PLOT/Tilt_R_n.txt"; //percorso
   TGraphErrors *rn = new TGraphErrors(northR);
@@ -83,8 +83,8 @@ int main()
   rn->GetYaxis()->CenterTitle();
   rn->SetTitle("Tilt R Northern");
 
-      
-      
+
+
 
   //south R    ************************************************************
   TString southR = "/var/www/html/Wilcox_TILT/data_PLOT/Tilt_R_s.txt"; //percorso
@@ -98,8 +98,8 @@ int main()
   rs->GetYaxis()->SetTitle("Computed Tilt Angle of the Heliospheric Current Sheet (deg)");
   rs->GetYaxis()->CenterTitle();
   rs->SetTitle("Tilt R Southern");
-      
-      
+
+
   //avg R    ************************************************************
   TString avgR = "/var/www/html/Wilcox_TILT/data_PLOT/Tilt_R_av.txt"; //percorso
   TGraphErrors *ravg = new TGraphErrors(avgR);
@@ -112,15 +112,15 @@ int main()
   ravg->GetYaxis()->SetTitle("Computed Tilt Angle of the Heliospheric Current Sheet (deg)");
   ravg->GetYaxis()->CenterTitle();
   ravg->SetTitle("Tilt R average");
-    
 
-    
+
+
 
   c1->cd();
   vector<char> variable;
   ifstream set;
   string path ="/var/www/html/Wilcox_TILT/Set.txt";
-  
+
 
   set.open(path);
   char sx;
@@ -181,7 +181,7 @@ int main()
   mg->GetYaxis()->SetTitle("Computed Tilt Angle of the Heliospheric Current Sheet (deg)");
   mg->SetName("TILT Graph");
 
-  legend->SetHeader("","C"); // option "C" allows to center the heade         
+  legend->SetHeader("","C"); // option "C" allows to center the heade
   legend->SetX1NDC(0.01);
   legend->SetX2NDC(0.9);
   legend->Draw();

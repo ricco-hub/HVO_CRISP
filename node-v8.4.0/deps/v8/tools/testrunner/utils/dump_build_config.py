@@ -17,10 +17,12 @@ import sys
 
 assert len(sys.argv) > 1
 
-def as_json(kv):
-  assert '=' in kv
-  k, v = kv.split('=', 1)
-  return k, json.loads(v)
 
-with open(sys.argv[1], 'w') as f:
-  json.dump(dict(as_json(kv) for kv in sys.argv[2:]), f)
+def as_json(kv):
+    assert "=" in kv
+    k, v = kv.split("=", 1)
+    return k, json.loads(v)
+
+
+with open(sys.argv[1], "w") as f:
+    json.dump(dict(as_json(kv) for kv in sys.argv[2:]), f)

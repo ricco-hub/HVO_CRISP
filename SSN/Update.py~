@@ -15,7 +15,7 @@ al = linesALL #numero righe di ALL
 
 with open("/var/www/html/SSN/SSN_current.txt", "r") as infile:
     linesCURR = infile.readlines()
-cur = linesCURR #numero righe di current 
+cur = linesCURR #numero righe di current
 
 #eliminazione righe già inserite
 #viene appeso tutto il monthly ogni volta per includere correzioni sporadiche di SILSO
@@ -23,13 +23,13 @@ for i in range(len(al)-1,-1,-1):
     if al[i] == cur[0]:
      for j in range(i,len(al)):
       del al[j:len(al)]
-    
+
 
 #remove line from ALL txt
 with open("/var/www/html/SSN/SSN_ALL.txt", "w") as f:
     for i  in range(len(al)):
      f.write(al[i])
-     
+
 #merging
 filenames = ['/var/www/html/SSN/SSN_ALL.txt', '/var/www/html/SSN/SSN_current.txt']
 with open('/var/www/html/SSN/SSN_Hist.txt', 'w') as outfile:

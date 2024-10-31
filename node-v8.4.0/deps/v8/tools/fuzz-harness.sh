@@ -74,7 +74,7 @@ if [ "$3" == "--download" ]; then
 --- tools/jsfunfuzz/jsfunfuzz/multi_timed_run.py~
 +++ tools/jsfunfuzz/jsfunfuzz/multi_timed_run.py
 @@ -125,7 +125,7 @@
- 
+
  def many_timed_runs():
      iteration = 0
 -    while True:

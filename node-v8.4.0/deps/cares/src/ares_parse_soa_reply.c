@@ -130,4 +130,3 @@ failed_stat:
     ares_free(rr_name);
   return status;
 }
-

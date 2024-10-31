@@ -44,7 +44,7 @@ with open(time.strftime('/var/www/html/SSN/SSN_13.txt'), "w") as outfile:
    sline = line[j].split()
    outfile.write(sline[2] + ' ')
    outfile.write(sline[3] + ' ')
-   if sline[4] == '-1.0' or sline[4] == '-1':   #stampo 0 se non sono disponibili gli errori che SILSO indica con -1 o -1.0 
+   if sline[4] == '-1.0' or sline[4] == '-1':   #stampo 0 se non sono disponibili gli errori che SILSO indica con -1 o -1.0
       outfile.write('0' + ' '+'0 ' +'\n')
    else: outfile.write('0' + ' ' +sline[4] + ' '+'\n')
 
@@ -60,7 +60,7 @@ with open(time.strftime('/var/www/html/SSN/SSN_Monthly.txt'), "w") as outfile2:
    sline = line[j].split()
    outfile2.write(sline[2] + ' ')
    outfile2.write(sline[3] + ' ')
-   if sline[4] == '-1.0' or sline[4] == '-1':  #stampo 0 se non sono disponibili gli errori che SILSO indica con -1 o -1.0 
+   if sline[4] == '-1.0' or sline[4] == '-1':  #stampo 0 se non sono disponibili gli errori che SILSO indica con -1 o -1.0
       outfile2.write('0' + ' '+'0 ' +'\n')
    else: outfile2.write('0' + ' ' +sline[4] + ' '+'\n')
 

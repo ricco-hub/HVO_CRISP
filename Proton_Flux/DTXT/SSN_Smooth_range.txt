@@ -1,5 +1,5 @@
-MONTHLY SMOOTHED SUNSPOT NUMBER DATA downloaded from HVO: 
-column 1 - Date in fraction of year. 
+MONTHLY SMOOTHED SUNSPOT NUMBER DATA downloaded from HVO:
+column 1 - Date in fraction of year.
 column 2 - Monthly smoothed total sunspot number.
 column 3 - Monthly mean standard deviation of the input sunspot numbers.
 

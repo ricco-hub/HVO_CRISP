@@ -24,8 +24,9 @@ MAX_RANGE = 100000
 
 #: attributes of function objects that are considered unsafe.
 if PY2:
-    UNSAFE_FUNCTION_ATTRIBUTES = set(['func_closure', 'func_code', 'func_dict',
-                                      'func_defaults', 'func_globals'])
+    UNSAFE_FUNCTION_ATTRIBUTES = set(
+        ["func_closure", "func_code", "func_dict", "func_defaults", "func_globals"]
+    )
 else:
     # On versions > python 2 the special attributes on functions are gone,
     # but they remain on methods and generators for whatever reason.
@@ -33,16 +34,17 @@ else:
 
 
 #: unsafe method attributes.  function attributes are unsafe for methods too
-UNSAFE_METHOD_ATTRIBUTES = set(['im_class', 'im_func', 'im_self'])
+UNSAFE_METHOD_ATTRIBUTES = set(["im_class", "im_func", "im_self"])
 
 #: unsafe generator attirbutes.
-UNSAFE_GENERATOR_ATTRIBUTES = set(['gi_frame', 'gi_code'])
+UNSAFE_GENERATOR_ATTRIBUTES = set(["gi_frame", "gi_code"])
 
 import warnings
 
 # make sure we don't warn in python 2.6 about stuff we don't care about
-warnings.filterwarnings('ignore', 'the sets module', DeprecationWarning,
-                        module='jinja2.sandbox')
+warnings.filterwarnings(
+    "ignore", "the sets module", DeprecationWarning, module="jinja2.sandbox"
+)
 
 from collections import deque
 
@@ -55,6 +57,7 @@ _mutable_sequence_types = (list,)
 try:
     from UserDict import UserDict, DictMixin
     from UserList import UserList
+
     _mutable_mapping_types += (UserDict, DictMixin)
     _mutable_set_types += (UserList,)
 except ImportError:
@@ -63,6 +66,7 @@ except ImportError:
 # if sets is still available, register the mutable set from there as well
 try:
     from sets import Set
+
     _mutable_set_types += (Set,)
 except ImportError:
     pass
@@ -70,6 +74,7 @@ except ImportError:
 #: register Python 2.6 abstract base classes
 try:
     from collections import MutableSet, MutableMapping, MutableSequence
+
     _mutable_set_types += (MutableSet,)
     _mutable_mapping_types += (MutableMapping,)
     _mutable_sequence_types += (MutableSequence,)
@@ -77,20 +82,45 @@ except ImportError:
     pass
 
 _mutable_spec = (
-    (_mutable_set_types, frozenset([
-        'add', 'clear', 'difference_update', 'discard', 'pop', 'remove',
-        'symmetric_difference_update', 'update'
-    ])),
-    (_mutable_mapping_types, frozenset([
-        'clear', 'pop', 'popitem', 'setdefault', 'update'
-    ])),
-    (_mutable_sequence_types, frozenset([
-        'append', 'reverse', 'insert', 'sort', 'extend', 'remove'
-    ])),
-    (deque, frozenset([
-        'append', 'appendleft', 'clear', 'extend', 'extendleft', 'pop',
-        'popleft', 'remove', 'rotate'
-    ]))
+    (
+        _mutable_set_types,
+        frozenset(
+            [
+                "add",
+                "clear",
+                "difference_update",
+                "discard",
+                "pop",
+                "remove",
+                "symmetric_difference_update",
+                "update",
+            ]
+        ),
+    ),
+    (
+        _mutable_mapping_types,
+        frozenset(["clear", "pop", "popitem", "setdefault", "update"]),
+    ),
+    (
+        _mutable_sequence_types,
+        frozenset(["append", "reverse", "insert", "sort", "extend", "remove"]),
+    ),
+    (
+        deque,
+        frozenset(
+            [
+                "append",
+                "appendleft",
+                "clear",
+                "extend",
+                "extendleft",
+                "pop",
+                "popleft",
+                "remove",
+                "rotate",
+            ]
+        ),
+    ),
 )
 
 
@@ -100,8 +130,7 @@ def safe_range(*args):
     """
     rng = range(*args)
     if len(rng) > MAX_RANGE:
-        raise OverflowError('range too big, maximum size for range is %d' %
-                            MAX_RANGE)
+        raise OverflowError("range too big, maximum size for range is %d" % MAX_RANGE)
     return rng
 
 
@@ -134,18 +163,17 @@ def is_internal_attribute(obj, attr):
         if attr in UNSAFE_FUNCTION_ATTRIBUTES:
             return True
     elif isinstance(obj, types.MethodType):
-        if attr in UNSAFE_FUNCTION_ATTRIBUTES or \
-           attr in UNSAFE_METHOD_ATTRIBUTES:
+        if attr in UNSAFE_FUNCTION_ATTRIBUTES or attr in UNSAFE_METHOD_ATTRIBUTES:
             return True
     elif isinstance(obj, type):
-        if attr == 'mro':
+        if attr == "mro":
             return True
     elif isinstance(obj, (types.CodeType, types.TracebackType, types.FrameType)):
         return True
     elif isinstance(obj, types.GeneratorType):
         if attr in UNSAFE_GENERATOR_ATTRIBUTES:
             return True
-    return attr.startswith('__')
+    return attr.startswith("__")
 
 
 def modifies_known_mutable(obj, attr):
@@ -186,28 +214,26 @@ class SandboxedEnvironment(Environment):
     raised.  However also other exceptions may occour during the rendering so
     the caller has to ensure that all exceptions are catched.
     """
+
     sandboxed = True
 
     #: default callback table for the binary operators.  A copy of this is
     #: available on each instance of a sandboxed environment as
     #: :attr:`binop_table`
     default_binop_table = {
-        '+':        operator.add,
-        '-':        operator.sub,
-        '*':        operator.mul,
-        '/':        operator.truediv,
-        '//':       operator.floordiv,
-        '**':       operator.pow,
-        '%':        operator.mod
+        "+": operator.add,
+        "-": operator.sub,
+        "*": operator.mul,
+        "/": operator.truediv,
+        "//": operator.floordiv,
+        "**": operator.pow,
+        "%": operator.mod,
     }
 
     #: default callback table for the unary operators.  A copy of this is
     #: available on each instance of a sandboxed environment as
     #: :attr:`unop_table`
-    default_unop_table = {
-        '+':        operator.pos,
-        '-':        operator.neg
-    }
+    default_unop_table = {"+": operator.pos, "-": operator.neg}
 
     #: a set of binary operators that should be intercepted.  Each operator
     #: that is added to this set (empty by default) is delegated to the
@@ -257,10 +283,9 @@ class SandboxedEnvironment(Environment):
         """
         return False
 
-
     def __init__(self, *args, **kwargs):
         Environment.__init__(self, *args, **kwargs)
-        self.globals['range'] = safe_range
+        self.globals["range"] = safe_range
         self.binop_table = self.default_binop_table.copy()
         self.unop_table = self.default_unop_table.copy()
 
@@ -271,7 +296,7 @@ class SandboxedEnvironment(Environment):
         special attributes of internal python objects as returned by the
         :func:`is_internal_attribute` function.
         """
-        return not (attr.startswith('_') or is_internal_attribute(obj, attr))
+        return not (attr.startswith("_") or is_internal_attribute(obj, attr))
 
     def is_safe_callable(self, obj):
         """Check if an object is safely callable.  Per default a function is
@@ -279,8 +304,9 @@ class SandboxedEnvironment(Environment):
         True.  Override this method to alter the behavior, but this won't
         affect the `unsafe` decorator from this module.
         """
-        return not (getattr(obj, 'unsafe_callable', False) or
-                    getattr(obj, 'alters_data', False))
+        return not (
+            getattr(obj, "unsafe_callable", False) or getattr(obj, "alters_data", False)
+        )
 
     def call_binop(self, context, operator, left, right):
         """For intercepted binary operator calls (:meth:`intercepted_binops`)
@@ -340,18 +366,20 @@ class SandboxedEnvironment(Environment):
 
     def unsafe_undefined(self, obj, attribute):
         """Return an undefined object for unsafe attributes."""
-        return self.undefined('access to attribute %r of %r '
-                              'object is unsafe.' % (
-            attribute,
-            obj.__class__.__name__
-        ), name=attribute, obj=obj, exc=SecurityError)
+        return self.undefined(
+            "access to attribute %r of %r "
+            "object is unsafe." % (attribute, obj.__class__.__name__),
+            name=attribute,
+            obj=obj,
+            exc=SecurityError,
+        )
 
     def call(__self, __context, __obj, *args, **kwargs):
         """Call an object from sandboxed code."""
         # the double prefixes are to avoid double keyword argument
         # errors when proxying the call.
         if not __self.is_safe_callable(__obj):
-            raise SecurityError('%r is not safely callable' % (__obj,))
+            raise SecurityError("%r is not safely callable" % (__obj,))
         return __context.call(__obj, *args, **kwargs)
 
 

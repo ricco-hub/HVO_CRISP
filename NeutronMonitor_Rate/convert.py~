@@ -25,6 +25,6 @@ for j in range(n1):
    print(str(g2j(year,month,day)))
    a = str(g2j(year,month,day))
    f.write(a + "\n")
-   
+
 #chiudo e salvo file
 f.close()

@@ -127,4 +127,3 @@ iculslocs: $(builddir)/iculslocs
 # Add executable to "all" target.
 .PHONY: all
 all: $(builddir)/iculslocs
-

@@ -117,4 +117,3 @@ all_deps += $(builddir)/test-strict
 # Add target alias
 .PHONY: test-strict
 test-strict: $(builddir)/test-strict
-

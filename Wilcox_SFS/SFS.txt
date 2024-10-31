@@ -1643,4 +1643,3 @@
 2021:05:15_21h:07m:13s    52N  -60S   56Avg   20nhz filt:   43Nf  -62Sf   53Avgf
 2021:05:25_21h:07m:13s    53N  -54S   53Avg   20nhz filt:   43Nf  -63Sf   53Avgf
 2021:06:04_21h:07m:13s    63N  -53S   58Avg   20nhz filt:   42Nf  -64Sf   53Avgf
-

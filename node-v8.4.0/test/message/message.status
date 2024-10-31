@@ -15,4 +15,3 @@ prefix message
 [$system==solaris] # Also applies to SmartOS
 
 [$system==freebsd]
-

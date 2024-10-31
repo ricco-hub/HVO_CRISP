@@ -16,13 +16,13 @@
 #include <TVirtualPad.h>
 #include <fstream>
 using namespace std;
-//---------------------------------------------------------------------------            
+//---------------------------------------------------------------------------
 int main()
 {
 
   //speed
 
-  TString speed = "/var/www/html/WIND/data_PLOT/Speed_range.txt"; //percorso        
+  TString speed = "/var/www/html/WIND/data_PLOT/Speed_range.txt"; //percorso
   TGraph *sp = new TGraph(speed);
   sp->SetMarkerColor(kBlue);
   sp->SetLineColor(kBlue);
@@ -38,7 +38,7 @@ int main()
 
   //proton density
 
-  TString proton_density = "/var/www/html/WIND/data_PLOT/Proton_range.txt"; //percorso                                                                               
+  TString proton_density = "/var/www/html/WIND/data_PLOT/Proton_range.txt"; //percorso
   TGraph *pd = new TGraph(proton_density);
   pd->SetMarkerColor(kOrange);
   pd->SetLineColor(kOrange);
@@ -61,5 +61,3 @@ int main()
 
   return 0;
 }
-
-

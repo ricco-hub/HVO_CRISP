@@ -20,7 +20,7 @@ function Root() {
         (window.URL || window.webkitURL).revokeObjectURL(save.href);
     }
 
- 
+
     else if ( !! window.ActiveXObject && document.execCommand)     {
         var _window = window.open(fileURL, '_blank');
         _window.document.close();
@@ -95,4 +95,3 @@ _window.document.close();
 }
 
 </script>
-

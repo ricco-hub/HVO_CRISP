@@ -32,7 +32,7 @@ class CallFrame;
 class Scope;
 // Search match for resource.
 class SearchMatch;
-// 
+//
 class BreakLocation;
 // Wrapper for notification params
 class ScriptParsedNotification;
@@ -571,7 +571,7 @@ private:
 };
 
 
-// 
+//
 class  BreakLocation : public Serializable{
     PROTOCOL_DISALLOW_COPY(BreakLocation);
 public:

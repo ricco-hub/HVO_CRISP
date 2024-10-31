@@ -79,4 +79,3 @@ class VTUNEJITInterface {
 
 
 #endif  // VTUNE_VTUNE_JIT_H_
-

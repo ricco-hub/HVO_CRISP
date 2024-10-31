@@ -41,70 +41,84 @@ import subprocess
 import sys
 import tempfile
 
+
 def Check(output, errors):
-  failed = any([s.startswith('/system/bin/sh:') or s.startswith('ANDROID')
-                for s in output.split('\n')])
-  return 1 if failed else 0
+    failed = any(
+        [
+            s.startswith("/system/bin/sh:") or s.startswith("ANDROID")
+            for s in output.split("\n")
+        ]
+    )
+    return 1 if failed else 0
+
 
 def Execute(cmdline):
-  (fd_out, outname) = tempfile.mkstemp()
-  (fd_err, errname) = tempfile.mkstemp()
-  process = subprocess.Popen(
-    args=cmdline,
-    shell=True,
-    stdout=fd_out,
-    stderr=fd_err,
-  )
-  exit_code = process.wait()
-  os.close(fd_out)
-  os.close(fd_err)
-  output = file(outname).read()
-  errors = file(errname).read()
-  os.unlink(outname)
-  os.unlink(errname)
-  sys.stdout.write(output)
-  sys.stderr.write(errors)
-  return exit_code or Check(output, errors)
+    (fd_out, outname) = tempfile.mkstemp()
+    (fd_err, errname) = tempfile.mkstemp()
+    process = subprocess.Popen(
+        args=cmdline,
+        shell=True,
+        stdout=fd_out,
+        stderr=fd_err,
+    )
+    exit_code = process.wait()
+    os.close(fd_out)
+    os.close(fd_err)
+    output = file(outname).read()
+    errors = file(errname).read()
+    os.unlink(outname)
+    os.unlink(errname)
+    sys.stdout.write(output)
+    sys.stderr.write(errors)
+    return exit_code or Check(output, errors)
+
 
 def Escape(arg):
-  def ShouldEscape():
-    for x in arg:
-      if not x.isalnum() and x != '-' and x != '_':
-        return True
-    return False
+    def ShouldEscape():
+        for x in arg:
+            if not x.isalnum() and x != "-" and x != "_":
+                return True
+        return False
 
-  return arg if not ShouldEscape() else '"%s"' % (arg.replace('"', '\\"'))
+    return arg if not ShouldEscape() else '"%s"' % (arg.replace('"', '\\"'))
+
 
 def WriteToTemporaryFile(data):
-  (fd, fname) = tempfile.mkstemp()
-  os.close(fd)
-  tmp_file = open(fname, "w")
-  tmp_file.write(data)
-  tmp_file.close()
-  return fname
+    (fd, fname) = tempfile.mkstemp()
+    os.close(fd)
+    tmp_file = open(fname, "w")
+    tmp_file.write(data)
+    tmp_file.close()
+    return fname
+
 
 def Main():
-  if (len(sys.argv) == 1):
-    print("Usage: %s <command-to-run-on-device>" % sys.argv[0])
-    return 1
-  workspace = abspath(join(dirname(sys.argv[0]), '..'))
-  v8_root = "/data/local/tmp/v8"
-  android_workspace = os.getenv("ANDROID_V8", v8_root)
-  args = [Escape(arg) for arg in sys.argv[1:]]
-  script = (" ".join(args) + "\n"
-            "case $? in\n"
-            "  0) ;;\n"
-            "  *) echo \"ANDROID: Error returned by test\";;\n"
-            "esac\n")
-  script = script.replace(workspace, android_workspace)
-  script_file = WriteToTemporaryFile(script)
-  android_script_file = android_workspace + "/" + script_file
-  command =  ("adb push '%s' %s;" % (script_file, android_script_file) +
-              "adb shell 'cd %s && sh %s';" % (v8_root, android_script_file) +
-              "adb shell 'rm %s'" % android_script_file)
-  error_code = Execute(command)
-  os.unlink(script_file)
-  return error_code
+    if len(sys.argv) == 1:
+        print("Usage: %s <command-to-run-on-device>" % sys.argv[0])
+        return 1
+    workspace = abspath(join(dirname(sys.argv[0]), ".."))
+    v8_root = "/data/local/tmp/v8"
+    android_workspace = os.getenv("ANDROID_V8", v8_root)
+    args = [Escape(arg) for arg in sys.argv[1:]]
+    script = (
+        " ".join(args) + "\n"
+        "case $? in\n"
+        "  0) ;;\n"
+        '  *) echo "ANDROID: Error returned by test";;\n'
+        "esac\n"
+    )
+    script = script.replace(workspace, android_workspace)
+    script_file = WriteToTemporaryFile(script)
+    android_script_file = android_workspace + "/" + script_file
+    command = (
+        "adb push '%s' %s;" % (script_file, android_script_file)
+        + "adb shell 'cd %s && sh %s';" % (v8_root, android_script_file)
+        + "adb shell 'rm %s'" % android_script_file
+    )
+    error_code = Execute(command)
+    os.unlink(script_file)
+    return error_code
 
-if __name__ == '__main__':
-  sys.exit(Main())
+
+if __name__ == "__main__":
+    sys.exit(Main())

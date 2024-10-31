@@ -26,34 +26,41 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 {
-  'variables': {
-    'v8_code': 1,
-  },
-  'includes': ['../../../gypfiles/toolchain.gypi', '../../../gypfiles/features.gypi'],
-  'targets': [
-    {
-      'target_name': 'v8_vtune',
-      'type': 'static_library',
-      'dependencies': [
-        '../../v8.gyp:v8',
-      ],
-      'sources': [
-        'ittnotify_config.h',
-        'ittnotify_types.h',
-        'jitprofiling.cc',
-        'jitprofiling.h',
-        'v8-vtune.h',
-        'vtune-jit.cc',
-        'vtune-jit.h',
-      ],
-      'direct_dependent_settings': {
-        'defines': ['ENABLE_VTUNE_JIT_INTERFACE',],
-        'conditions': [
-          ['OS != "win"', {
-            'libraries': ['-ldl',],
-          }],   
-        ],
-      },
+    "variables": {
+        "v8_code": 1,
     },
-  ],
+    "includes": ["../../../gypfiles/toolchain.gypi", "../../../gypfiles/features.gypi"],
+    "targets": [
+        {
+            "target_name": "v8_vtune",
+            "type": "static_library",
+            "dependencies": [
+                "../../v8.gyp:v8",
+            ],
+            "sources": [
+                "ittnotify_config.h",
+                "ittnotify_types.h",
+                "jitprofiling.cc",
+                "jitprofiling.h",
+                "v8-vtune.h",
+                "vtune-jit.cc",
+                "vtune-jit.h",
+            ],
+            "direct_dependent_settings": {
+                "defines": [
+                    "ENABLE_VTUNE_JIT_INTERFACE",
+                ],
+                "conditions": [
+                    [
+                        'OS != "win"',
+                        {
+                            "libraries": [
+                                "-ldl",
+                            ],
+                        },
+                    ],
+                ],
+            },
+        },
+    ],
 }

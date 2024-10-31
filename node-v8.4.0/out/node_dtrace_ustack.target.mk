@@ -15,4 +15,3 @@ node_dtrace_ustack: $(obj).target/node_dtrace_ustack.stamp
 # Add target alias to "all" target.
 .PHONY: all
 all: node_dtrace_ustack
-

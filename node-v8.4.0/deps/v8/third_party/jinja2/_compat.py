@@ -13,7 +13,7 @@
 import sys
 
 PY2 = sys.version_info[0] == 2
-PYPY = hasattr(sys, 'pypy_translation_info')
+PYPY = hasattr(sys, "pypy_translation_info")
 _identity = lambda x: x
 
 
@@ -30,6 +30,7 @@ if not PY2:
 
     import pickle
     from io import BytesIO, StringIO
+
     NativeStringIO = StringIO
 
     def reraise(tp, value, tb=None):
@@ -60,11 +61,13 @@ else:
 
     import cPickle as pickle
     from cStringIO import StringIO as BytesIO, StringIO
+
     NativeStringIO = BytesIO
 
-    exec('def reraise(tp, value, tb=None):\n raise tp, value, tb')
+    exec("def reraise(tp, value, tb=None):\n raise tp, value, tb")
 
     from itertools import imap, izip, ifilter
+
     intern = intern
 
     def implements_iterator(cls):
@@ -74,14 +77,14 @@ else:
 
     def implements_to_string(cls):
         cls.__unicode__ = cls.__str__
-        cls.__str__ = lambda x: x.__unicode__().encode('utf-8')
+        cls.__str__ = lambda x: x.__unicode__().encode("utf-8")
         return cls
 
     get_next = lambda x: x.next
 
     def encode_filename(filename):
         if isinstance(filename, unicode):
-            return filename.encode('utf-8')
+            return filename.encode("utf-8")
         return filename
 
 
@@ -98,11 +101,13 @@ def with_metaclass(meta, *bases):
     class metaclass(meta):
         __call__ = type.__call__
         __init__ = type.__init__
+
         def __new__(cls, name, this_bases, d):
             if this_bases is None:
                 return type.__new__(cls, name, (), d)
             return meta(name, bases, d)
-    return metaclass('temporary_class', None, {})
+
+    return metaclass("temporary_class", None, {})
 
 
 try:

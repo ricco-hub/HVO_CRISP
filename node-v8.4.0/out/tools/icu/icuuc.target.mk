@@ -15,4 +15,3 @@ icuuc: $(obj).target/tools/icu/icuuc.stamp
 # Add target alias to "all" target.
 .PHONY: all
 all: icuuc
-

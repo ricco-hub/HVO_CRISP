@@ -25768,7 +25768,7 @@
         Correctly resolve forcibly context allocated parameters in debug-
         evaluate (Chromium issue 325676).
 
-        Introduce Function::GetBoundFunction. 
+        Introduce Function::GetBoundFunction.
 
         Performance and stability improvements on all platforms.
 
@@ -26305,7 +26305,7 @@
         Fixed bitwise negation on x64.
         (Chromium issue 285355)
 
-        Dropped GetCurrentThreadId() and TerminateExecution(int) from 
+        Dropped GetCurrentThreadId() and TerminateExecution(int) from
 	the external API.
 
         Fixed polymorphic INTERCEPTOR StoreICs on ARM/MIPS.
@@ -26664,7 +26664,7 @@
 
 	Emit deprecated check for constant function transitions.
 	(Chromium issue 250609)
-	
+
 	Made MathFloorOfDiv optimization trigger more often
 	(Issue 2205)
 
@@ -28645,7 +28645,7 @@
 
 2011-12-21: Version 3.8.2
 
-        Add max optimization flag to v8 gyp build to ensure V8 is always built 
+        Add max optimization flag to v8 gyp build to ensure V8 is always built
         fully optimized in Chrome.
 
         MIPS: Bring MIPS to parity with other platforms.
@@ -28664,7 +28664,7 @@
 
         Fixed handling of arrays in DefineOwnProperty. (issue 1756)
 
-        Sync parser and preparser on do-while and return statements. 
+        Sync parser and preparser on do-while and return statements.
         (issue 1856)
 
         Fixed another corner case for DefineOwnProperty on arrays (issue 1756).

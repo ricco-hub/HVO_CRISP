@@ -3,24 +3,27 @@
 # found in the LICENSE file.
 
 {
-  'conditions': [
-    ['test_isolation_mode != "noop"', {
-      'targets': [
-        {
-          'target_name': 'run_valgrind_run',
-          'type': 'none',
-          'dependencies': [
-            '../src/d8.gyp:d8_run',
-          ],
-          'includes': [
-            '../gypfiles/features.gypi',
-            '../gypfiles/isolate.gypi',
-          ],
-          'sources': [
-            'run-valgrind.isolate',
-          ],
-        },
-      ],
-    }],
-  ],
+    "conditions": [
+        [
+            'test_isolation_mode != "noop"',
+            {
+                "targets": [
+                    {
+                        "target_name": "run_valgrind_run",
+                        "type": "none",
+                        "dependencies": [
+                            "../src/d8.gyp:d8_run",
+                        ],
+                        "includes": [
+                            "../gypfiles/features.gypi",
+                            "../gypfiles/isolate.gypi",
+                        ],
+                        "sources": [
+                            "run-valgrind.isolate",
+                        ],
+                    },
+                ],
+            },
+        ],
+    ],
 }

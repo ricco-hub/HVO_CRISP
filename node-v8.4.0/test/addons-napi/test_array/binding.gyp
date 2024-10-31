@@ -1,8 +1,1 @@
-{
-  "targets": [
-    {
-      "target_name": "test_array",
-      "sources": [ "test_array.c" ]
-    }
-  ]
-}
+{"targets": [{"target_name": "test_array", "sources": ["test_array.c"]}]}

@@ -32,32 +32,38 @@ import subprocess
 
 
 def ReadFileAndSignature(filename):
-  with open(filename, "rb") as f:
-    file_contents = base64.b64encode(f.read())
-  signature_file = filename + ".signature"
-  if (not os.path.exists(signature_file) or
-      os.path.getmtime(signature_file) < os.path.getmtime(filename)):
-    private_key = "~/.ssh/v8_dtest"
-    code = subprocess.call("openssl dgst -out %s -sign %s %s" %
-                           (signature_file, private_key, filename),
-                           shell=True)
-    if code != 0: return [None, code]
-  with open(signature_file) as f:
-    signature = base64.b64encode(f.read())
-  return [file_contents, signature]
+    with open(filename, "rb") as f:
+        file_contents = base64.b64encode(f.read())
+    signature_file = filename + ".signature"
+    if not os.path.exists(signature_file) or os.path.getmtime(
+        signature_file
+    ) < os.path.getmtime(filename):
+        private_key = "~/.ssh/v8_dtest"
+        code = subprocess.call(
+            "openssl dgst -out %s -sign %s %s"
+            % (signature_file, private_key, filename),
+            shell=True,
+        )
+        if code != 0:
+            return [None, code]
+    with open(signature_file) as f:
+        signature = base64.b64encode(f.read())
+    return [file_contents, signature]
 
 
 def VerifySignature(filename, file_contents, signature, pubkeyfile):
-  with open(filename, "wb") as f:
-    f.write(base64.b64decode(file_contents))
-  signature_file = filename + ".foreign_signature"
-  with open(signature_file, "wb") as f:
-    f.write(base64.b64decode(signature))
-  code = subprocess.call("openssl dgst -verify %s -signature %s %s" %
-                         (pubkeyfile, signature_file, filename),
-                         shell=True)
-  matched = (code == 0)
-  if not matched:
-    os.remove(signature_file)
-    os.remove(filename)
-  return matched
+    with open(filename, "wb") as f:
+        f.write(base64.b64decode(file_contents))
+    signature_file = filename + ".foreign_signature"
+    with open(signature_file, "wb") as f:
+        f.write(base64.b64decode(signature))
+    code = subprocess.call(
+        "openssl dgst -verify %s -signature %s %s"
+        % (pubkeyfile, signature_file, filename),
+        shell=True,
+    )
+    matched = code == 0
+    if not matched:
+        os.remove(signature_file)
+        os.remove(filename)
+    return matched

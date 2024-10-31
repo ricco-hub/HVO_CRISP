@@ -60,4 +60,3 @@ void ares__remove_from_list(struct list_node* node) {
     node->next = NULL;
   }
 }
-

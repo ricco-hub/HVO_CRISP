@@ -159,4 +159,3 @@ all_deps += $(builddir)/mksnapshot
 # Add target alias
 .PHONY: mksnapshot
 mksnapshot: $(builddir)/mksnapshot
-

@@ -15,4 +15,3 @@ icu_implementation: $(obj).target/tools/icu/icu_implementation.stamp
 # Add target alias to "all" target.
 .PHONY: all
 all: icu_implementation
-

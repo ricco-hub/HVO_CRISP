@@ -17,10 +17,10 @@ for i  in range(len(Lines)-5):
     date.append(insert[0])
     ssn.append(insert[1])
     err.append(insert[2])
-    
+
 dati = pd.DataFrame({'Date': date, 'SSN monthly': ssn,'Err': err})
 dati.head()
 #dati = dati.drop(columns="Unnamed: 0")
 dati = dati.set_index('Date')
 dati.to_csv('dati.csv')
-dati.head() 
+dati.head()

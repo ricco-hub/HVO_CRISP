@@ -30,4 +30,3 @@ emailAddress           = ry@tinyclouds.org
 
 [ req_attributes ]
 challengePassword              = A challenge password
-
