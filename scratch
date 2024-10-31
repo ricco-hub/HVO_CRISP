@@ -50,4 +50,3 @@ exec("sh SSN/run.sh");
 <?php include "/var/www/html/CSS2/footer.html" ?>
 </body>
 </html>
-
