@@ -14,7 +14,10 @@ except ImportError:
 
 def main(argv):
     if len(argv) < 1:
-        sys.stderr.write("Usage: %s <protocol-1> [<protocol-2> [, <protocol-3>...]] <output-file>\n" % sys.argv[0])
+        sys.stderr.write(
+            "Usage: %s <protocol-1> [<protocol-2> [, <protocol-3>...]] <output-file>\n"
+            % sys.argv[0]
+        )
         return 1
 
     domains = []
@@ -31,9 +34,15 @@ def main(argv):
         version = parsed_json["version"]
 
     output_file = open(argv[-1], "w")
-    json.dump({"version": version, "domains": domains}, output_file, indent=4, sort_keys=False, separators=(',', ': '))
+    json.dump(
+        {"version": version, "domains": domains},
+        output_file,
+        indent=4,
+        sort_keys=False,
+        separators=(",", ": "),
+    )
     output_file.close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))

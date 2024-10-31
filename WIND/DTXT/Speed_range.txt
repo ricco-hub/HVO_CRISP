@@ -1,5 +1,5 @@
-Solar Wind Speed data downloaded from HVO: 
-column 1 - Date in fraction of year. 
+Solar Wind Speed data downloaded from HVO:
+column 1 - Date in fraction of year.
 column 2 - Solar wind speed data [km/s].
 
 1990.005    475.000

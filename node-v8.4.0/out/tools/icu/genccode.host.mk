@@ -136,4 +136,3 @@ genccode: $(builddir)/genccode
 # Add executable to "all" target.
 .PHONY: all
 all: $(builddir)/genccode
-

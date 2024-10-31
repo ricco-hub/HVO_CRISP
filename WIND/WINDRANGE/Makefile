@@ -5,4 +5,3 @@ R_ALL     =     $(R_LADFLAGS) $(R_LIBS) $(R_CFLAGS)
 
 WINDRANGE: WINDrange.cpp
 	g++ -o WINDRANGE WINDrange.cpp $(R_ALL)
-

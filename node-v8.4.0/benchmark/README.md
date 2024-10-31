@@ -240,4 +240,3 @@ Used in special benchmarks that can't use `createBenchmark` and the object
 it returns to accomplish what they need. This function reports timing
 data to the parent process (usually created by running `compare.js`, `run.js` or
 `scatter.js`).
-

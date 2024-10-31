@@ -292,4 +292,3 @@ Cleaning the Slate
 ### semver(7)
 
 The semantic versioner for npm
-

@@ -1383,4 +1383,3 @@ ulocimp_getRegionForSupplementalData(const char *localeID, UBool inferRegion,
     uprv_strncpy(region, rgBuf, regionCapacity);
     return u_terminateChars(region, regionCapacity, rgLen, status);
 }
-

@@ -42,4 +42,3 @@ exit /b %ERROR_STATUS%
 :depot-tools-not-found
 echo Failed to find a suitable depot tools to test v8
 exit /b 1
-

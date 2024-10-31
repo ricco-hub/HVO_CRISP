@@ -27,7 +27,7 @@ int main()
   while (!f.eof()) {
     f>>xmin>>xmax>>ws;
   }
- 
+
   // NTMAY2020 arriva fino al giorno 331 del 2020, ma i valori hanno senso fino a inizio
   // numero righe totali e usate
   const int m_NTOTLINES= 773; // 759+14; // contare meglio
@@ -107,7 +107,7 @@ int main()
   grWindSpeedVSTime->GetXaxis()->CenterTitle();
   grWindSpeedVSTime->GetYaxis()->CenterTitle();
   grWindSpeedVSTime->SetTitle("Solar Wind Speed  ");
-  
+
   // --- Proton Density graphs ---
   TGraph* grProtonDensityVSTime= new TGraph();
   grProtonDensityVSTime->SetName("grProtonDensityVSTime");
@@ -129,7 +129,7 @@ int main()
   int iPrTemp      = 0;
   int iPrDensity   = 0;
   int iAPRatio     = 0;
-  
+
   int iSSN         = 0;
   int iKpIndex10   = 0;
   int iFlowPressure= 0;
@@ -141,14 +141,14 @@ int main()
 
   double cont;
   int righe=0;
-  
+
   while(!fileNM2.eof()) {
     fileNM2>>cont;
     righe++;
   }
 
   righe = righe/55;  //righe totali da leggere
-     
+
   while( iL < righe){
 
     fileNM>>
@@ -215,7 +215,7 @@ int main()
     fYear = (double)iYear + fDOY; // fract year
     cout<< iYear<< "       "<<iDay<<"           "<< FlowPressure<<endl;
 
-     
+
     // --- wind speed  ---
     if(WindSpeed>0 && WindSpeed<9999){
       grWindSpeedVSTime->SetPoint(iWindSpeed, fYear, WindSpeed);
@@ -227,14 +227,14 @@ int main()
       grProtonDensityVSTime->SetPoint(iPrDensity, fYear, ProtonDensity);
       iPrDensity++;
     }
-  
+
     // increment line
     iL++;
   }
 
   TCanvas *c1 = new TCanvas("TOTAL Graph","titolo Canvas");
   c1->SetFillColor(0);
-    
+
   TFile* outFile= new TFile("/var/www/html/WIND/WINDRANGE/WIND-DENSITYrange.root","RECREATE");
   outFile->cd();
 
@@ -245,22 +245,21 @@ int main()
    grProtonDensityVSTime->GetXaxis()->SetRangeUser(xmin,xmax);
   grProtonDensityVSTime->Draw("l");
 
-  
+
 
 
   grWindSpeedVSTime->Write();
   grProtonDensityVSTime->Write();
-    
+
 
   outFile->Write();
   outFile->Close();
-  
-  
- 
+
+
+
 
 
 
 
   return 0;
 }
-

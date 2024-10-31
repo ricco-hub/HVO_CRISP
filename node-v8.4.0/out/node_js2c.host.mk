@@ -99,7 +99,7 @@ $(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj)/%.cc FORCE_DO_CMD
 $(obj).host/node_js2c.stamp: | $(action__var_www_matissewebsite_node_v8_4_0_node_gyp_node_js2c_host_node_js2c_outputs)
 
 # Preserve order dependency of special output on deps.
-$(action__var_www_matissewebsite_node_v8_4_0_node_gyp_node_js2c_host_node_js2c_outputs): | 
+$(action__var_www_matissewebsite_node_v8_4_0_node_gyp_node_js2c_host_node_js2c_outputs): |
 
 $(obj).host/node_js2c.stamp: TOOLSET := $(TOOLSET)
 $(obj).host/node_js2c.stamp:  FORCE_DO_CMD
@@ -113,4 +113,3 @@ node_js2c: $(obj).host/node_js2c.stamp
 # Add target alias to "all" target.
 .PHONY: all
 all: node_js2c
-

@@ -496,4 +496,3 @@ ITT_EXTERN_C unsigned int JITAPI iJIT_GetNewMethodID()
 
     return methodID++;
 }
-

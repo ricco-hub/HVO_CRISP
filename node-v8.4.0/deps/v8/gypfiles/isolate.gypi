@@ -38,64 +38,90 @@
 # for more information.
 
 {
-  'rules': [
-    {
-      'rule_name': 'isolate',
-      'extension': 'isolate',
-      'inputs': [
-        # Files that are known to be involved in this step.
-        '<(DEPTH)/tools/isolate_driver.py',
-        '<(DEPTH)/tools/swarming_client/isolate.py',
-        '<(DEPTH)/tools/swarming_client/run_isolated.py',
-      ],
-      'outputs': [
-        '<(PRODUCT_DIR)/<(RULE_INPUT_ROOT).isolated',
-      ],
-      'action': [
-        'python',
-        '<(DEPTH)/tools/isolate_driver.py',
-        '<(test_isolation_mode)',
-        '--isolated', '<(PRODUCT_DIR)/<(RULE_INPUT_ROOT).isolated',
-        '--isolate', '<(RULE_INPUT_PATH)',
-
-        # Variables should use the -V FOO=<(FOO) form so frequent values,
-        # like '0' or '1', aren't stripped out by GYP. Run 'isolate.py help'
-        # for more details.
-
-        # Path variables are used to replace file paths when loading a .isolate
-        # file
-        '--path-variable', 'DEPTH', '<(DEPTH)',
-        '--path-variable', 'PRODUCT_DIR', '<(PRODUCT_DIR)',
-
-        '--config-variable', 'CONFIGURATION_NAME=<(CONFIGURATION_NAME)',
-        '--config-variable', 'OS=<(OS)',
-        '--config-variable', 'asan=<(asan)',
-        '--config-variable', 'cfi_vptr=<(cfi_vptr)',
-        '--config-variable', 'gcmole=<(gcmole)',
-        '--config-variable', 'has_valgrind=<(has_valgrind)',
-        '--config-variable', 'icu_use_data_file_flag=<(icu_use_data_file_flag)',
-        '--config-variable', 'is_gn=0',
-        '--config-variable', 'lsan=<(lsan)',
-        '--config-variable', 'msan=<(msan)',
-        '--config-variable', 'tsan=<(tsan)',
-        '--config-variable', 'coverage=<(coverage)',
-        '--config-variable', 'sanitizer_coverage=<(sanitizer_coverage)',
-        '--config-variable', 'component=<(component)',
-        '--config-variable', 'target_arch=<(target_arch)',
-        '--config-variable', 'v8_use_external_startup_data=<(v8_use_external_startup_data)',
-        '--config-variable', 'v8_use_snapshot=<(v8_use_snapshot)',
-      ],
-      'conditions': [
-        ['OS=="win"', {
-          'action': [
-            '--config-variable', 'msvs_version=2013',
-          ],
-        }, {
-          'action': [
-            '--config-variable', 'msvs_version=0',
-          ],
-        }],
-      ],
-    },
-  ],
+    "rules": [
+        {
+            "rule_name": "isolate",
+            "extension": "isolate",
+            "inputs": [
+                # Files that are known to be involved in this step.
+                "<(DEPTH)/tools/isolate_driver.py",
+                "<(DEPTH)/tools/swarming_client/isolate.py",
+                "<(DEPTH)/tools/swarming_client/run_isolated.py",
+            ],
+            "outputs": [
+                "<(PRODUCT_DIR)/<(RULE_INPUT_ROOT).isolated",
+            ],
+            "action": [
+                "python",
+                "<(DEPTH)/tools/isolate_driver.py",
+                "<(test_isolation_mode)",
+                "--isolated",
+                "<(PRODUCT_DIR)/<(RULE_INPUT_ROOT).isolated",
+                "--isolate",
+                "<(RULE_INPUT_PATH)",
+                # Variables should use the -V FOO=<(FOO) form so frequent values,
+                # like '0' or '1', aren't stripped out by GYP. Run 'isolate.py help'
+                # for more details.
+                # Path variables are used to replace file paths when loading a .isolate
+                # file
+                "--path-variable",
+                "DEPTH",
+                "<(DEPTH)",
+                "--path-variable",
+                "PRODUCT_DIR",
+                "<(PRODUCT_DIR)",
+                "--config-variable",
+                "CONFIGURATION_NAME=<(CONFIGURATION_NAME)",
+                "--config-variable",
+                "OS=<(OS)",
+                "--config-variable",
+                "asan=<(asan)",
+                "--config-variable",
+                "cfi_vptr=<(cfi_vptr)",
+                "--config-variable",
+                "gcmole=<(gcmole)",
+                "--config-variable",
+                "has_valgrind=<(has_valgrind)",
+                "--config-variable",
+                "icu_use_data_file_flag=<(icu_use_data_file_flag)",
+                "--config-variable",
+                "is_gn=0",
+                "--config-variable",
+                "lsan=<(lsan)",
+                "--config-variable",
+                "msan=<(msan)",
+                "--config-variable",
+                "tsan=<(tsan)",
+                "--config-variable",
+                "coverage=<(coverage)",
+                "--config-variable",
+                "sanitizer_coverage=<(sanitizer_coverage)",
+                "--config-variable",
+                "component=<(component)",
+                "--config-variable",
+                "target_arch=<(target_arch)",
+                "--config-variable",
+                "v8_use_external_startup_data=<(v8_use_external_startup_data)",
+                "--config-variable",
+                "v8_use_snapshot=<(v8_use_snapshot)",
+            ],
+            "conditions": [
+                [
+                    'OS=="win"',
+                    {
+                        "action": [
+                            "--config-variable",
+                            "msvs_version=2013",
+                        ],
+                    },
+                    {
+                        "action": [
+                            "--config-variable",
+                            "msvs_version=0",
+                        ],
+                    },
+                ],
+            ],
+        },
+    ],
 }

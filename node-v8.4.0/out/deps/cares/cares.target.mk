@@ -179,4 +179,3 @@ cares: $(obj).target/deps/cares/libcares.a
 # Add target alias to "all" target.
 .PHONY: all
 all: cares
-

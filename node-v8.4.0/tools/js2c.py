@@ -38,130 +38,141 @@ import string
 
 
 def ToCArray(elements, step=10):
-  slices = (elements[i:i+step] for i in xrange(0, len(elements), step))
-  slices = map(lambda s: ','.join(str(x) for x in s), slices)
-  return ',\n'.join(slices)
+    slices = (elements[i : i + step] for i in xrange(0, len(elements), step))
+    slices = map(lambda s: ",".join(str(x) for x in s), slices)
+    return ",\n".join(slices)
 
 
 def ToCString(contents):
-  return ToCArray(map(ord, contents), step=20)
+    return ToCArray(map(ord, contents), step=20)
 
 
 def ReadFile(filename):
-  file = open(filename, "rt")
-  try:
-    lines = file.read()
-  finally:
-    file.close()
-  return lines
+    file = open(filename, "rt")
+    try:
+        lines = file.read()
+    finally:
+        file.close()
+    return lines
 
 
 def ReadLines(filename):
-  result = []
-  for line in open(filename, "rt"):
-    if '#' in line:
-      line = line[:line.index('#')]
-    line = line.strip()
-    if len(line) > 0:
-      result.append(line)
-  return result
+    result = []
+    for line in open(filename, "rt"):
+        if "#" in line:
+            line = line[: line.index("#")]
+        line = line.strip()
+        if len(line) > 0:
+            result.append(line)
+    return result
 
 
 def ExpandConstants(lines, constants):
-  for key, value in constants.items():
-    lines = lines.replace(key, str(value))
-  return lines
+    for key, value in constants.items():
+        lines = lines.replace(key, str(value))
+    return lines
 
 
 def ExpandMacros(lines, macros):
-  for name, macro in macros.items():
-    start = lines.find(name + '(', 0)
-    while start != -1:
-      # Scan over the arguments
-      assert lines[start + len(name)] == '('
-      height = 1
-      end = start + len(name) + 1
-      last_match = end
-      arg_index = 0
-      mapping = { }
-      def add_arg(str):
-        # Remember to expand recursively in the arguments
-        replacement = ExpandMacros(str.strip(), macros)
-        mapping[macro.args[arg_index]] = replacement
-      while end < len(lines) and height > 0:
-        # We don't count commas at higher nesting levels.
-        if lines[end] == ',' and height == 1:
-          add_arg(lines[last_match:end])
-          last_match = end + 1
-        elif lines[end] in ['(', '{', '[']:
-          height = height + 1
-        elif lines[end] in [')', '}', ']']:
-          height = height - 1
-        end = end + 1
-      # Remember to add the last match.
-      add_arg(lines[last_match:end-1])
-      result = macro.expand(mapping)
-      # Replace the occurrence of the macro with the expansion
-      lines = lines[:start] + result + lines[end:]
-      start = lines.find(name + '(', start)
-  return lines
+    for name, macro in macros.items():
+        start = lines.find(name + "(", 0)
+        while start != -1:
+            # Scan over the arguments
+            assert lines[start + len(name)] == "("
+            height = 1
+            end = start + len(name) + 1
+            last_match = end
+            arg_index = 0
+            mapping = {}
+
+            def add_arg(str):
+                # Remember to expand recursively in the arguments
+                replacement = ExpandMacros(str.strip(), macros)
+                mapping[macro.args[arg_index]] = replacement
+
+            while end < len(lines) and height > 0:
+                # We don't count commas at higher nesting levels.
+                if lines[end] == "," and height == 1:
+                    add_arg(lines[last_match:end])
+                    last_match = end + 1
+                elif lines[end] in ["(", "{", "["]:
+                    height = height + 1
+                elif lines[end] in [")", "}", "]"]:
+                    height = height - 1
+                end = end + 1
+            # Remember to add the last match.
+            add_arg(lines[last_match : end - 1])
+            result = macro.expand(mapping)
+            # Replace the occurrence of the macro with the expansion
+            lines = lines[:start] + result + lines[end:]
+            start = lines.find(name + "(", start)
+    return lines
 
 
 class TextMacro:
-  def __init__(self, args, body):
-    self.args = args
-    self.body = body
-  def expand(self, mapping):
-    result = self.body
-    for key, value in mapping.items():
-        result = result.replace(key, value)
-    return result
+    def __init__(self, args, body):
+        self.args = args
+        self.body = body
+
+    def expand(self, mapping):
+        result = self.body
+        for key, value in mapping.items():
+            result = result.replace(key, value)
+        return result
+
 
 class PythonMacro:
-  def __init__(self, args, fun):
-    self.args = args
-    self.fun = fun
-  def expand(self, mapping):
-    args = []
-    for arg in self.args:
-      args.append(mapping[arg])
-    return str(self.fun(*args))
+    def __init__(self, args, fun):
+        self.args = args
+        self.fun = fun
 
-CONST_PATTERN = re.compile('^const\s+([a-zA-Z0-9_]+)\s*=\s*([^;]*);$')
-MACRO_PATTERN = re.compile('^macro\s+([a-zA-Z0-9_]+)\s*\(([^)]*)\)\s*=\s*([^;]*);$')
-PYTHON_MACRO_PATTERN = re.compile('^python\s+macro\s+([a-zA-Z0-9_]+)\s*\(([^)]*)\)\s*=\s*([^;]*);$')
+    def expand(self, mapping):
+        args = []
+        for arg in self.args:
+            args.append(mapping[arg])
+        return str(self.fun(*args))
+
+
+CONST_PATTERN = re.compile("^const\s+([a-zA-Z0-9_]+)\s*=\s*([^;]*);$")
+MACRO_PATTERN = re.compile("^macro\s+([a-zA-Z0-9_]+)\s*\(([^)]*)\)\s*=\s*([^;]*);$")
+PYTHON_MACRO_PATTERN = re.compile(
+    "^python\s+macro\s+([a-zA-Z0-9_]+)\s*\(([^)]*)\)\s*=\s*([^;]*);$"
+)
+
 
 def ReadMacros(lines):
-  constants = { }
-  macros = { }
-  for line in lines:
-    hash = line.find('#')
-    if hash != -1: line = line[:hash]
-    line = line.strip()
-    if len(line) is 0: continue
-    const_match = CONST_PATTERN.match(line)
-    if const_match:
-      name = const_match.group(1)
-      value = const_match.group(2).strip()
-      constants[name] = value
-    else:
-      macro_match = MACRO_PATTERN.match(line)
-      if macro_match:
-        name = macro_match.group(1)
-        args = map(string.strip, macro_match.group(2).split(','))
-        body = macro_match.group(3).strip()
-        macros[name] = TextMacro(args, body)
-      else:
-        python_match = PYTHON_MACRO_PATTERN.match(line)
-        if python_match:
-          name = python_match.group(1)
-          args = map(string.strip, python_match.group(2).split(','))
-          body = python_match.group(3).strip()
-          fun = eval("lambda " + ",".join(args) + ': ' + body)
-          macros[name] = PythonMacro(args, fun)
+    constants = {}
+    macros = {}
+    for line in lines:
+        hash = line.find("#")
+        if hash != -1:
+            line = line[:hash]
+        line = line.strip()
+        if len(line) is 0:
+            continue
+        const_match = CONST_PATTERN.match(line)
+        if const_match:
+            name = const_match.group(1)
+            value = const_match.group(2).strip()
+            constants[name] = value
         else:
-          raise Exception("Illegal line: " + line)
-  return (constants, macros)
+            macro_match = MACRO_PATTERN.match(line)
+            if macro_match:
+                name = macro_match.group(1)
+                args = map(string.strip, macro_match.group(2).split(","))
+                body = macro_match.group(3).strip()
+                macros[name] = TextMacro(args, body)
+            else:
+                python_match = PYTHON_MACRO_PATTERN.match(line)
+                if python_match:
+                    name = python_match.group(1)
+                    args = map(string.strip, python_match.group(2).split(","))
+                    body = python_match.group(3).strip()
+                    fun = eval("lambda " + ",".join(args) + ": " + body)
+                    macros[name] = PythonMacro(args, fun)
+                else:
+                    raise Exception("Illegal line: " + line)
+    return (constants, macros)
 
 
 TEMPLATE = """
@@ -220,66 +231,71 @@ CHECK(target->Set(env->context(),
 
 
 def Render(var, data):
-  # Treat non-ASCII as UTF-8 and convert it to UTF-16.
-  if any(ord(c) > 127 for c in data):
-    template = TWO_BYTE_STRING
-    data = map(ord, data.decode('utf-8').encode('utf-16be'))
-    data = [data[i] * 256 + data[i+1] for i in xrange(0, len(data), 2)]
-    data = ToCArray(data)
-  else:
-    template = ONE_BYTE_STRING
-    data = ToCString(data)
-  return template.format(var=var, data=data)
+    # Treat non-ASCII as UTF-8 and convert it to UTF-16.
+    if any(ord(c) > 127 for c in data):
+        template = TWO_BYTE_STRING
+        data = map(ord, data.decode("utf-8").encode("utf-16be"))
+        data = [data[i] * 256 + data[i + 1] for i in xrange(0, len(data), 2)]
+        data = ToCArray(data)
+    else:
+        template = ONE_BYTE_STRING
+        data = ToCString(data)
+    return template.format(var=var, data=data)
 
 
 def JS2C(source, target):
-  modules = []
-  consts = {}
-  macros = {}
-  macro_lines = []
+    modules = []
+    consts = {}
+    macros = {}
+    macro_lines = []
 
-  for s in source:
-    if (os.path.split(str(s))[1]).endswith('macros.py'):
-      macro_lines.extend(ReadLines(str(s)))
-    else:
-      modules.append(s)
+    for s in source:
+        if (os.path.split(str(s))[1]).endswith("macros.py"):
+            macro_lines.extend(ReadLines(str(s)))
+        else:
+            modules.append(s)
 
-  # Process input from all *macro.py files
-  (consts, macros) = ReadMacros(macro_lines)
+    # Process input from all *macro.py files
+    (consts, macros) = ReadMacros(macro_lines)
 
-  # Build source code lines
-  definitions = []
-  initializers = []
+    # Build source code lines
+    definitions = []
+    initializers = []
 
-  for name in modules:
-    lines = ReadFile(str(name))
-    lines = ExpandConstants(lines, consts)
-    lines = ExpandMacros(lines, macros)
+    for name in modules:
+        lines = ReadFile(str(name))
+        lines = ExpandConstants(lines, consts)
+        lines = ExpandMacros(lines, macros)
 
-    # On Windows, "./foo.bar" in the .gyp file is passed as "foo.bar"
-    # so don't assume there is always a slash in the file path.
-    if '/' in name or '\\' in name:
-      name = '/'.join(re.split('/|\\\\', name)[1:])
+        # On Windows, "./foo.bar" in the .gyp file is passed as "foo.bar"
+        # so don't assume there is always a slash in the file path.
+        if "/" in name or "\\" in name:
+            name = "/".join(re.split("/|\\\\", name)[1:])
 
-    name = name.split('.', 1)[0]
-    var = name.replace('-', '_').replace('/', '_')
-    key = '%s_key' % var
-    value = '%s_value' % var
+        name = name.split(".", 1)[0]
+        var = name.replace("-", "_").replace("/", "_")
+        key = "%s_key" % var
+        value = "%s_value" % var
 
-    definitions.append(Render(key, name))
-    definitions.append(Render(value, lines))
-    initializers.append(INITIALIZER.format(key=key, value=value))
+        definitions.append(Render(key, name))
+        definitions.append(Render(value, lines))
+        initializers.append(INITIALIZER.format(key=key, value=value))
 
-  # Emit result
-  output = open(str(target[0]), "w")
-  output.write(TEMPLATE.format(definitions=''.join(definitions),
-                               initializers=''.join(initializers)))
-  output.close()
+    # Emit result
+    output = open(str(target[0]), "w")
+    output.write(
+        TEMPLATE.format(
+            definitions="".join(definitions), initializers="".join(initializers)
+        )
+    )
+    output.close()
+
 
 def main():
-  natives = sys.argv[1]
-  source_files = sys.argv[2:]
-  JS2C(source_files, [natives])
+    natives = sys.argv[1]
+    source_files = sys.argv[2:]
+    JS2C(source_files, [natives])
+
 
 if __name__ == "__main__":
-  main()
+    main()

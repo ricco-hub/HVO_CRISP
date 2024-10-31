@@ -117,4 +117,3 @@ all_deps += $(builddir)/test-nonstrict
 # Add target alias
 .PHONY: test-nonstrict
 test-nonstrict: $(builddir)/test-nonstrict
-

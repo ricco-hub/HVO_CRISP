@@ -117,4 +117,3 @@ icustubdata: $(obj).target/tools/icu/libicustubdata.a
 # Add target alias to "all" target.
 .PHONY: all
 all: icustubdata
-

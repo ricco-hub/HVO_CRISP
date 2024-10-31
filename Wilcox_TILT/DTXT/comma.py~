@@ -19,7 +19,7 @@ for i  in range(len(Lines)-4):
     date.append(revert(insert[0]))
     ssn.append(insert[1])
 
-    
+
 data = pd.DataFrame({'Date': date, 'Tilt L model - Avg  ': ssn})
 data.head()
 #dati = dati.drop(columns="Unnamed: 0")
@@ -27,7 +27,7 @@ data["date"] = pd.to_datetime(data["Date"], format="%Y-%m-%d")
 data = data.set_index('date')
 data = data.drop(columns=['Date'])
 data.to_csv('Tilt_L_av.csv')
-data.head() 
+data.head()
 
 
 file1 = open('Tilt_L_n.txt', 'r')
@@ -45,7 +45,7 @@ for i  in range(len(Lines)-4):
     insert = string[i].split()
     date.append(revert(insert[0]))
     ssn.append(insert[1])
-    
+
 
 data = pd.DataFrame({'Date': date, 'Tilt L model - N  ': ssn})
 data.head()
@@ -73,7 +73,7 @@ for i  in range(len(Lines)-4):
     insert = string[i].split()
     date.append(revert(insert[0]))
     ssn.append(insert[1])
-    
+
 
 data = pd.DataFrame({'Date': date, 'Tilt L model - S  ': ssn})
 data.head()
@@ -102,7 +102,7 @@ for i  in range(len(Lines)-4):
     insert = string[i].split()
     date.append(revert(insert[0]))
     ssn.append(insert[1])
-    
+
 
 data = pd.DataFrame({'Date': date, 'Tilt R model - Avg  ': ssn})
 data.head()
@@ -159,7 +159,7 @@ for i  in range(len(Lines)-4):
     insert = string[i].split()
     date.append(revert(insert[0]))
     ssn.append(insert[1])
-    
+
 
 data = pd.DataFrame({'Date': date, 'Tilt R model - S  ': ssn})
 data.head()

@@ -32,71 +32,71 @@ import re
 
 # Reads a .list file into an array of strings
 def ReadLinesFrom(name):
-  list = []
-  for line in open(name):
-    if '#' in line:
-      line = line[:line.find('#')]
-    line = line.strip()
-    if len(line) == 0:
-      continue
-    list.append(line)
-  return list
+    list = []
+    for line in open(name):
+        if "#" in line:
+            line = line[: line.find("#")]
+        line = line.strip()
+        if len(line) == 0:
+            continue
+        list.append(line)
+    return list
 
 
 def GuessOS():
-  id = platform.system()
-  if id == 'Linux':
-    return 'linux'
-  elif id == 'Darwin':
-    return 'macos'
-  elif id.find('CYGWIN') >= 0:
-    return 'cygwin'
-  elif id == 'Windows' or id == 'Microsoft':
-    # On Windows Vista platform.system() can return 'Microsoft' with some
-    # versions of Python, see http://bugs.python.org/issue1082
-    return 'win32'
-  elif id == 'FreeBSD':
-    return 'freebsd'
-  elif id == 'OpenBSD':
-    return 'openbsd'
-  elif id == 'SunOS':
-    return 'solaris'
-  elif id == 'NetBSD':
-    return 'netbsd'
-  elif id == 'AIX':
-    return 'aix'
-  else:
-    return None
+    id = platform.system()
+    if id == "Linux":
+        return "linux"
+    elif id == "Darwin":
+        return "macos"
+    elif id.find("CYGWIN") >= 0:
+        return "cygwin"
+    elif id == "Windows" or id == "Microsoft":
+        # On Windows Vista platform.system() can return 'Microsoft' with some
+        # versions of Python, see http://bugs.python.org/issue1082
+        return "win32"
+    elif id == "FreeBSD":
+        return "freebsd"
+    elif id == "OpenBSD":
+        return "openbsd"
+    elif id == "SunOS":
+        return "solaris"
+    elif id == "NetBSD":
+        return "netbsd"
+    elif id == "AIX":
+        return "aix"
+    else:
+        return None
 
 
 # This will default to building the 32 bit VM even on machines that are capable
 # of running the 64 bit VM.  Use the scons option --arch=x64 to force it to build
 # the 64 bit VM.
 def GuessArchitecture():
-  id = platform.machine()
-  id = id.lower()  # Windows 7 capitalizes 'AMD64'.
-  if id.startswith('armv6'): # Can return 'armv6l'.
-    return 'armv6'
-  elif id.startswith('arm') or id == 'aarch64':
-    return 'arm'
-  elif (not id) or (not re.match('(x|i[3-6])86$', id) is None):
-    return 'ia32'
-  elif id == 'i86pc':
-    return 'ia32'
-  elif id == 'x86_64':
-    return 'ia32'
-  elif id == 'amd64':
-    return 'ia32'
-  elif id.startswith('ppc'):
-    return 'ppc'
-  elif id == 's390x':
-    return 's390'
-  else:
-    id = platform.processor()
-    if id == 'powerpc':
-      return 'ppc'
-    return None
+    id = platform.machine()
+    id = id.lower()  # Windows 7 capitalizes 'AMD64'.
+    if id.startswith("armv6"):  # Can return 'armv6l'.
+        return "armv6"
+    elif id.startswith("arm") or id == "aarch64":
+        return "arm"
+    elif (not id) or (not re.match("(x|i[3-6])86$", id) is None):
+        return "ia32"
+    elif id == "i86pc":
+        return "ia32"
+    elif id == "x86_64":
+        return "ia32"
+    elif id == "amd64":
+        return "ia32"
+    elif id.startswith("ppc"):
+        return "ppc"
+    elif id == "s390x":
+        return "s390"
+    else:
+        id = platform.processor()
+        if id == "powerpc":
+            return "ppc"
+        return None
 
 
 def IsWindows():
-  return GuessOS() == 'win32'
+    return GuessOS() == "win32"

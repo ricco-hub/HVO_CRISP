@@ -76,4 +76,3 @@ ssize_t ares_writev(ares_socket_t s, const struct iovec *iov, int iovcnt)
   return (result);
 }
 #endif
-

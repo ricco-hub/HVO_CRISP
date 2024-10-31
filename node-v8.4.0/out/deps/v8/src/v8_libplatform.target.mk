@@ -148,4 +148,3 @@ v8_libplatform: $(obj).target/deps/v8/src/libv8_libplatform.a
 # Add target alias to "all" target.
 .PHONY: all
 all: v8_libplatform
-

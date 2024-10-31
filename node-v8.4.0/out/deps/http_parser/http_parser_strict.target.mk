@@ -113,4 +113,3 @@ all_deps += $(obj).target/deps/http_parser/libhttp_parser_strict.a
 # Add target alias
 .PHONY: http_parser_strict
 http_parser_strict: $(obj).target/deps/http_parser/libhttp_parser_strict.a
-

@@ -15,4 +15,3 @@ node_dtrace_header: $(obj).target/node_dtrace_header.stamp
 # Add target alias to "all" target.
 .PHONY: all
 all: node_dtrace_header
-

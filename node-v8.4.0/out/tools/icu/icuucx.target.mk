@@ -314,4 +314,3 @@ icuucx: $(obj).target/tools/icu/libicuucx.a
 # Add target alias to "all" target.
 .PHONY: all
 all: icuucx
-

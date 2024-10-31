@@ -117,4 +117,3 @@ http_parser: $(obj).target/deps/http_parser/libhttp_parser.a
 # Add target alias to "all" target.
 .PHONY: all
 all: http_parser
-

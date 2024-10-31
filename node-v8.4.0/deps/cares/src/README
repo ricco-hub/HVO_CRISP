@@ -55,4 +55,3 @@ NOTES FOR C-ARES HACKERS
 * Newlines must remain unix-style for older compilers' sake.
 
 * Comments must be written in the old-style /* unnested C-fashion */
-

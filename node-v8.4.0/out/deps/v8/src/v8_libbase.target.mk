@@ -154,4 +154,3 @@ v8_libbase: $(obj).target/deps/v8/src/libv8_libbase.a
 # Add target alias to "all" target.
 .PHONY: all
 all: v8_libbase
-

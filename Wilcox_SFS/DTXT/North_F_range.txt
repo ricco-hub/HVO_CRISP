@@ -1,5 +1,5 @@
-Wilcox Solar Observatory data downloaded from HVO: 
-column 1 - Date in fraction of year. 
+Wilcox Solar Observatory data downloaded from HVO:
+column 1 - Date in fraction of year.
 column 2 - Sun's Polar Field strength in North emisphere. A 20nhz low pass filtered values eliminate yearly geometric projection effects.
 
 1976.415	111.0

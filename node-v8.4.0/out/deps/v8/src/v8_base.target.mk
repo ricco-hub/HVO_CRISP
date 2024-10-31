@@ -672,4 +672,3 @@ v8_base: $(obj).target/deps/v8/src/libv8_base.a
 # Add target alias to "all" target.
 .PHONY: all
 all: v8_base
-

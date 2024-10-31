@@ -2,7 +2,7 @@
     $(document).ready(function(){
 	$(document).on('click','.tag-filter',function(){
 	    var $this = $(this);
-	    
+
 	    $('span.tag-filter').removeClass("active");
 	    $this.addClass("active");
 

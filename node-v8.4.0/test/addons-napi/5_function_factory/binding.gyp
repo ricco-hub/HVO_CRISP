@@ -1,8 +1,1 @@
-{
-  "targets": [
-    {
-      "target_name": "binding",
-      "sources": [ "binding.c" ]
-    }
-  ]
-}
+{"targets": [{"target_name": "binding", "sources": ["binding.c"]}]}

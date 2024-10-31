@@ -16,6 +16,3 @@ with open("/var/www/html/SSN/E.txt", "w") as f:
 
 with open("/var/www/html/SSN/Set.txt", "w") as g:
  g.write('1')
-
-
-

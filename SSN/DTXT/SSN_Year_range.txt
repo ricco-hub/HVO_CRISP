@@ -1,5 +1,5 @@
-YEARLY SUNSPOT NUMBER DATA downloaded from HVO: 
-column 1 - Date in fraction of year. 
+YEARLY SUNSPOT NUMBER DATA downloaded from HVO:
+column 1 - Date in fraction of year.
 column 2 - Yearly total sunspot number.
 column 3 - Yearly mean standard deviation of the input sunspot numbers.
 

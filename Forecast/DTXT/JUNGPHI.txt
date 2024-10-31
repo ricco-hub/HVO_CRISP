@@ -1,5 +1,5 @@
 Modulation Potential values downloaded from HVO:
- Starting from JUNG station monthly rate: 
+ Starting from JUNG station monthly rate:
 column 1 - Date in fraction of year.
 column 2 - Modulation potential values [MV].
 

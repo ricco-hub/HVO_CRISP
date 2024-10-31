@@ -15,4 +15,3 @@ specialize_node_d: $(obj).target/specialize_node_d.stamp
 # Add target alias to "all" target.
 .PHONY: all
 all: specialize_node_d
-

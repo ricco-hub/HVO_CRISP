@@ -136,4 +136,3 @@ icupkg: $(builddir)/icupkg
 # Add executable to "all" target.
 .PHONY: all
 all: $(builddir)/icupkg
-

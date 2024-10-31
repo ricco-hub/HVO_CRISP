@@ -124,4 +124,3 @@ zlib: $(obj).target/deps/zlib/libzlib.a
 # Add target alias to "all" target.
 .PHONY: all
 all: zlib
-

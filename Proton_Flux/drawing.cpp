@@ -40,8 +40,8 @@ int main()
   dE->SetMarkerColor(kOrange);
   dE->SetLineColor(kOrange);
   dE->SetMarkerStyle(20);
-  dE->SetMarkerSize(0.1);  
-  dE->SetLineWidth(1);  
+  dE->SetMarkerSize(0.1);
+  dE->SetLineWidth(1);
   dE->SetName("SSN_daily_errors");
   dE->GetYaxis()->SetTitle("SSN");
   dE->GetYaxis()->CenterTitle();
@@ -59,8 +59,8 @@ int main()
   d->GetYaxis()->SetTitle("SSN");
   d->GetYaxis()->CenterTitle();
   d->SetTitle("SSN Daily");
-  
-         
+
+
   //Smoothed 13  with ERROR***********************************************************
   TString smooth13_error = "/var/www/html/SSN/data_PLOT/SSN_Smooth_range.txt"; //percorso
   TGraphErrors *smoE = new TGraphErrors(smooth13_error);
@@ -69,7 +69,7 @@ int main()
   smoE->SetMarkerStyle(20);
   smoE->SetMarkerSize(0.1);
   smoE->SetLineWidth(1);
-  smoE->SetName("SSN_smoothed_errors"); 
+  smoE->SetName("SSN_smoothed_errors");
   smoE->GetYaxis()->SetTitle("SSN");
   smoE->GetYaxis()->CenterTitle();
   smoE->SetTitle("SSN smoothed + Errors");
@@ -118,7 +118,7 @@ int main()
   vector<char> variable;
   ifstream set;
   string path ="/var/www/html/SSN/Set.txt";
-  
+
 
   set.open(path);
   char sx;
@@ -143,12 +143,12 @@ int main()
       break;
     case '2':
       mg->Add(dE);
-      dE->Write();      
+      dE->Write();
       legend->AddEntry(dE,"SSN Daily","l");
       break;
     case '3':
       mg->Add(m);
-      m->Write();      
+      m->Write();
       legend->AddEntry(m,"SSN Monthly","l");
       break;
     case '4':
@@ -179,7 +179,7 @@ int main()
   mg->GetYaxis()->SetTitle("SSN");
   mg->SetName("SSN Graph");
 
-  legend->SetHeader("","C"); // option "C" allows to center the heade         
+  legend->SetHeader("","C"); // option "C" allows to center the heade
   legend->SetX1NDC(0.01);
   legend->SetX2NDC(0.9);
   legend->Draw();

@@ -27,4 +27,3 @@ all_deps += $(obj).target/deps/v8/src/libv8_external_snapshot.a
 # Add target alias
 .PHONY: v8_external_snapshot
 v8_external_snapshot: $(obj).target/deps/v8/src/libv8_external_snapshot.a
-

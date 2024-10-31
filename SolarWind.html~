@@ -12,7 +12,7 @@
 <body>
 <?php include "/var/www/html/CSS2/menu.html" ?>
 <?php include "/var/www/html/CSS2/WIND/script.html" ?> <!--specific  -->
-              
+
 <!--  BEGIN code specifico  -->
 <center><h3 style="color:rgb(60, 128, 214);"><b>SOLAR WIND</b></h3></center>
 

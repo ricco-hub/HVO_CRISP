@@ -14,7 +14,7 @@ from jinja2.runtime import Undefined
 from jinja2._compat import text_type, string_types, integer_types
 import decimal
 
-number_re = re.compile(r'^-?\d+(\.\d+)?$')
+number_re = re.compile(r"^-?\d+(\.\d+)?$")
 regex_type = type(number_re)
 
 
@@ -149,25 +149,25 @@ def test_iterable(value):
 
 def test_escaped(value):
     """Check if the value is escaped."""
-    return hasattr(value, '__html__')
+    return hasattr(value, "__html__")
 
 
 TESTS = {
-    'odd':              test_odd,
-    'even':             test_even,
-    'divisibleby':      test_divisibleby,
-    'defined':          test_defined,
-    'undefined':        test_undefined,
-    'none':             test_none,
-    'lower':            test_lower,
-    'upper':            test_upper,
-    'string':           test_string,
-    'mapping':          test_mapping,
-    'number':           test_number,
-    'sequence':         test_sequence,
-    'iterable':         test_iterable,
-    'callable':         test_callable,
-    'sameas':           test_sameas,
-    'equalto':          test_equalto,
-    'escaped':          test_escaped
+    "odd": test_odd,
+    "even": test_even,
+    "divisibleby": test_divisibleby,
+    "defined": test_defined,
+    "undefined": test_undefined,
+    "none": test_none,
+    "lower": test_lower,
+    "upper": test_upper,
+    "string": test_string,
+    "mapping": test_mapping,
+    "number": test_number,
+    "sequence": test_sequence,
+    "iterable": test_iterable,
+    "callable": test_callable,
+    "sameas": test_sameas,
+    "equalto": test_equalto,
+    "escaped": test_escaped,
 }

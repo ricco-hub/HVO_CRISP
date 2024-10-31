@@ -5,4 +5,3 @@ R_ALL     =     $(R_LADFLAGS) $(R_LIBS) $(R_CFLAGS)
 
 TILT: drawing.cpp
 	g++ -o TILT drawing.cpp $(R_ALL)
-

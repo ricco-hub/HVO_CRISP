@@ -967,7 +967,7 @@ $code.=<<___;
 .size	bn_sqr8x_mont,.-bn_sqr8x_mont
 ___
 }}}
-
+
 if ($addx) {{{
 my $bp="%rdx";	# original value
 

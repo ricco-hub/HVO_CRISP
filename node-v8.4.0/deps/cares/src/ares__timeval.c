@@ -108,4 +108,3 @@ long ares__tvdiff(struct timeval newer, struct timeval older)
     (newer.tv_usec-older.tv_usec)/1000;
 }
 #endif
-

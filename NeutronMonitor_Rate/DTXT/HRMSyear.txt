@@ -1,5 +1,5 @@
 NEUTRON MONITOR DATA downloaded from HVO:
-Selected station: HRMS 
+Selected station: HRMS
 column 1 - Date in fraction of year.
 column 2 - Time resolution 1 year.
 

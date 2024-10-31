@@ -1,7 +1,9 @@
 import os
 import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 import testpy
 
+
 def GetConfiguration(context, root):
-    return testpy.SimpleTestConfiguration(context, root, 'doctool')
+    return testpy.SimpleTestConfiguration(context, root, "doctool")

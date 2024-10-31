@@ -1,3 +1,2 @@
 cd /var/www/html/FFModel
 python3 convert.py
-

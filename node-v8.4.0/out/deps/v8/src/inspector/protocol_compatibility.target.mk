@@ -21,7 +21,7 @@ action__var_www_matissewebsite_node_v8_4_0_deps_v8_src_inspector_inspector_gyp_p
 $(obj).target/deps/v8/src/inspector/protocol_compatibility.stamp: | $(action__var_www_matissewebsite_node_v8_4_0_deps_v8_src_inspector_inspector_gyp_protocol_compatibility_target_protocol_compatibility_outputs)
 
 # Preserve order dependency of special output on deps.
-$(action__var_www_matissewebsite_node_v8_4_0_deps_v8_src_inspector_inspector_gyp_protocol_compatibility_target_protocol_compatibility_outputs): | 
+$(action__var_www_matissewebsite_node_v8_4_0_deps_v8_src_inspector_inspector_gyp_protocol_compatibility_target_protocol_compatibility_outputs): |
 
 $(obj).target/deps/v8/src/inspector/protocol_compatibility.stamp: TOOLSET := $(TOOLSET)
 $(obj).target/deps/v8/src/inspector/protocol_compatibility.stamp:  FORCE_DO_CMD
@@ -35,4 +35,3 @@ protocol_compatibility: $(obj).target/deps/v8/src/inspector/protocol_compatibili
 # Add target alias to "all" target.
 .PHONY: all
 all: protocol_compatibility
-

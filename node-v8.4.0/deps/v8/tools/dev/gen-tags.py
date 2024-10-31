@@ -22,68 +22,73 @@ import sys
 # All arches that this script understands.
 ARCHES = ["ia32", "x64", "arm", "arm64", "mips", "mips64", "ppc", "s390", "x87"]
 
+
 def PrintHelpAndExit():
-  print(__doc__)
-  sys.exit(0)
+    print(__doc__)
+    sys.exit(0)
 
 
 def _Call(cmd, silent=False):
-  if not silent: print("# %s" % cmd)
-  return subprocess.call(cmd, shell=True)
+    if not silent:
+        print("# %s" % cmd)
+    return subprocess.call(cmd, shell=True)
 
 
 def ParseArguments(argv):
-  if not "tools/dev" in argv[0]:
-    PrintHelpAndExit()
-  argv = argv[1:]
+    if not "tools/dev" in argv[0]:
+        PrintHelpAndExit()
+    argv = argv[1:]
 
-  # If no argument is given, then generate ctags for all arches.
-  if len(argv) == 0:
-    return ARCHES
+    # If no argument is given, then generate ctags for all arches.
+    if len(argv) == 0:
+        return ARCHES
 
-  user_arches = []
-  for argstring in argv:
-    if argstring in ("-h", "--help", "help"):
-      PrintHelpAndExit()
-    if argstring not in ARCHES:
-      print("Invalid argument: %s" % argstring)
-      sys.exit(1)
-    user_arches.append(argstring)
+    user_arches = []
+    for argstring in argv:
+        if argstring in ("-h", "--help", "help"):
+            PrintHelpAndExit()
+        if argstring not in ARCHES:
+            print("Invalid argument: %s" % argstring)
+            sys.exit(1)
+        user_arches.append(argstring)
 
-  return user_arches
+    return user_arches
 
 
 def Exclude(fullpath, exclude_arches):
-  for arch in exclude_arches:
-    if ("/%s/" % arch) in fullpath: return True
-  return False
+    for arch in exclude_arches:
+        if ("/%s/" % arch) in fullpath:
+            return True
+    return False
 
 
 def Main(argv):
-  user_arches = []
+    user_arches = []
 
-  user_arches = ParseArguments(argv)
+    user_arches = ParseArguments(argv)
 
-  exclude_arches = list(ARCHES)
-  for user_arch in user_arches:
-    exclude_arches.remove(user_arch)
+    exclude_arches = list(ARCHES)
+    for user_arch in user_arches:
+        exclude_arches.remove(user_arch)
 
-  paths = ["include", "src", "test"]
-  exts = [".h", ".cc", ".c"]
+    paths = ["include", "src", "test"]
+    exts = [".h", ".cc", ".c"]
 
-  gtags_filename = "gtags.files"
+    gtags_filename = "gtags.files"
 
-  with open(gtags_filename, "w") as gtags:
-    for path in paths:
-      for root, dirs, files in os.walk(path):
-        for file in files:
-          if not file.endswith(tuple(exts)): continue
-          fullpath = os.path.join(root, file)
-          if Exclude(fullpath, exclude_arches): continue
-          gtags.write(fullpath + os.linesep)
+    with open(gtags_filename, "w") as gtags:
+        for path in paths:
+            for root, dirs, files in os.walk(path):
+                for file in files:
+                    if not file.endswith(tuple(exts)):
+                        continue
+                    fullpath = os.path.join(root, file)
+                    if Exclude(fullpath, exclude_arches):
+                        continue
+                    gtags.write(fullpath + os.linesep)
 
-  _Call("ctags --fields=+l -L " + gtags_filename)
+    _Call("ctags --fields=+l -L " + gtags_filename)
 
 
 if __name__ == "__main__":
-  sys.exit(Main(sys.argv))
+    sys.exit(Main(sys.argv))

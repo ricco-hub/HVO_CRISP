@@ -34,79 +34,80 @@ from . import constants
 
 
 def _StatusQuery(peer, query):
-  sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-  code = sock.connect_ex((peer.address, constants.STATUS_PORT))
-  if code != 0:
-    # TODO(jkummerow): disconnect (after 3 failures?)
-    return
-  compression.Send(query, sock)
-  compression.Send(constants.END_OF_STREAM, sock)
-  rec = compression.Receiver(sock)
-  data = None
-  while not rec.IsDone():
-    data = rec.Current()
-    assert data[0] == query[0]
-    data = data[1]
-    rec.Advance()
-  sock.close()
-  return data
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    code = sock.connect_ex((peer.address, constants.STATUS_PORT))
+    if code != 0:
+        # TODO(jkummerow): disconnect (after 3 failures?)
+        return
+    compression.Send(query, sock)
+    compression.Send(constants.END_OF_STREAM, sock)
+    rec = compression.Receiver(sock)
+    data = None
+    while not rec.IsDone():
+        data = rec.Current()
+        assert data[0] == query[0]
+        data = data[1]
+        rec.Advance()
+    sock.close()
+    return data
 
 
 def RequestTrustedPubkeys(peer, server):
-  pubkey_list = _StatusQuery(peer, [constants.LIST_TRUSTED_PUBKEYS])
-  for pubkey in pubkey_list:
-    if server.IsTrusted(pubkey): continue
-    result = _StatusQuery(peer, [constants.GET_SIGNED_PUBKEY, pubkey])
-    server.AcceptNewTrusted(result)
+    pubkey_list = _StatusQuery(peer, [constants.LIST_TRUSTED_PUBKEYS])
+    for pubkey in pubkey_list:
+        if server.IsTrusted(pubkey):
+            continue
+        result = _StatusQuery(peer, [constants.GET_SIGNED_PUBKEY, pubkey])
+        server.AcceptNewTrusted(result)
 
 
 def NotifyNewTrusted(peer, data):
-  _StatusQuery(peer, [constants.NOTIFY_NEW_TRUSTED] + data)
+    _StatusQuery(peer, [constants.NOTIFY_NEW_TRUSTED] + data)
 
 
 def ITrustYouNow(peer):
-  _StatusQuery(peer, [constants.TRUST_YOU_NOW])
+    _StatusQuery(peer, [constants.TRUST_YOU_NOW])
 
 
 def TryTransitiveTrust(peer, pubkey, server):
-  if _StatusQuery(peer, [constants.DO_YOU_TRUST, pubkey]):
-    result = _StatusQuery(peer, [constants.GET_SIGNED_PUBKEY, pubkey])
-    server.AcceptNewTrusted(result)
+    if _StatusQuery(peer, [constants.DO_YOU_TRUST, pubkey]):
+        result = _StatusQuery(peer, [constants.GET_SIGNED_PUBKEY, pubkey])
+        server.AcceptNewTrusted(result)
 
 
 class StatusHandler(SocketServer.BaseRequestHandler):
-  def handle(self):
-    rec = compression.Receiver(self.request)
-    while not rec.IsDone():
-      data = rec.Current()
-      action = data[0]
+    def handle(self):
+        rec = compression.Receiver(self.request)
+        while not rec.IsDone():
+            data = rec.Current()
+            action = data[0]
 
-      if action == constants.LIST_TRUSTED_PUBKEYS:
-        response = self.server.daemon.ListTrusted()
-        compression.Send([action, response], self.request)
+            if action == constants.LIST_TRUSTED_PUBKEYS:
+                response = self.server.daemon.ListTrusted()
+                compression.Send([action, response], self.request)
 
-      elif action == constants.GET_SIGNED_PUBKEY:
-        response = self.server.daemon.SignTrusted(data[1])
-        compression.Send([action, response], self.request)
+            elif action == constants.GET_SIGNED_PUBKEY:
+                response = self.server.daemon.SignTrusted(data[1])
+                compression.Send([action, response], self.request)
 
-      elif action == constants.NOTIFY_NEW_TRUSTED:
-        self.server.daemon.AcceptNewTrusted(data[1:])
-        pass  # No response.
+            elif action == constants.NOTIFY_NEW_TRUSTED:
+                self.server.daemon.AcceptNewTrusted(data[1:])
+                pass  # No response.
 
-      elif action == constants.TRUST_YOU_NOW:
-        self.server.daemon.MarkPeerAsTrusting(self.client_address[0])
-        pass  # No response.
+            elif action == constants.TRUST_YOU_NOW:
+                self.server.daemon.MarkPeerAsTrusting(self.client_address[0])
+                pass  # No response.
 
-      elif action == constants.DO_YOU_TRUST:
-        response = self.server.daemon.IsTrusted(data[1])
-        compression.Send([action, response], self.request)
+            elif action == constants.DO_YOU_TRUST:
+                response = self.server.daemon.IsTrusted(data[1])
+                compression.Send([action, response], self.request)
 
-      rec.Advance()
-    compression.Send(constants.END_OF_STREAM, self.request)
+            rec.Advance()
+        compression.Send(constants.END_OF_STREAM, self.request)
 
 
 class StatusSocketServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
-  def __init__(self, daemon):
-    address = (daemon.ip, constants.STATUS_PORT)
-    SocketServer.TCPServer.__init__(self, address, StatusHandler)
-    self.daemon = daemon
+    def __init__(self, daemon):
+        address = (daemon.ip, constants.STATUS_PORT)
+        SocketServer.TCPServer.__init__(self, address, StatusHandler)
+        self.daemon = daemon

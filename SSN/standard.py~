@@ -16,9 +16,3 @@ with open("E.txt", "w") as f:
 
 with open("Set.txt", "w") as g:
  g.write('1')
-
-
-
-
-
-

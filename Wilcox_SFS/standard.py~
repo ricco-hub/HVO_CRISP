@@ -19,5 +19,3 @@ with open("/var/www/html/Wilcox_SFS/Set.txt", "w") as g:
  g.write('2')
 g.write('3')
 g.write('4')
-
-

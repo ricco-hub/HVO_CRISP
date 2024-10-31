@@ -27,33 +27,42 @@
 # }
 
 {
-  'variables': {
-    'clang_warning_flags_unset%': [],  # Provide a default value.
-  },
-  'conditions': [
-    ['clang==1', {
-      # This uses >@ instead of @< to also see clang_warning_flags set in
-      # targets directly, not just the clang_warning_flags in target_defaults.
-      'cflags': [ '>@(clang_warning_flags)' ],
-      'cflags!': [ '>@(clang_warning_flags_unset)' ],
-      'xcode_settings': {
-        'WARNING_CFLAGS': ['>@(clang_warning_flags)'],
-        'WARNING_CFLAGS!': ['>@(clang_warning_flags_unset)'],
-      },
-      'msvs_settings': {
-        'VCCLCompilerTool': {
-          'AdditionalOptions': [ '>@(clang_warning_flags)' ],
-          'AdditionalOptions!': [ '>@(clang_warning_flags_unset)' ],
-        },
-      },
-    }],
-    ['clang==0 and host_clang==1', {
-      'target_conditions': [
-        ['_toolset=="host"', {
-          'cflags': [ '>@(clang_warning_flags)' ],
-          'cflags!': [ '>@(clang_warning_flags_unset)' ],
-        }],
-      ],
-    }],
-  ],
+    "variables": {
+        "clang_warning_flags_unset%": [],  # Provide a default value.
+    },
+    "conditions": [
+        [
+            "clang==1",
+            {
+                # This uses >@ instead of @< to also see clang_warning_flags set in
+                # targets directly, not just the clang_warning_flags in target_defaults.
+                "cflags": [">@(clang_warning_flags)"],
+                "cflags!": [">@(clang_warning_flags_unset)"],
+                "xcode_settings": {
+                    "WARNING_CFLAGS": [">@(clang_warning_flags)"],
+                    "WARNING_CFLAGS!": [">@(clang_warning_flags_unset)"],
+                },
+                "msvs_settings": {
+                    "VCCLCompilerTool": {
+                        "AdditionalOptions": [">@(clang_warning_flags)"],
+                        "AdditionalOptions!": [">@(clang_warning_flags_unset)"],
+                    },
+                },
+            },
+        ],
+        [
+            "clang==0 and host_clang==1",
+            {
+                "target_conditions": [
+                    [
+                        '_toolset=="host"',
+                        {
+                            "cflags": [">@(clang_warning_flags)"],
+                            "cflags!": [">@(clang_warning_flags_unset)"],
+                        },
+                    ],
+                ],
+            },
+        ],
+    ],
 }

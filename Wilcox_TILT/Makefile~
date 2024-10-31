@@ -5,4 +5,3 @@ R_ALL     =     $(R_LADFLAGS) $(R_LIBS) $(R_CFLAGS)
 
 SPFS: drawing.cpp
 	g++ -o SPFS drawing.cpp $(R_ALL)
-

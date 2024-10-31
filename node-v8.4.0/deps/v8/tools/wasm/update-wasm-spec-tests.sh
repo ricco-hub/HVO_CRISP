@@ -26,5 +26,3 @@ cp ${V8_DIR}/test/wasm-js/test/core/output/*.js ${V8_DIR}/test/wasm-spec-tests/t
 
 cd ${V8_DIR}/test/wasm-spec-tests
 upload_to_google_storage.py -a -b v8-wasm-spec-tests tests
-
-

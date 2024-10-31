@@ -259,4 +259,3 @@ all_deps += $(builddir)/run-tests
 # Add target alias
 .PHONY: run-tests
 run-tests: $(builddir)/run-tests
-

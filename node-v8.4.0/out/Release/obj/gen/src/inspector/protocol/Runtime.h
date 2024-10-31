@@ -25,13 +25,13 @@ using RemoteObjectId = String;
 using UnserializableValue = String;
 // Mirror object referencing original JavaScript object.
 class RemoteObject;
-// 
+//
 class CustomPreview;
 // Object containing abbreviated remote object value.
 class ObjectPreview;
-// 
+//
 class PropertyPreview;
-// 
+//
 class EntryPreview;
 // Object property descriptor.
 class PropertyDescriptor;
@@ -278,7 +278,7 @@ private:
 };
 
 
-// 
+//
 class  CustomPreview : public Serializable{
     PROTOCOL_DISALLOW_COPY(CustomPreview);
 public:
@@ -535,7 +535,7 @@ private:
 };
 
 
-// 
+//
 class  PropertyPreview : public Serializable{
     PROTOCOL_DISALLOW_COPY(PropertyPreview);
 public:
@@ -669,7 +669,7 @@ private:
 };
 
 
-// 
+//
 class  EntryPreview : public Serializable{
     PROTOCOL_DISALLOW_COPY(EntryPreview);
 public:

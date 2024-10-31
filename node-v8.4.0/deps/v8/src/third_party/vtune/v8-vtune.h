@@ -68,4 +68,3 @@ v8::JitCodeEventHandler GetVtuneCodeEventHandler();
 
 
 #endif  // V8_VTUNE_H_
-

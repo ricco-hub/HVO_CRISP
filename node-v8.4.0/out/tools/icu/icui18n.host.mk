@@ -11,4 +11,3 @@ all_deps += $(obj).host/tools/icu/icui18n.stamp
 # Add target alias
 .PHONY: icui18n
 icui18n: $(obj).host/tools/icu/icui18n.stamp
-

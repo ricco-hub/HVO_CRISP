@@ -31,6 +31,6 @@ for i in range(len(kind2)):
 
  if(kind[0] =='6'):
   z.write("Avg_F_range.txt")
- 
+
 z.close()
 #os.mkdir("/var/www/html/SSN/DTXT/Davidinho")

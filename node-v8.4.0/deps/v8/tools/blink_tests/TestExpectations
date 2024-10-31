@@ -2,4 +2,3 @@
 
 # Turn off Slimming Paint tests on linux.
 [ Linux ] virtual/slimmingpaint/ [ Skip ]
-

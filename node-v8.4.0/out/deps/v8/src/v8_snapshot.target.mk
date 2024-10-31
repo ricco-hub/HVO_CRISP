@@ -165,4 +165,3 @@ all_deps += $(obj).target/deps/v8/src/libv8_snapshot.a
 # Add target alias
 .PHONY: v8_snapshot
 v8_snapshot: $(obj).target/deps/v8/src/libv8_snapshot.a
-

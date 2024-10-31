@@ -1,5 +1,5 @@
-Proton density data downloaded from HVO: 
-column 1 - Date in fraction of year. 
+Proton density data downloaded from HVO:
+column 1 - Date in fraction of year.
 column 2 - Proton density data [part/cm^3].
 
 1990.005      8.100

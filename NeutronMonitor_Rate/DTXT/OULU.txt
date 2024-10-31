@@ -1,5 +1,5 @@
 NEUTRON MONITOR DATA downloaded from HVO:
-Selected station: OULU 
+Selected station: OULU
 column 1 - Date in fraction of year.
 column 2 - Monthly rate.
 

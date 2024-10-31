@@ -17,13 +17,13 @@ for i  in range(len(Lines)-5):
     insert = string[i].split()
     date.append(insert[0])
     ssn.append(insert[1])
-    
+
 dati = pd.DataFrame({'Date': date, s+' (carr rot)': ssn})
 dati.head()
 #dati = dati.drop(columns="Unnamed: 0")
 dati = dati.set_index('Date')
 dati.to_csv(s+'carr.csv')
-dati.head() 
+dati.head()
 
 
 file1 = open(s+'day.txt', 'r')

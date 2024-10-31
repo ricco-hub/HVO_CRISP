@@ -59,7 +59,7 @@
 # Special thanks to polarhome.com for providing HP-UX account on
 # PA-RISC 1.1 machine, and to correspondent who chose to remain
 # anonymous for testing the code on PA-RISC 2.0 machine.
-
+
 $0 =~ m/(.*[\/\\])[^\/\\]+$/; $dir=$1;
 
 $flavour = shift;
@@ -238,7 +238,7 @@ $code.=<<___;					# PA-RISC 2.0 code-path
 	 ldo		8($idx),$idx		; j++++
 	 addl		$ab0,$nm0,$nm0		; low part is discarded
 	 extrd,u	$nm0,31,32,$hi1
-
+
 L\$1st
 	xmpyu		${fai}R,${fbi},${fab1}	; ap[j+1]*bp[0]
 	xmpyu		${fni}R,${fm0}R,${fnm1}	; np[j+1]*m
@@ -359,7 +359,7 @@ L\$outer
 	 extrd,u	$nm0,31,32,$hi1
 	fstds		${fab0},-16($xfer)
 	fstds		${fnm0},-8($xfer)
-
+
 L\$inner
 	xmpyu		${fai}R,${fbi},${fab1}	; ap[j+1]*bp[i]
 	xmpyu		${fni}R,${fm0}R,${fnm1}	; np[j+1]*m
@@ -474,7 +474,7 @@ $code.=<<___;
 
 	b		L\$outer
 	ldo		`$LOCALS+32+4`($fp),$tp
-
+
 L\$outerdone
 	addl		$hi0,$ab1,$ab1
 	addl		$ti1,$ab1,$ab1
@@ -539,7 +539,7 @@ L\$copy
 	ldd		$idx($np),$hi0
 	std,ma		%r0,8($tp)
 	addib,<>	8,$idx,.-8		; L\$copy
-	std,ma		$hi0,8($rp)	
+	std,ma		$hi0,8($rp)
 ___
 
 if ($BN_SZ==4) {				# PA-RISC 1.1 code-path
@@ -571,7 +571,7 @@ L\$parisc11
 	ldw		4($xfer),$ablo
 	ldw		0($xfer),$abhi
 	nop
-
+
 L\$1st_pa11
 	xmpyu		${fai}R,${fbi},${fab1}	; ap[j+1]*bp[0]
 	flddx		$idx($ap),${fai}	; ap[j,j+1]
@@ -696,7 +696,7 @@ L\$outer_pa11
 	fstds		${fnm0},-8($xfer)
 	ldw		4($xfer),$ablo
 	ldw		0($xfer),$abhi
-
+
 L\$inner_pa11
 	xmpyu		${fai}R,${fbi},${fab1}	; ap[j+1]*bp[i]
 	flddx		$idx($ap),${fai}	; ap[j,j+1]
@@ -815,7 +815,7 @@ L\$inner_pa11
 
 	b		L\$outer_pa11
 	ldo		`$LOCALS+32+4`($fp),$tp
-
+
 L\$outerdone_pa11
 	add		$hi0,$ablo,$ablo
 	addc		%r0,$abhi,$abhi
@@ -861,13 +861,13 @@ L\$copy_pa11
 	ldwx		$idx($np),$hi0
 	stws,ma		%r0,4($tp)
 	addib,<>	4,$idx,L\$copy_pa11
-	stws,ma		$hi0,4($rp)	
+	stws,ma		$hi0,4($rp)
 
 	nop					; alignment
 L\$done
 ___
 }
-
+
 $code.=<<___;
 	ldi		1,%r28			; signal "handled"
 	ldo		$FRAME($fp),%sp		; destroy tp[num+1]
@@ -887,7 +887,7 @@ L\$abort
 	.PROCEND
 	.STRINGZ "Montgomery Multiplication for PA-RISC, CRYPTOGAMS by <appro\@openssl.org>"
 ___
-
+
 # Explicitly encode PA-RISC 2.0 instructions used in this module, so
 # that it can be compiled with .LEVEL 1.0. It should be noted that I
 # wouldn't have to do this, if GNU assembler understood .ALLOW 2.0

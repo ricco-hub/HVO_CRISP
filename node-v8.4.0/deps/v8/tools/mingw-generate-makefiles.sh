@@ -43,7 +43,7 @@ except ImportError, e:
   import os.path
   sys.path.append(os.path.join(os.path.dirname(sys.argv[0]), 'pylib'))
   import gyp
-  
+
 def MonkeyBuildFileTargets(target_list, build_file):
   """From a target_list, returns the subset from the specified build_file.
   """

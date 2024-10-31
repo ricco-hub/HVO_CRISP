@@ -15,7 +15,7 @@ for i  in range(len(Lines)-4):
     insert = string[i].split()
     date.append(insert[0])
     ssn.append(insert[1])
-        
+
 data = pd.DataFrame({'Date': date, "SPFS - Avg - 20 nhz low pass filtered  ": ssn})
 #dati = dati.drop(columns="Unnamed: 0")
 data["date"] = pd.to_datetime(data["Date"], format="%Y-%m-%d")

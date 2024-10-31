@@ -28,7 +28,7 @@ int main()
   vector<string> variable;
   ifstream set;
   string path ="/var/www/html/Forecast/NM_Set.txt";
-    
+
 
   set.open(path);
   string sx;
@@ -59,7 +59,7 @@ int main()
   ff.cd();
   TMultiGraph *mg = new TMultiGraph();
   TLegend *legend = new TLegend(.75,.75,.89,.89);
-    
+
   for (int i=0; i<variable.size(); i++) {
     //selected stations NM  ************************************************************
     TString north = "/var/www/html/Forecast/data_PLOT/"+variable[i]+"PHI.txt"; //percorso
@@ -67,7 +67,7 @@ int main()
     cout<<north<<endl;
     if(variable[i] == "OULU"){n->SetMarkerColor(kOrange);
       n->SetLineColor(kOrange);}
-    
+
     if(variable[i] == "NEWK"){n->SetMarkerColor(kBlue);
       n->SetLineColor(kBlue);}
 
@@ -93,11 +93,11 @@ int main()
     n->GetYaxis()->SetTitle("#phi [MV]");
     n->GetYaxis()->CenterTitle();
     n->SetTitle("#phi modulation potential");
-  
+
     mg->Add(n);
     n->Write();
     legend->AddEntry(n,name,"l");
-    
+
   }
 
 
@@ -108,7 +108,7 @@ int main()
   mg->GetYaxis()->SetTitle("#phi [MV]");
   mg->SetName("phi");
 
-  legend->SetHeader("","C"); // option "C" allows to center the heade         
+  legend->SetHeader("","C"); // option "C" allows to center the heade
   legend->SetX1NDC(0.01);
   legend->SetX2NDC(0.9);
   legend->Draw();
@@ -129,10 +129,10 @@ int main()
   TLegend *legendj = new TLegend(.75,.75,.89,.89);
 
   for (int i=0; i<variable.size(); i++) {
-    //selected stations NM  ************************************************************                                                                           
-    TString north = "/var/www/html/Forecast/data_PLOT/JMOD"+variable[i]+".txt"; //percorso  
+    //selected stations NM  ************************************************************
+    TString north = "/var/www/html/Forecast/data_PLOT/JMOD"+variable[i]+".txt"; //percorso
 
-     
+
     TGraph *n = new TGraph(north);
 
     if(variable[i] == "OULU"){n->SetMarkerColor(kOrange);
@@ -178,13 +178,13 @@ int main()
   mgj->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
   mgj->SetName("phi");
 
-  legendj->SetHeader("","C"); // option "C" allows to center the heade                                                                                              
+  legendj->SetHeader("","C"); // option "C" allows to center the heade
   legendj->SetX1NDC(0.01);
   legendj->SetX2NDC(0.9);
   legendj->Draw();
 
   c2->Write();
-  //  mg->Write();                                                                                                                                                 
+  //  mg->Write();
   fj.Close();
 
 

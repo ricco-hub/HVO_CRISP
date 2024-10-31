@@ -53,10 +53,10 @@ See `npm-folders(5)` to learn about where npm puts stuff.
 
 In particular, npm has two modes of operation:
 
-* global mode:  
+* global mode:
   npm installs packages into the install prefix at
   `prefix/lib/node_modules` and bins are installed in `prefix/bin`.
-* local mode:  
+* local mode:
   npm installs packages into the current project directory, which
   defaults to the current working directory.  Packages are installed to
   `./node_modules`, and bins are installed to `./node_modules/.bin`.
@@ -90,24 +90,24 @@ following help topics:
 npm is extremely configurable.  It reads its configuration options from
 5 places.
 
-* Command line switches:  
+* Command line switches:
   Set a config with `--key val`.  All keys take a value, even if they
   are booleans (the config parser doesn't know what the options are at
   the time of parsing.)  If no value is provided, then the option is set
   to boolean `true`.
-* Environment Variables:  
+* Environment Variables:
   Set any config by prefixing the name in an environment variable with
   `npm_config_`.  For example, `export npm_config_key=val`.
-* User Configs:  
+* User Configs:
   The file at $HOME/.npmrc is an ini-formatted list of configs.  If
   present, it is parsed.  If the `userconfig` option is set in the cli
   or env, then that will be used instead.
-* Global Configs:  
+* Global Configs:
   The file found at ../etc/npmrc (from the node executable, by default
   this resolves to /usr/local/etc/npmrc) will be parsed if it is found.
   If the `globalconfig` option is set in the cli, env, or user config,
   then that file is parsed instead.
-* Defaults:  
+* Defaults:
   npm's default configuration options are defined in
   lib/utils/config-defs.js.  These must not be changed.
 

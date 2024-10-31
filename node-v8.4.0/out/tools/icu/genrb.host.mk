@@ -145,4 +145,3 @@ genrb: $(builddir)/genrb
 # Add executable to "all" target.
 .PHONY: all
 all: $(builddir)/genrb
-

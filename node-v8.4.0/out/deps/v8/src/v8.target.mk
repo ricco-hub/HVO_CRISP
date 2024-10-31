@@ -15,4 +15,3 @@ v8: $(obj).target/deps/v8/src/v8.stamp
 # Add target alias to "all" target.
 .PHONY: all
 all: v8
-

@@ -30,19 +30,19 @@ import xml.etree.ElementTree as xml
 
 
 class JUnitTestOutput:
-  def __init__(self, test_suite_name):
-    self.root = xml.Element("testsuite")
-    self.root.attrib["name"] = test_suite_name
+    def __init__(self, test_suite_name):
+        self.root = xml.Element("testsuite")
+        self.root.attrib["name"] = test_suite_name
 
-  def HasRunTest(self, test_name, test_duration, test_failure):
-    testCaseElement = xml.Element("testcase")
-    testCaseElement.attrib["name"] = " ".join(test_name)
-    testCaseElement.attrib["time"] = str(round(test_duration, 3))
-    if len(test_failure):
-      failureElement = xml.Element("failure")
-      failureElement.text = test_failure
-      testCaseElement.append(failureElement)
-    self.root.append(testCaseElement)
+    def HasRunTest(self, test_name, test_duration, test_failure):
+        testCaseElement = xml.Element("testcase")
+        testCaseElement.attrib["name"] = " ".join(test_name)
+        testCaseElement.attrib["time"] = str(round(test_duration, 3))
+        if len(test_failure):
+            failureElement = xml.Element("failure")
+            failureElement.text = test_failure
+            testCaseElement.append(failureElement)
+        self.root.append(testCaseElement)
 
-  def FinishAndWrite(self, file):
-    xml.ElementTree(self.root).write(file, "UTF-8")
+    def FinishAndWrite(self, file):
+        xml.ElementTree(self.root).write(file, "UTF-8")

@@ -39,4 +39,3 @@ protocol_generated_sources: $(obj).target/deps/v8/src/inspector/protocol_generat
 # Add target alias to "all" target.
 .PHONY: all
 all: protocol_generated_sources
-

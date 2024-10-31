@@ -12,7 +12,7 @@ It supports two main functions:
 2. "analyze" - the step that takes a list of modified files and a list of
    desired targets and reports which targets will need to be rebuilt.
 
-We also use MB as a forcing function to collect all of the different 
+We also use MB as a forcing function to collect all of the different
 build configurations that we actually support for Chromium builds into
 one place, in `//tools/mb/mb_config.pyl`.
 

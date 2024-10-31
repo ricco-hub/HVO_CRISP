@@ -178,4 +178,3 @@ v8_builtins_generators: $(obj).target/deps/v8/src/libv8_builtins_generators.a
 # Add target alias to "all" target.
 .PHONY: all
 all: v8_builtins_generators
-

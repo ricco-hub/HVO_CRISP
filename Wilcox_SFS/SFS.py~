@@ -38,12 +38,12 @@ for j in range(len(lines1)-10):
    day   = int(lines1[j][8]+lines1[j][9])
    sline = lines1[j].split()
    sline[1] = sline[1].replace("N","")
-   #sline[2] = sline[2].replace(sline[2][len(sline[2])-1],"")                   
+   #sline[2] = sline[2].replace(sline[2][len(sline[2])-1],"")
    sline[2] = sline[2].replace("S","")
    sline[3] = sline[3].replace("A","")
    sline[3] = sline[3].replace("v","")
    sline[3] = sline[3].replace("g","")
-#grafico filtrato 20nhz                                                         
+#grafico filtrato 20nhz
    sline[6] = sline[6].replace("N","")
    sline[6] = sline[6].replace("f","")
    sline[7] = sline[7].replace("S","")

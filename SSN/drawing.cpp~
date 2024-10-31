@@ -39,8 +39,8 @@ int main()
   dE->SetMarkerColor(kOrange);
   dE->SetLineColor(kOrange);
   dE->SetMarkerStyle(20);
-  dE->SetMarkerSize(0.1);  
-  dE->SetLineWidth(1);  
+  dE->SetMarkerSize(0.1);
+  dE->SetLineWidth(1);
   dE->SetName("SSN_daily_errors");
   dE->GetYaxis()->SetTitle("SSN");
   dE->GetYaxis()->CenterTitle();
@@ -59,7 +59,7 @@ int main()
   dE->GetYaxis()->CenterTitle();
   dE->SetTitle("SSN Daily");
   //d->Draw("APL");
-         
+
   //Smoothed 13  with ERROR***********************************************************
   TString smooth13_error = "/var/www/html/SSN/SSN_13.txt"; //percorso
   TGraphErrors *smoE = new TGraphErrors(smooth13_error);
@@ -69,7 +69,7 @@ int main()
   smoE->SetMarkerSize(0.1);
   smoE->SetLineWidth(1);
   smoE->SetName("SSN_smoothed_errors");
-  //smoE->Draw("apl"); 
+  //smoE->Draw("apl");
   smoE->SetFillColor(kOrange);
 
   //Smoothed 13 NO ERROR*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -122,7 +122,7 @@ int main()
   vector<char> variable;
   ifstream set;
   string path ="/var/www/html/SSN/Set.txt";
-  
+
 
   set.open(path);
   char sx;
@@ -147,7 +147,7 @@ int main()
       break;
     case '2':
       mg->Add(dE);
-      dE->Write();      
+      dE->Write();
 legend->AddEntry(dE,"SSN Daily","l");
       break;
     case '3':
@@ -180,7 +180,7 @@ legend->AddEntry(dE,"SSN Daily","l");
   mg->SetName("SSN Graph");
 
 
-  legend->SetHeader("","C"); // option "C" allows to center the heade         
+  legend->SetHeader("","C"); // option "C" allows to center the heade
   legend->SetX1NDC(0.01);
   legend->SetX2NDC(0.9);
   legend->Draw();
@@ -189,7 +189,7 @@ legend->AddEntry(dE,"SSN Daily","l");
   //TFile ff("/var/www/html/SSN/SSN.root" , "recreate");
   //  ff.cd();
 
-                                             
+
   c1->Write();
   mg->Write();
   ff.Close();

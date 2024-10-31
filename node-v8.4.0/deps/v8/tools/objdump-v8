@@ -34,53 +34,55 @@ import sys
 
 
 def get_address_bounds():
-  start = -1
-  end = -1
-  for arg in sys.argv:
-    if arg.startswith("--start-address="):
-      start = int(arg[-12:], 16)
-    if arg.startswith("--stop-address="):
-      end = int(arg[-12:], 16)
-  return start, end
+    start = -1
+    end = -1
+    for arg in sys.argv:
+        if arg.startswith("--start-address="):
+            start = int(arg[-12:], 16)
+        if arg.startswith("--stop-address="):
+            end = int(arg[-12:], 16)
+    return start, end
 
 
 def format_line(line):
-  pieces = line.split(None, 3)
-  return " " + pieces[0][2:] + ":\t" + pieces[3]
+    pieces = line.split(None, 3)
+    return " " + pieces[0][2:] + ":\t" + pieces[3]
 
 
 def is_comment(line):
-  stripped = line.strip()
-  return stripped.startswith("--") or stripped.startswith(";;")
+    stripped = line.strip()
+    return stripped.startswith("--") or stripped.startswith(";;")
+
 
 def main():
-  filename = sys.argv[-1]
-  match = re.match(r"/tmp/perf-(.*)\.map", filename)
-  if match:
-    start, end = get_address_bounds()
-    process_codefile = "code-" + match.group(1) + "-1.asm"
-    if os.path.exists(process_codefile):
-      codefile = open(process_codefile, "r")
+    filename = sys.argv[-1]
+    match = re.match(r"/tmp/perf-(.*)\.map", filename)
+    if match:
+        start, end = get_address_bounds()
+        process_codefile = "code-" + match.group(1) + "-1.asm"
+        if os.path.exists(process_codefile):
+            codefile = open(process_codefile, "r")
+        else:
+            codefile = open("code.asm", "r")
+        with codefile:
+            printing = False
+            for line in codefile:
+                if line.startswith("0x"):
+                    addr = int(line.split()[0], 0)
+                    if start <= addr <= end:
+                        printing = True
+                        sys.stdout.write(format_line(line))
+                    elif printing:
+                        break
+                elif printing:
+                    if not is_comment(line):
+                        break
+                    else:
+                        sys.stdout.write(line)
     else:
-      codefile = open("code.asm", "r")
-    with codefile:
-      printing = False
-      for line in codefile:
-        if line.startswith("0x"):
-          addr = int(line.split()[0], 0)
-          if start <= addr <= end:
-            printing = True
-            sys.stdout.write(format_line(line))
-          elif printing:
-            break
-        elif printing:
-          if not is_comment(line):
-            break
-          else:
-            sys.stdout.write(line)
-  else:
-    sys.argv[0] = "objdump"
-    sys.exit(subprocess.call(sys.argv))
+        sys.argv[0] = "objdump"
+        sys.exit(subprocess.call(sys.argv))
+
 
 if __name__ == "__main__":
-  main()
+    main()

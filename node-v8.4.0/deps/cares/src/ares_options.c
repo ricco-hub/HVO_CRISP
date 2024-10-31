@@ -399,4 +399,3 @@ int ares_set_servers_ports_csv(ares_channel channel,
 {
   return set_servers_csv(channel, _csv, TRUE);
 }
-

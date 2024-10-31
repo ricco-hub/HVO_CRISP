@@ -18,8 +18,8 @@ for i  in range(len(Lines)-5):
     insert = string[i].split()
     date.append(insert[0])
     ssn.append(insert[1])
-    
-st = "name"    
+
+st = "name"
 dati = pd.DataFrame({'Date': date, s+' phi potential ': ssn})
 dati.head()
 #dati = dati.drop(columns="Unnamed: 0")
@@ -43,7 +43,7 @@ for i  in range(len(Lines)-5):
     insert = string[i].split()
     date.append(insert[0])
     ssn.append(insert[1])
-    
+
 
 dati = pd.DataFrame({'Date': date,'Flux CR ('+s+')': ssn})
 dati.head()

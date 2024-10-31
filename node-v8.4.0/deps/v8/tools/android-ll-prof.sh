@@ -28,7 +28,7 @@
 
 # Runs d8 with the given arguments on the device under 'perf' and
 # processes the profiler trace and v8 logs using ll_prof.py.
-# 
+#
 # Usage:
 # > ./tools/android-ll-prof.sh (debug|release) "args to d8" "args to ll_prof.py"
 #

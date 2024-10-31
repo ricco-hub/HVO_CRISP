@@ -17,8 +17,8 @@ for i  in range(len(Lines)-4):
     insert = string[i].split()
     date.append(insert[0])
     ssn.append(insert[1])
-    
-    
+
+
 data = pd.DataFrame({'Date': date, 'Proton density': ssn})
 data.head()
 #dati = dati.drop(columns="Unnamed: 0")
@@ -26,7 +26,7 @@ data["date"] = pd.to_datetime(data["Date"], format="%Y-%m-%d")
 data = data.set_index('date')
 data = data.drop(columns=['Date'])
 data.to_csv('Proton_range.csv')
-data.head() 
+data.head()
 
 
 

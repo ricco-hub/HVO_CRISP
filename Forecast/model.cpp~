@@ -29,7 +29,7 @@ typedef struct NeutronMonitor {
   double A;
   double B;
   double C;
-    
+
 } NeutronMonitor;
 
 
@@ -68,7 +68,7 @@ void GetModulationPotential(string &stat,vector<double> &phi,vector<double> &rat
   double A;
   double B;
   double C;
-    
+
   for (int i =0; i<9; i++) {  // 8 numero di stazioni definite
     if (NM[i].name == stat) {
       A = NM[i].A;B = NM[i].B; C = NM[i].C;
@@ -83,7 +83,7 @@ void GetModulationPotential(string &stat,vector<double> &phi,vector<double> &rat
 void SetEIS(double Ekn, vector<double> &EIS, vector<double> &phi ){  // EIS(t) phi(t)
   double Z = 1.;
   double A= 1.;
-    
+
   for (int i=0; i<phi.size(); i++) {
     // PHI in GV [rigidity loss] prima era in MV (il graifico in MV)
     EIS.push_back(Ekn + (Z/A)*(phi[i]*1.e-3));
@@ -93,7 +93,7 @@ void SetEIS(double Ekn, vector<double> &EIS, vector<double> &phi ){  // EIS(t) p
 
 void GetProtonLISvsEkn(vector<double> &JIS, vector<double> &EIS)
 {
-    
+
   //per calcore JIS Vector svolgo il calcolo in E si aggiorna E = EIS[i]
   for (int i=0; i<EIS.size(); i++) {
     // --- kinematics ---
@@ -105,7 +105,7 @@ void GetProtonLISvsEkn(vector<double> &JIS, vector<double> &EIS)
     double pM=Mp*pA; // nucleus mass
     double R= (sqrt( (EIS[i]*pA+pM)*(EIS[i]*pA+pM)- (pM*pM)))/pZ; // rigidity R=p/Z
     double LnR= TMath::Log(R); // log-of-rigidity
-      
+
     // --- low-R parameterization ---
     double Norm= 11600;
     double mu= -0.559;
@@ -113,7 +113,7 @@ void GetProtonLISvsEkn(vector<double> &JIS, vector<double> &EIS)
     double G1 = -2.4482;
     double nu= 0.431;
     double LowR= (TMath::Power( 1.+ TMath::Exp(-(LnR-mu)/sigma), -1./nu ))*TMath::Power(R, G1);
-      
+
     // --- high-R parameterization ---
     double Rb1 = 6.2;
     double DG1 = -0.4227;
@@ -138,7 +138,7 @@ void GetProtonMODvsEkn(double Ekn /*[GeV/n]*/, vector<double> &phi, vector<doubl
   double Z=1;            // proton charge
   double A=1.;           // proton mass number
   double Mp=0.938;       // proton mass GeV
-  
+
   double E= Ekn;                // GeV/n [kinetic energy (per nucleon) HERE AT EARTH]
 
   for (int i=0; i<phi.size(); i++) {
@@ -146,18 +146,18 @@ void GetProtonMODvsEkn(double Ekn /*[GeV/n]*/, vector<double> &phi, vector<doubl
     double P2=   (E*A + Mp*A)*(E*A + Mp*A) - (Mp*A)*(Mp*A); // MOM AT EARTH
     double PIS2= (EIS[i]*A + Mp*A)*(EIS[i]*A + Mp*A) - (Mp*A)*(Mp*A); // MOM INTERSTELLAR
     double SP= P2/PIS2; // RATIO OF SQUARED MOMENTA = RATIO OF SQUARED RIGIDITIES
-      
+
     if (phi[i] <= 1.0 ) {
       JMOD.push_back(0);
     }
     else JMOD.push_back(SP * JIS[i]);
-      
+
   }
 
 }
 
 int main()
-{ 
+{
   double Ekn;
   ifstream setE;
   string pathE ="/var/www/html/Forecast/E.txt";
@@ -169,13 +169,13 @@ int main()
   Ekn = lol;
   sxE = std::to_string (lol);
   sxE.erase ( sxE.find_last_not_of('0') + 1, std::string::npos );
-  }  
+  }
 
 
   cout<<sxE<<endl;
-  
+
   //PLOT
- 
+
   vector<double> date;
   vector<double> rate;
   vector<double> phi;
@@ -185,23 +185,23 @@ int main()
   // importare la lista NM;
 
     vector<string> stats;
-    
+
     ifstream set;
-   
+
      string path ="/var/www/html/Forecast/NM_ALL.txt";
     cout<<path<<endl;
- 
+
     set.open(path);
     string sx;
     while (!set.eof()) {
       set>>sx>>ws;
       stats.push_back(sx);
     }
-  
-    //    ifstream file;    
+
+    //    ifstream file;
     //lista delle stazioni completa
     for (int i=0; i<stats.size()-1; i++) {
-      string s = "/var/www/html/NeutronMonitor_Rate/" + stats[i]+"month.txt";      
+      string s = "/var/www/html/NeutronMonitor_Rate/" + stats[i]+"month.txt";
       cout<<s<<endl;
        SetDataNM(rate,date,s); // vector contiene tutti i rate
        GetModulationPotential(stats[i],phi,rate);
@@ -216,40 +216,40 @@ int main()
 	//	cout<<   std::setprecision(std::numeric_limits<double>::digits10)   <<date[j]<<" "<<phi[j]<<endl;
 	myfile  <<  std::setprecision(std::numeric_limits<double>::digits10)        <<date[j]<<"  "<<phi[j]<<endl;
       }
-      
+
       myfile.close();
 
       myfile2.open ("/var/www/html/Forecast/JMOD"+ stats[i]+".txt");
-    
+
       for (int j=0; j<JMOD.size()-1; j++) {
 	//	cout<<"JMOD NO PREcision --> "<<JMOD[j]<<endl;
 	// cout<<"JMOD --> "<<std::setprecision(std::numeric_limits<double>::digits10)<<JMOD[j]<<endl;
-	// cout<<"********************"<<endl;	
+	// cout<<"********************"<<endl;
 	myfile2<<std::setprecision(std::numeric_limits<double>::digits10)   <<date[j]<<"  "<<JMOD[j]<<endl;
-     
+
 	//STAMPAAAA JMOd modulated
-       
+
       }
       myfile2.close();
-    
-           
+
+
       date.clear();
       rate.clear();
       phi.clear();
       JMOD.clear();
       JIS.clear();
-      EIS.clear();          
+      EIS.clear();
 
     }
 
 
 
-}  
+}
 
     //end
 
 
-    /*  
+    /*
 
       f->GetXaxis()->SetTitle("year");
       f->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
@@ -264,8 +264,8 @@ int main()
       f->SetLineWidth(2);
       f->SetLineStyle(1);
       f->Write();
-              
-              
+
+
       TGraph *gf = new TGraph("/var/www/html/FFModel/PHI.txt");
       gf->GetXaxis()->SetTitle("year");
       gf->GetYaxis()->SetTitle("#phi [MV]");
@@ -279,23 +279,23 @@ int main()
       gf->SetLineWidth(2);
       gf->SetLineStyle(1);
       gf->Write();
-              
+
       //devo riempire i multigraph
-      
+
       mg[0]->Add(gf);
       legend[0]->AddEntry(gf,stations[i],"l");
-    
+
       mg[1]->Add(f);
       legend[1]->AddEntry(f,stations[i],"l");
-                            
+
       date.clear();
       rate.clear();
       phi.clear();
       JMOD.clear();
       JIS.clear();
       EIS.clear();
-    }        
-          
+    }
+
     c[0]->SetName("FF Model PHI Set");
     c[0]->cd();
     mg[0]->SetTitle("#phi Modulated potential");
@@ -306,8 +306,8 @@ int main()
     mg[0]->GetYaxis()->SetTitle("#phi [MV]");
     mg[0]->SetName("phi TOTAL");
     legend[0]->Draw();
-          
-      
+
+
     TString eTitle = sxE;
     c[1]->SetName("FF Model J Set");
     c[1]->cd();
@@ -319,16 +319,16 @@ int main()
     mg[1]->GetYaxis()->SetTitle("J [ GeV^{ -1} m^{ -2} s^{ -1} sr^{ -1} ]");
     mg[1]->SetName("J TOTAL");
     legend[1]->Draw();
-              
-    
+
+
     // stats.clear(); //pronto per nuovo set
     //    stations.clear(); //pronto per nuovo set
     ff.cd();
     for (int i=0; i<2; i++) {
       cout<<"copying ..."<<endl;
        c[i]->Write();
-    }    
-    
+    }
+
     cout<<"ending"<<endl;
 
   ff.Close();

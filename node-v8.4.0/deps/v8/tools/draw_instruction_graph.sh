@@ -125,6 +125,3 @@ set style line 21 lc rgb '#ffffff'
 plot for [i=2:MAXCOL] '$file' using 1:(sum [col=i:MAXCOL] column(col)) \
 title columnheader(i) with filledcurve y1=0 ls i
 EOF
-
-
-

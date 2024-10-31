@@ -1,6 +1,6 @@
 Bag Attributes
     friendlyName: Me's Not a Certification Authority ID
-    localKeyID: 98 CC 02 91 83 8D 14 4A 60 40 B7 11 E8 EF A9 01 4B D7 16 8A 
+    localKeyID: 98 CC 02 91 83 8D 14 4A 60 40 B7 11 E8 EF A9 01 4B D7 16 8A
 subject=/O=FOAF+SSL/OU=The Community Of Self Signers/UID=http://example.com/#me/CN=Me
 issuer=/O=FOAF+SSL/OU=The Community of Self Signers/CN=Not a Certification Authority
 -----BEGIN CERTIFICATE-----

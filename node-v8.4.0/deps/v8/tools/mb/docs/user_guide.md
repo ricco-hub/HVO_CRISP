@@ -43,10 +43,10 @@ a single object with the following fields:
     no tests that will be run.
   * `additional_compile_targets`: an array of (ninja) build targets that
     reflect the stuff we might want to build *in addition to* the list
-    passed in `test_targets`. Targets in this list will be treated 
+    passed in `test_targets`. Targets in this list will be treated
     specially, in the following way: if a given target is a "meta"
     (GN: group, GYP: none) target like 'blink_tests' or
-    'chromium_builder_tests', or even the ninja-specific 'all' target, 
+    'chromium_builder_tests', or even the ninja-specific 'all' target,
     then only the *dependencies* of the target that are affected by
     the modified files will be rebuilt (not the target itself, which
     might also cause unaffected dependencies to be rebuilt). An empty
@@ -65,7 +65,7 @@ fields:
   * `compile_targets`: the list of ninja targets that should be passed
     directly to the corresponding ninja / compile.py invocation. This
     list may contain entries that are *not* listed in the input (see
-    the description of `additional_compile_targets` above and 
+    the description of `additional_compile_targets` above and
     [design_spec.md](the design spec) for how this works).
   * `invalid_targets`: a list of any targets that were passed in
     either of the input lists that weren't actually found in the graph.
@@ -293,5 +293,3 @@ If you hit weirder things than that, add some print statements to the
 python script, send a question to gn-dev@chromium.org, or
 [file a bug](https://crbug.com/new) with the label
 'mb' and cc: dpranke@chromium.org.
-
-
