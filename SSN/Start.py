@@ -12,14 +12,20 @@ cache_expiry = current_time.day != 1 and current_time.day != 2
 
 
 def is_cache_valid() -> bool:
-    # Check if the cache file exists and is within the expiry time
+    """
+    Check if the cache file exists and is within the expiry time
+    """
+
     if os.path.exists(CACHE_FILE):
         return cache_expiry
     return False
 
 
-def save_to_cache(data):
-    # Save new data to CSV cache
+def save_to_cache(data: list):
+    """
+    Save data data to CACHE_FILE and remove values in SNvalue column
+    """
+
     with open(CACHE_FILE, mode="w", newline="") as csvfile:
         writer = csv.writer(csvfile)
 
@@ -32,7 +38,10 @@ def save_to_cache(data):
 
 
 def fetch_data():
-    # Check if cache is valid
+    """
+    Check if cache is valid and if so, fetch data from URL, then save to CACHE_FILE
+    """
+
     if is_cache_valid():
         # Fetch new data from the URL
         response = requests.get(URL, allow_redirects=True)
