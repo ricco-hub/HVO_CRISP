@@ -50,12 +50,8 @@
             "conditions": [
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": ["host", "target"],
-                    },
-                    {
-                        "toolsets": ["target"],
-                    },
+                    {"toolsets": ["host", "target"],},
+                    {"toolsets": ["target"],},
                 ],
                 [
                     'component=="shared_library"',
@@ -66,17 +62,9 @@
                             # has some sources to link into the component.
                             "v8dll-main.cc",
                         ],
-                        "include_dirs": [
-                            "..",
-                        ],
-                        "defines": [
-                            "BUILDING_V8_SHARED",
-                        ],
-                        "direct_dependent_settings": {
-                            "defines": [
-                                "USING_V8_SHARED",
-                            ],
-                        },
+                        "include_dirs": ["..",],
+                        "defines": ["BUILDING_V8_SHARED",],
+                        "direct_dependent_settings": {"defines": ["USING_V8_SHARED",],},
                         "conditions": [
                             [
                                 'OS=="mac"',
@@ -88,22 +76,14 @@
                             ],
                             [
                                 'soname_version!=""',
-                                {
-                                    "product_extension": "so.<(soname_version)",
-                                },
+                                {"product_extension": "so.<(soname_version)",},
                             ],
                         ],
                     },
-                    {
-                        "type": "none",
-                    },
+                    {"type": "none",},
                 ],
             ],
-            "direct_dependent_settings": {
-                "include_dirs": [
-                    "../include",
-                ],
-            },
+            "direct_dependent_settings": {"include_dirs": ["../include",],},
         },
         {
             # This rule delegates to either v8_snapshot, v8_nosnapshot, or
@@ -138,9 +118,7 @@
                     'v8_use_snapshot=="true" and v8_use_external_startup_data==1 and want_separate_host_toolset==0',
                     {
                         "dependencies": ["v8_base", "v8_external_snapshot"],
-                        "inputs": [
-                            "<(PRODUCT_DIR)/snapshot_blob.bin",
-                        ],
+                        "inputs": ["<(PRODUCT_DIR)/snapshot_blob.bin",],
                     },
                 ],
                 [
@@ -150,72 +128,40 @@
                         "target_conditions": [
                             [
                                 '_toolset=="host"',
-                                {
-                                    "inputs": [
-                                        "<(PRODUCT_DIR)/snapshot_blob_host.bin",
-                                    ],
-                                },
-                                {
-                                    "inputs": [
-                                        "<(PRODUCT_DIR)/snapshot_blob.bin",
-                                    ],
-                                },
+                                {"inputs": ["<(PRODUCT_DIR)/snapshot_blob_host.bin",],},
+                                {"inputs": ["<(PRODUCT_DIR)/snapshot_blob.bin",],},
                             ],
                         ],
                     },
                 ],
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": ["host", "target"],
-                    },
-                    {
-                        "toolsets": ["target"],
-                    },
+                    {"toolsets": ["host", "target"],},
+                    {"toolsets": ["target"],},
                 ],
             ],
         },
         {
             "target_name": "v8_builtins_setup",
             "type": "static_library",
-            "dependencies": [
-                "v8_builtins_generators",
-            ],
-            "variables": {
-                "optimize": "max",
-            },
-            "include_dirs+": [
-                "..",
-                "../include",
-            ],
-            "sources": [  ### gcmole(all) ###
-                "setup-isolate-full.cc",
-            ],
+            "dependencies": ["v8_builtins_generators",],
+            "variables": {"optimize": "max",},
+            "include_dirs+": ["..", "../include",],
+            "sources": ["setup-isolate-full.cc",],  ### gcmole(all) ###
             "conditions": [
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": ["host", "target"],
-                    },
-                    {
-                        "toolsets": ["target"],
-                    },
+                    {"toolsets": ["host", "target"],},
+                    {"toolsets": ["target"],},
                 ],
             ],
         },
         {
             "target_name": "v8_builtins_generators",
             "type": "static_library",
-            "dependencies": [
-                "v8_base",
-            ],
-            "variables": {
-                "optimize": "max",
-            },
-            "include_dirs+": [
-                "..",
-                "../include",
-            ],
+            "dependencies": ["v8_base",],
+            "variables": {"optimize": "max",},
+            "include_dirs+": ["..", "../include",],
             "sources": [  ### gcmole(all) ###
                 "builtins/builtins-arguments-gen.cc",
                 "builtins/builtins-arguments-gen.h",
@@ -276,12 +222,8 @@
             "conditions": [
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": ["host", "target"],
-                    },
-                    {
-                        "toolsets": ["target"],
-                    },
+                    {"toolsets": ["host", "target"],},
+                    {"toolsets": ["target"],},
                 ],
                 [
                     'v8_target_arch=="ia32"',
@@ -357,11 +299,7 @@
                 ],
                 [
                     "v8_enable_i18n_support==0",
-                    {
-                        "sources!": [
-                            "builtins/builtins-intl-gen.cc",
-                        ],
-                    },
+                    {"sources!": ["builtins/builtins-intl-gen.cc",],},
                 ],
             ],
         },
@@ -373,40 +311,20 @@
                     "want_separate_host_toolset==1",
                     {
                         "toolsets": ["host", "target"],
-                        "dependencies": [
-                            "mksnapshot#host",
-                            "js2c#host",
-                        ],
+                        "dependencies": ["mksnapshot#host", "js2c#host",],
                     },
-                    {
-                        "toolsets": ["target"],
-                        "dependencies": [
-                            "mksnapshot",
-                            "js2c",
-                        ],
-                    },
+                    {"toolsets": ["target"], "dependencies": ["mksnapshot", "js2c",],},
                 ],
                 [
                     'component=="shared_library"',
                     {
-                        "defines": [
-                            "BUILDING_V8_SHARED",
-                        ],
-                        "direct_dependent_settings": {
-                            "defines": [
-                                "USING_V8_SHARED",
-                            ],
-                        },
+                        "defines": ["BUILDING_V8_SHARED",],
+                        "direct_dependent_settings": {"defines": ["USING_V8_SHARED",],},
                     },
                 ],
             ],
-            "dependencies": [
-                "v8_base",
-            ],
-            "include_dirs+": [
-                "..",
-                "<(DEPTH)",
-            ],
+            "dependencies": ["v8_base",],
+            "include_dirs+": ["..", "<(DEPTH)",],
             "sources": [
                 "<(SHARED_INTERMEDIATE_DIR)/libraries.cc",
                 "<(SHARED_INTERMEDIATE_DIR)/extras-libraries.cc",
@@ -417,30 +335,12 @@
             "actions": [
                 {
                     "action_name": "run_mksnapshot",
-                    "inputs": [
-                        "<(mksnapshot_exec)",
-                    ],
+                    "inputs": ["<(mksnapshot_exec)",],
                     "conditions": [
-                        [
-                            'embed_script!=""',
-                            {
-                                "inputs": [
-                                    "<(embed_script)",
-                                ],
-                            },
-                        ],
-                        [
-                            'warmup_script!=""',
-                            {
-                                "inputs": [
-                                    "<(warmup_script)",
-                                ],
-                            },
-                        ],
+                        ['embed_script!=""', {"inputs": ["<(embed_script)",],},],
+                        ['warmup_script!=""', {"inputs": ["<(warmup_script)",],},],
                     ],
-                    "outputs": [
-                        "<(INTERMEDIATE_DIR)/snapshot.cc",
-                    ],
+                    "outputs": ["<(INTERMEDIATE_DIR)/snapshot.cc",],
                     "variables": {
                         "mksnapshot_flags": [],
                         "conditions": [
@@ -455,9 +355,7 @@
                             ],
                             [
                                 "v8_vector_stores!=0",
-                                {
-                                    "mksnapshot_flags": ["--vector-stores"],
-                                },
+                                {"mksnapshot_flags": ["--vector-stores"],},
                             ],
                         ],
                     },
@@ -475,13 +373,8 @@
         {
             "target_name": "v8_nosnapshot",
             "type": "static_library",
-            "dependencies": [
-                "v8_base",
-            ],
-            "include_dirs+": [
-                "..",
-                "<(DEPTH)",
-            ],
+            "dependencies": ["v8_base",],
+            "include_dirs+": ["..", "<(DEPTH)",],
             "sources": [
                 "<(SHARED_INTERMEDIATE_DIR)/libraries.cc",
                 "<(SHARED_INTERMEDIATE_DIR)/extras-libraries.cc",
@@ -491,23 +384,10 @@
             "conditions": [
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": ["host", "target"],
-                        "dependencies": ["js2c#host"],
-                    },
-                    {
-                        "toolsets": ["target"],
-                        "dependencies": ["js2c"],
-                    },
+                    {"toolsets": ["host", "target"], "dependencies": ["js2c#host"],},
+                    {"toolsets": ["target"], "dependencies": ["js2c"],},
                 ],
-                [
-                    'component=="shared_library"',
-                    {
-                        "defines": [
-                            "BUILDING_V8_SHARED",
-                        ],
-                    },
-                ],
+                ['component=="shared_library"', {"defines": ["BUILDING_V8_SHARED",],},],
             ],
         },
         {
@@ -540,24 +420,15 @@
                             [
                                 'component=="shared_library"',
                                 {
-                                    "defines": [
-                                        "BUILDING_V8_SHARED",
-                                    ],
+                                    "defines": ["BUILDING_V8_SHARED",],
                                     "direct_dependent_settings": {
-                                        "defines": [
-                                            "USING_V8_SHARED",
-                                        ],
+                                        "defines": ["USING_V8_SHARED",],
                                     },
                                 },
                             ],
                         ],
-                        "dependencies": [
-                            "v8_base",
-                        ],
-                        "include_dirs+": [
-                            "..",
-                            "<(DEPTH)",
-                        ],
+                        "dependencies": ["v8_base",],
+                        "include_dirs+": ["..", "<(DEPTH)",],
                         "sources": [
                             "setup-isolate-deserialize.cc",
                             "snapshot/natives-external.cc",
@@ -566,9 +437,7 @@
                         "actions": [
                             {
                                 "action_name": "run_mksnapshot (external)",
-                                "inputs": [
-                                    "<(mksnapshot_exec)",
-                                ],
+                                "inputs": ["<(mksnapshot_exec)",],
                                 "variables": {
                                     "mksnapshot_flags": [],
                                     "conditions": [
@@ -583,9 +452,7 @@
                                         ],
                                         [
                                             "v8_vector_stores!=0",
-                                            {
-                                                "mksnapshot_flags": ["--vector-stores"],
-                                            },
+                                            {"mksnapshot_flags": ["--vector-stores"],},
                                         ],
                                         [
                                             "v8_os_page_size!=0",
@@ -601,19 +468,11 @@
                                 "conditions": [
                                     [
                                         'embed_script!=""',
-                                        {
-                                            "inputs": [
-                                                "<(embed_script)",
-                                            ],
-                                        },
+                                        {"inputs": ["<(embed_script)",],},
                                     ],
                                     [
                                         'warmup_script!=""',
-                                        {
-                                            "inputs": [
-                                                "<(warmup_script)",
-                                            ],
-                                        },
+                                        {"inputs": ["<(warmup_script)",],},
                                     ],
                                     [
                                         "want_separate_host_toolset==1",
@@ -682,9 +541,7 @@
                 "inspector/inspector.gyp:inspector_debugger_script#target",
             ],
             "objs": ["foo.o"],
-            "variables": {
-                "optimize": "max",
-            },
+            "variables": {"optimize": "max",},
             "include_dirs+": ["..", "<(DEPTH)", "<(SHARED_INTERMEDIATE_DIR)"],
             "sources": [  ### gcmole(all) ###
                 "<@(inspector_all_sources)",
@@ -1659,12 +1516,8 @@
             "conditions": [
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": ["host", "target"],
-                    },
-                    {
-                        "toolsets": ["target"],
-                    },
+                    {"toolsets": ["host", "target"],},
+                    {"toolsets": ["target"],},
                 ],
                 [
                     'v8_target_arch=="arm"',
@@ -2081,9 +1934,7 @@
                 [
                     'OS=="win"',
                     {
-                        "variables": {
-                            "gyp_generators": "<!(echo $GYP_GENERATORS)",
-                        },
+                        "variables": {"gyp_generators": "<!(echo $GYP_GENERATORS)",},
                         "msvs_disabled_warnings": [4351, 4355, 4800],
                         # When building Official, the .lib is too large and exceeds the 2G
                         # limit. This breaks it into multiple pieces to avoid the limit.
@@ -2098,21 +1949,10 @@
                         },
                     },
                 ],
-                [
-                    'component=="shared_library"',
-                    {
-                        "defines": [
-                            "BUILDING_V8_SHARED",
-                        ],
-                    },
-                ],
+                ['component=="shared_library"', {"defines": ["BUILDING_V8_SHARED",],},],
                 [
                     'v8_postmortem_support=="true"',
-                    {
-                        "sources": [
-                            "<(SHARED_INTERMEDIATE_DIR)/debug-support.cc",
-                        ]
-                    },
+                    {"sources": ["<(SHARED_INTERMEDIATE_DIR)/debug-support.cc",]},
                 ],
                 [
                     "v8_enable_i18n_support==1",
@@ -2124,11 +1964,7 @@
                         "conditions": [
                             [
                                 "icu_use_data_file_flag==1",
-                                {
-                                    "defines": [
-                                        "ICU_UTIL_DATA_IMPL=ICU_UTIL_DATA_FILE"
-                                    ],
-                                },
+                                {"defines": ["ICU_UTIL_DATA_IMPL=ICU_UTIL_DATA_FILE"],},
                                 {  # else icu_use_data_file_flag !=1
                                     "conditions": [
                                         [
@@ -2162,23 +1998,15 @@
                 ],
                 [
                     'OS=="win" and v8_enable_i18n_support==1',
-                    {
-                        "dependencies": [
-                            "<(icu_gyp_path):icudata",
-                        ],
-                    },
+                    {"dependencies": ["<(icu_gyp_path):icudata",],},
                 ],
             ],
         },
         {
             "target_name": "v8_libbase",
             "type": "<(component)",
-            "variables": {
-                "optimize": "max",
-            },
-            "include_dirs+": [
-                "..",
-            ],
+            "variables": {"optimize": "max",},
+            "include_dirs+": ["..",],
             "sources": [
                 "base/adapters.h",
                 "base/atomic-utils.h",
@@ -2241,44 +2069,30 @@
                 [
                     'OS=="android" and _toolset=="target"',
                     {
-                        "libraries": [
-                            "-llog",
-                        ],
-                        "include_dirs": [
-                            "src/common/android/include",
-                        ],
+                        "libraries": ["-llog",],
+                        "include_dirs": ["src/common/android/include",],
                     },
                 ],
             ],
             "conditions": [
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": ["host", "target"],
-                    },
-                    {
-                        "toolsets": ["target"],
-                    },
+                    {"toolsets": ["host", "target"],},
+                    {"toolsets": ["target"],},
                 ],
                 [
                     'component=="shared_library"',
                     {
-                        "defines": [
-                            "BUILDING_V8_BASE_SHARED",
-                        ],
+                        "defines": ["BUILDING_V8_BASE_SHARED",],
                         "direct_dependent_settings": {
-                            "defines": [
-                                "USING_V8_BASE_SHARED",
-                            ],
+                            "defines": ["USING_V8_BASE_SHARED",],
                         },
                     },
                 ],
                 [
                     'OS=="linux"',
                     {
-                        "link_settings": {
-                            "libraries": ["-ldl", "-lrt"],
-                        },
+                        "link_settings": {"libraries": ["-ldl", "-lrt"],},
                         "sources": [
                             "base/debug/stack_trace_posix.cc",
                             "base/platform/platform-linux.cc",
@@ -2342,15 +2156,11 @@
                             "target_conditions": [
                                 [
                                     '_toolset=="host" and host_os=="linux"',
-                                    {
-                                        "libraries": ["-lrt"],
-                                    },
+                                    {"libraries": ["-lrt"],},
                                 ],
                                 [
                                     '_toolset=="target"',
-                                    {
-                                        "libraries": ["-lbacktrace"],
-                                    },
+                                    {"libraries": ["-lbacktrace"],},
                                 ],
                             ],
                         },
@@ -2363,21 +2173,15 @@
                         "target_conditions": [
                             [
                                 '_toolset=="host" and host_os=="linux"',
-                                {
-                                    "sources": ["base/platform/platform-linux.cc"],
-                                },
+                                {"sources": ["base/platform/platform-linux.cc"],},
                             ],
                             [
                                 '_toolset=="host" and host_os=="mac"',
-                                {
-                                    "sources": ["base/platform/platform-macos.cc"],
-                                },
+                                {"sources": ["base/platform/platform-macos.cc"],},
                             ],
                             [
                                 '_toolset=="target"',
-                                {
-                                    "sources": ["base/platform/platform-qnx.cc"],
-                                },
+                                {"sources": ["base/platform/platform-qnx.cc"],},
                             ],
                         ],
                     },
@@ -2386,9 +2190,7 @@
                     'OS=="freebsd"',
                     {
                         "link_settings": {
-                            "libraries": [
-                                "-L/usr/local/lib -lexecinfo",
-                            ]
+                            "libraries": ["-L/usr/local/lib -lexecinfo",]
                         },
                         "sources": [
                             "base/debug/stack_trace_posix.cc",
@@ -2402,9 +2204,7 @@
                     'OS=="openbsd"',
                     {
                         "link_settings": {
-                            "libraries": [
-                                "-L/usr/local/lib -lexecinfo",
-                            ]
+                            "libraries": ["-L/usr/local/lib -lexecinfo",]
                         },
                         "sources": [
                             "base/platform/platform-openbsd.cc",
@@ -2443,11 +2243,7 @@
                 [
                     'OS=="solaris"',
                     {
-                        "link_settings": {
-                            "libraries": [
-                                "-lnsl -lrt",
-                            ]
-                        },
+                        "link_settings": {"libraries": ["-lnsl -lrt",]},
                         "sources": [
                             "base/debug/stack_trace_posix.cc",
                             "base/platform/platform-solaris.cc",
@@ -2471,16 +2267,12 @@
                     'OS=="win"',
                     {
                         "defines": ["_CRT_RAND_S"],  # for rand_s()
-                        "variables": {
-                            "gyp_generators": "<!(echo $GYP_GENERATORS)",
-                        },
+                        "variables": {"gyp_generators": "<!(echo $GYP_GENERATORS)",},
                         "conditions": [
                             [
                                 'gyp_generators=="make"',
                                 {
-                                    "variables": {
-                                        "build_env": "<!(uname -o)",
-                                    },
+                                    "variables": {"build_env": "<!(uname -o)",},
                                     "conditions": [
                                         [
                                             'build_env=="Cygwin"',
@@ -2530,17 +2322,9 @@
         {
             "target_name": "v8_libplatform",
             "type": "<(component)",
-            "variables": {
-                "optimize": "max",
-            },
-            "dependencies": [
-                "v8_libbase",
-            ],
-            "include_dirs+": [
-                "..",
-                "<(DEPTH)",
-                "../include",
-            ],
+            "variables": {"optimize": "max",},
+            "dependencies": ["v8_libbase",],
+            "include_dirs+": ["..", "<(DEPTH)", "../include",],
             "sources": [
                 "../include/libplatform/libplatform.h",
                 "../include/libplatform/libplatform-export.h",
@@ -2562,12 +2346,8 @@
             "conditions": [
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": ["host", "target"],
-                    },
-                    {
-                        "toolsets": ["target"],
-                    },
+                    {"toolsets": ["host", "target"],},
+                    {"toolsets": ["target"],},
                 ],
                 [
                     'component=="shared_library"',
@@ -2579,42 +2359,23 @@
                     },
                 ],
             ],
-            "direct_dependent_settings": {
-                "include_dirs": [
-                    "../include",
-                ],
-            },
+            "direct_dependent_settings": {"include_dirs": ["../include",],},
         },
         {
             "target_name": "v8_libsampler",
             "type": "static_library",
-            "variables": {
-                "optimize": "max",
-            },
-            "dependencies": [
-                "v8_libbase",
-            ],
-            "include_dirs+": [
-                "..",
-                "../include",
-            ],
+            "variables": {"optimize": "max",},
+            "dependencies": ["v8_libbase",],
+            "include_dirs+": ["..", "../include",],
             "sources": ["libsampler/sampler.cc", "libsampler/sampler.h"],
             "conditions": [
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": ["host", "target"],
-                    },
-                    {
-                        "toolsets": ["target"],
-                    },
+                    {"toolsets": ["host", "target"],},
+                    {"toolsets": ["target"],},
                 ],
             ],
-            "direct_dependent_settings": {
-                "include_dirs": [
-                    "../include",
-                ],
-            },
+            "direct_dependent_settings": {"include_dirs": ["../include",],},
         },
         {
             "target_name": "natives_blob",
@@ -2626,12 +2387,8 @@
                         "conditions": [
                             [
                                 "want_separate_host_toolset==1",
-                                {
-                                    "dependencies": ["js2c#host"],
-                                },
-                                {
-                                    "dependencies": ["js2c"],
-                                },
+                                {"dependencies": ["js2c#host"],},
+                                {"dependencies": ["js2c"],},
                             ],
                         ],
                         "actions": [
@@ -2691,12 +2448,8 @@
                 ],
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": ["host", "target"],
-                    },
-                    {
-                        "toolsets": ["target"],
-                    },
+                    {"toolsets": ["host", "target"],},
+                    {"toolsets": ["target"],},
                 ],
             ],
         },
@@ -2706,12 +2459,8 @@
             "conditions": [
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": ["host"],
-                    },
-                    {
-                        "toolsets": ["target"],
-                    },
+                    {"toolsets": ["host"],},
+                    {"toolsets": ["target"],},
                 ],
             ],
             "variables": {
@@ -2740,21 +2489,13 @@
                 "libraries_extras_bin_file": "<(SHARED_INTERMEDIATE_DIR)/libraries-extras.bin",
                 "libraries_experimental_extras_bin_file": "<(SHARED_INTERMEDIATE_DIR)/libraries-experimental-extras.bin",
                 "conditions": [
-                    [
-                        "v8_enable_i18n_support==1",
-                        {
-                            "library_files": ["js/intl.js"],
-                        },
-                    ],
+                    ["v8_enable_i18n_support==1", {"library_files": ["js/intl.js"],},],
                 ],
             },
             "actions": [
                 {
                     "action_name": "js2c",
-                    "inputs": [
-                        "../tools/js2c.py",
-                        "<@(library_files)",
-                    ],
+                    "inputs": ["../tools/js2c.py", "<@(library_files)",],
                     "outputs": ["<(SHARED_INTERMEDIATE_DIR)/libraries.cc"],
                     "action": [
                         "python",
@@ -2766,10 +2507,7 @@
                 },
                 {
                     "action_name": "js2c_bin",
-                    "inputs": [
-                        "../tools/js2c.py",
-                        "<@(library_files)",
-                    ],
+                    "inputs": ["../tools/js2c.py", "<@(library_files)",],
                     "outputs": ["<@(libraries_bin_file)"],
                     "action": [
                         "python",
@@ -2784,10 +2522,7 @@
                 },
                 {
                     "action_name": "js2c_extras",
-                    "inputs": [
-                        "../tools/js2c.py",
-                        "<@(v8_extra_library_files)",
-                    ],
+                    "inputs": ["../tools/js2c.py", "<@(v8_extra_library_files)",],
                     "outputs": ["<(SHARED_INTERMEDIATE_DIR)/extras-libraries.cc"],
                     "action": [
                         "python",
@@ -2799,10 +2534,7 @@
                 },
                 {
                     "action_name": "js2c_extras_bin",
-                    "inputs": [
-                        "../tools/js2c.py",
-                        "<@(v8_extra_library_files)",
-                    ],
+                    "inputs": ["../tools/js2c.py", "<@(v8_extra_library_files)",],
                     "outputs": ["<@(libraries_extras_bin_file)"],
                     "action": [
                         "python",
@@ -2870,9 +2602,7 @@
                         "../tools/gen-postmortem-metadata.py",
                         "<@(heapobject_files)",
                     ],
-                    "outputs": [
-                        "<(SHARED_INTERMEDIATE_DIR)/debug-support.cc",
-                    ],
+                    "outputs": ["<(SHARED_INTERMEDIATE_DIR)/debug-support.cc",],
                     "action": [
                         "python",
                         "../tools/gen-postmortem-metadata.py",
@@ -2892,13 +2622,8 @@
                 "v8_libplatform",
                 "v8_nosnapshot",
             ],
-            "include_dirs+": [
-                "..",
-                "<(DEPTH)",
-            ],
-            "sources": [
-                "snapshot/mksnapshot.cc",
-            ],
+            "include_dirs+": ["..", "<(DEPTH)",],
+            "sources": ["snapshot/mksnapshot.cc",],
             "conditions": [
                 [
                     "v8_enable_i18n_support==1",
@@ -2911,12 +2636,8 @@
                 ],
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": ["host"],
-                    },
-                    {
-                        "toolsets": ["target"],
-                    },
+                    {"toolsets": ["host"],},
+                    {"toolsets": ["target"],},
                 ],
             ],
         },

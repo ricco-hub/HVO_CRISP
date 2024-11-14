@@ -10,19 +10,9 @@
             'OS=="solaris"',
             {"libraries": ["<@(openssl_cli_libraries_solaris)"]},
             'OS=="win"',
-            {
-                "link_settings": {
-                    "libraries": ["<@(openssl_cli_libraries_win)"],
-                },
-            },
+            {"link_settings": {"libraries": ["<@(openssl_cli_libraries_win)"],},},
             'OS in "linux android"',
-            {
-                "link_settings": {
-                    "libraries": [
-                        "-ldl",
-                    ],
-                },
-            },
+            {"link_settings": {"libraries": ["-ldl",],},},
         ],
     ],
 }

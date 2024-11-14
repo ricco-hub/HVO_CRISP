@@ -4,9 +4,7 @@
             "target_name": "gtest",
             "type": "static_library",
             "cflags": ["-Wno-missing-field-initializers"],
-            "direct_dependent_settings": {
-                "include_dirs": ["include"],
-            },
+            "direct_dependent_settings": {"include_dirs": ["include"],},
             "include_dirs": [".", "include"],
             "sources": [
                 "src/gtest-death-test.cc",

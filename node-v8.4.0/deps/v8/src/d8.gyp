@@ -43,10 +43,7 @@
                 "v8.gyp:v8_libplatform",
             ],
             # Generated source files need this explicitly:
-            "include_dirs+": [
-                "..",
-                "<(DEPTH)",
-            ],
+            "include_dirs+": ["..", "<(DEPTH)",],
             "sources": [
                 "d8.h",
                 "d8.cc",
@@ -57,38 +54,16 @@
             "conditions": [
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": [
-                            "target",
-                        ],
-                        "dependencies": [
-                            "d8_js2c#host",
-                        ],
-                    },
-                    {
-                        "dependencies": [
-                            "d8_js2c",
-                        ],
-                    },
+                    {"toolsets": ["target",], "dependencies": ["d8_js2c#host",],},
+                    {"dependencies": ["d8_js2c",],},
                 ],
                 [
                     '(OS=="linux" or OS=="mac" or OS=="freebsd" or OS=="netbsd" \
            or OS=="openbsd" or OS=="solaris" or OS=="android" \
            or OS=="qnx" or OS=="aix")',
-                    {
-                        "sources": [
-                            "d8-posix.cc",
-                        ]
-                    },
+                    {"sources": ["d8-posix.cc",]},
                 ],
-                [
-                    'OS=="win"',
-                    {
-                        "sources": [
-                            "d8-windows.cc",
-                        ]
-                    },
-                ],
+                ['OS=="win"', {"sources": ["d8-windows.cc",]},],
                 [
                     'component!="shared_library"',
                     {
@@ -125,44 +100,26 @@
                 ],
                 [
                     'OS=="win" and v8_enable_i18n_support==1',
-                    {
-                        "dependencies": [
-                            "<(icu_gyp_path):icudata",
-                        ],
-                    },
+                    {"dependencies": ["<(icu_gyp_path):icudata",],},
                 ],
             ],
         },
         {
             "target_name": "d8_js2c",
             "type": "none",
-            "variables": {
-                "js_files": [
-                    "d8.js",
-                    "js/macros.py",
-                ],
-            },
+            "variables": {"js_files": ["d8.js", "js/macros.py",],},
             "conditions": [
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": ["host"],
-                    },
-                    {
-                        "toolsets": ["target"],
-                    },
+                    {"toolsets": ["host"],},
+                    {"toolsets": ["target"],},
                 ]
             ],
             "actions": [
                 {
                     "action_name": "d8_js2c",
-                    "inputs": [
-                        "../tools/js2c.py",
-                        "<@(js_files)",
-                    ],
-                    "outputs": [
-                        "<(SHARED_INTERMEDIATE_DIR)/d8-js.cc",
-                    ],
+                    "inputs": ["../tools/js2c.py", "<@(js_files)",],
+                    "outputs": ["<(SHARED_INTERMEDIATE_DIR)/d8-js.cc",],
                     "action": [
                         "python",
                         "../tools/js2c.py",
@@ -182,15 +139,9 @@
                     {
                         "target_name": "d8_run",
                         "type": "none",
-                        "dependencies": [
-                            "d8",
-                        ],
-                        "includes": [
-                            "../gypfiles/isolate.gypi",
-                        ],
-                        "sources": [
-                            "d8.isolate",
-                        ],
+                        "dependencies": ["d8",],
+                        "includes": ["../gypfiles/isolate.gypi",],
+                        "sources": ["d8.isolate",],
                     },
                 ],
             },

@@ -8,15 +8,20 @@ import re
 import subprocess
 
 FUZZ_PATH = os.path.dirname(os.path.abspath(__file__))
-SHA1_PATH = os.path.join(FUZZ_PATH, 'jsfunfuzz.tar.gz.sha1')
+SHA1_PATH = os.path.join(FUZZ_PATH, "jsfunfuzz.tar.gz.sha1")
 
-if re.search(r'\bjsfunfuzz=1', os.environ.get('GYP_DEFINES', '')):
-  subprocess.check_call([
-    'download_from_google_storage',
-    '-b', 'chrome-v8-jsfunfuzz',
-    '-u', '--no_resume',
-    '-s', SHA1_PATH,
-    '--platform=linux*'
-  ])
+if re.search(r"\bjsfunfuzz=1", os.environ.get("GYP_DEFINES", "")):
+    subprocess.check_call(
+        [
+            "download_from_google_storage",
+            "-b",
+            "chrome-v8-jsfunfuzz",
+            "-u",
+            "--no_resume",
+            "-s",
+            SHA1_PATH,
+            "--platform=linux*",
+        ]
+    )
 else:
-  print 'Skipping jsfunfuzz download as jsfunfuzz is not set in gyp flags.'
+    print "Skipping jsfunfuzz download as jsfunfuzz is not set in gyp flags."

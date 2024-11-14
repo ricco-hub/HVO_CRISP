@@ -39,7 +39,7 @@ import optparse
 
 
 def Concatenate(filenames):
-  """Concatenate files.
+    """Concatenate files.
 
   Args:
     files: Array of file names.
@@ -48,28 +48,30 @@ def Concatenate(filenames):
   Returns:
     True, if the operation was successful.
   """
-  if len(filenames) < 2:
-    print "An error occured generating %s:\nNothing to do." % filenames[-1]
-    return False
+    if len(filenames) < 2:
+        print "An error occured generating %s:\nNothing to do." % filenames[-1]
+        return False
 
-  try:
-    with open(filenames[-1], "wb") as target:
-      for filename in filenames[:-1]:
-        with open(filename, "rb") as current:
-          target.write(current.read())
-    return True
-  except IOError as e:
-    print "An error occured when writing %s:\n%s" % (filenames[-1], e)
-    return False
+    try:
+        with open(filenames[-1], "wb") as target:
+            for filename in filenames[:-1]:
+                with open(filename, "rb") as current:
+                    target.write(current.read())
+        return True
+    except IOError as e:
+        print "An error occured when writing %s:\n%s" % (filenames[-1], e)
+        return False
 
 
 def main():
-  parser = optparse.OptionParser()
-  parser.set_usage("""Concatenate several files into one.
-      Equivalent to: cat file1 ... > target.""")
-  (options, args) = parser.parse_args()
-  exit(0 if Concatenate(args) else 1)
+    parser = optparse.OptionParser()
+    parser.set_usage(
+        """Concatenate several files into one.
+      Equivalent to: cat file1 ... > target."""
+    )
+    (options, args) = parser.parse_args()
+    exit(0 if Concatenate(args) else 1)
 
 
 if __name__ == "__main__":
-  main()
+    main()

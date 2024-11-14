@@ -11,16 +11,12 @@
                     {
                         "target_name": "run_deopt_fuzzer_run",
                         "type": "none",
-                        "dependencies": [
-                            "../src/d8.gyp:d8_run",
-                        ],
+                        "dependencies": ["../src/d8.gyp:d8_run",],
                         "includes": [
                             "../gypfiles/features.gypi",
                             "../gypfiles/isolate.gypi",
                         ],
-                        "sources": [
-                            "run-deopt-fuzzer.isolate",
-                        ],
+                        "sources": ["run-deopt-fuzzer.isolate",],
                     },
                 ],
             },

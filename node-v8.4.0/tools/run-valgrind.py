@@ -34,22 +34,22 @@ import sys
 NODE_ROOT = path.dirname(path.dirname(path.abspath(__file__)))
 
 VALGRIND_ARGUMENTS = [
-  'valgrind',
-  '--error-exitcode=1',
-  '--smc-check=all',
-  # Node.js does not clean up on exit so don't complain about
-  # memory leaks but do complain about invalid memory access.
-  '--quiet',
+    "valgrind",
+    "--error-exitcode=1",
+    "--smc-check=all",
+    # Node.js does not clean up on exit so don't complain about
+    # memory leaks but do complain about invalid memory access.
+    "--quiet",
 ]
 
 if len(sys.argv) < 2:
-  print 'Please provide an executable to analyze.'
-  sys.exit(1)
+    print "Please provide an executable to analyze."
+    sys.exit(1)
 
 executable = path.join(NODE_ROOT, sys.argv[1])
 if not path.exists(executable):
-  print 'Cannot find the file specified: %s' % executable
-  sys.exit(1)
+    print "Cannot find the file specified: %s" % executable
+    sys.exit(1)
 
 # Compute the command line.
 command = VALGRIND_ARGUMENTS + [executable] + sys.argv[2:]
@@ -61,5 +61,5 @@ errors = process.stderr.readlines()
 
 # If valgrind produced an error, we report that to the user.
 if code != 0:
-  sys.stderr.writelines(errors)
-  sys.exit(code)
+    sys.stderr.writelines(errors)
+    sys.exit(code)

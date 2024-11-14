@@ -22,7 +22,7 @@ def fetch_data():
         "SNvalue",
         "SNerror",
         "Nb observations",
-        "Status"
+        "Status",
     ]
 
     data = pd.read_csv(
@@ -31,7 +31,7 @@ def fetch_data():
         names=column_data,
         sep=r"\s+",
         dtype={"Status": str},
-        low_memory=False
+        low_memory=False,
     )
     # Remove asterisks from Status and convert to numeric
     data["Status"] = pd.to_numeric(
@@ -55,19 +55,22 @@ plot = figure(
     title="Sunspot Number",
     x_axis_label="Time (decimal year)",
     y_axis_label="Sunspot Number",
-    sizing_mode='stretch_both',
+    sizing_mode="stretch_both",
     width=1000,
-    height=700
+    height=700,
 )
-plot.scatter("dec_year", "sn_value", source=source, size=8, color="navy", alpha=0.5) # make dec_year more human readable
+plot.scatter(
+    "dec_year", "sn_value", source=source, size=8, color="navy", alpha=0.5
+)  # make dec_year more human readable
 
 # create hover tool
-renderer = plot.circle("dec_year", "sn_value", source=source, size=8, color="navy", alpha=0.5) # currently rounding values
+renderer = plot.circle(
+    "dec_year", "sn_value", source=source, size=8, color="navy", alpha=0.5
+)  # currently rounding values
 
-hover = HoverTool(tooltips=[
-    ("Year", "@dec_year"),
-    ("SSN", "@sn_value")
-], renderers=[renderer])
+hover = HoverTool(
+    tooltips=[("Year", "@dec_year"), ("SSN", "@sn_value")], renderers=[renderer]
+)
 
 plot.add_tools(hover)
 

@@ -45,12 +45,8 @@
                         "target_conditions": [
                             [
                                 'library=="static_library"',
-                                {
-                                    "RuntimeLibrary": 0,  # static release
-                                },
-                                {
-                                    "RuntimeLibrary": 2,  # debug release
-                                },
+                                {"RuntimeLibrary": 0,},  # static release
+                                {"RuntimeLibrary": 2,},  # debug release
                             ],
                         ],
                         "Optimization": 3,  # /Ox, full optimization
@@ -82,9 +78,7 @@
                 "ExceptionHandling": 1,  # /EHsc
                 "SuppressStartupBanner": "true",
                 "WarnAsError": "false",
-                "AdditionalOptions": [
-                    "/MP",  # compile across multiple CPUs
-                ],
+                "AdditionalOptions": ["/MP",],  # compile across multiple CPUs
             },
             "VCLinkerTool": {
                 "GenerateDebugInformation": "true",
@@ -93,12 +87,7 @@
                 "AllowIsolation": "true",
                 "SuppressStartupBanner": "true",
                 "target_conditions": [
-                    [
-                        '_type=="executable"',
-                        {
-                            "SubSystem": 1,  # console executable
-                        },
-                    ],
+                    ['_type=="executable"', {"SubSystem": 1,},],  # console executable
                 ],
             },
         },

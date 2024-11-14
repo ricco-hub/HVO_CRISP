@@ -25,20 +25,14 @@ class TestSuiteTest(unittest.TestCase):
             TestCase(suite, "baz/bar"),
         ]
         suite.rules = {
-            "": {
-                "foo/bar": set(["PASS", "SKIP"]),
-                "baz/bar": set(["PASS", "FAIL"]),
-            },
+            "": {"foo/bar": set(["PASS", "SKIP"]), "baz/bar": set(["PASS", "FAIL"]),},
         }
         suite.wildcards = {
-            "": {
-                "baz/*": set(["PASS", "SLOW"]),
-            },
+            "": {"baz/*": set(["PASS", "SLOW"]),},
         }
         suite.FilterTestCasesByStatus(warn_unused_rules=False)
         self.assertEquals(
-            [TestCase(suite, "baz/bar")],
-            suite.tests,
+            [TestCase(suite, "baz/bar")], suite.tests,
         )
         self.assertEquals(set(["PASS", "FAIL", "SLOW"]), suite.tests[0].outcomes)
 
@@ -64,34 +58,23 @@ class TestSuiteTest(unittest.TestCase):
                 "foo/bar": set(["PASS", "SKIP"]),
                 "baz/bar": set(["PASS", "FAIL"]),
             },
-            "stress": {
-                "baz/bar": set(["SKIP"]),
-            },
+            "stress": {"baz/bar": set(["SKIP"]),},
         }
         suite.wildcards = {
-            "default": {
-                "baz/*": set(["PASS", "SLOW"]),
-            },
-            "stress": {
-                "foo/*": set(["PASS", "SLOW"]),
-            },
+            "default": {"baz/*": set(["PASS", "SLOW"]),},
+            "stress": {"foo/*": set(["PASS", "SLOW"]),},
         }
         suite.FilterTestCasesByStatus(warn_unused_rules=False, variants=True)
         self.assertEquals(
-            [
-                TestCase(suite, "foo/bar", flags=["-v"]),
-                TestCase(suite, "baz/bar"),
-            ],
+            [TestCase(suite, "foo/bar", flags=["-v"]), TestCase(suite, "baz/bar"),],
             suite.tests,
         )
 
         self.assertEquals(
-            set(["PASS", "SLOW", "PREV"]),
-            suite.tests[0].outcomes,
+            set(["PASS", "SLOW", "PREV"]), suite.tests[0].outcomes,
         )
         self.assertEquals(
-            set(["PASS", "FAIL", "SLOW", "PREV"]),
-            suite.tests[1].outcomes,
+            set(["PASS", "FAIL", "SLOW", "PREV"]), suite.tests[1].outcomes,
         )
 
 

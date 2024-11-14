@@ -8,15 +8,20 @@ import re
 import subprocess
 
 GCMOLE_PATH = os.path.dirname(os.path.abspath(__file__))
-SHA1_PATH = os.path.join(GCMOLE_PATH, 'gcmole-tools.tar.gz.sha1')
+SHA1_PATH = os.path.join(GCMOLE_PATH, "gcmole-tools.tar.gz.sha1")
 
-if re.search(r'\bgcmole=1', os.environ.get('GYP_DEFINES', '')):
-  subprocess.check_call([
-    'download_from_google_storage',
-    '-b', 'chrome-v8-gcmole',
-    '-u', '--no_resume',
-    '-s', SHA1_PATH,
-    '--platform=linux*'
-  ])
+if re.search(r"\bgcmole=1", os.environ.get("GYP_DEFINES", "")):
+    subprocess.check_call(
+        [
+            "download_from_google_storage",
+            "-b",
+            "chrome-v8-gcmole",
+            "-u",
+            "--no_resume",
+            "-s",
+            SHA1_PATH,
+            "--platform=linux*",
+        ]
+    )
 else:
-  print 'Skipping gcmole download as gcmole is not set in gyp flags.'
+    print "Skipping gcmole download as gcmole is not set in gyp flags."

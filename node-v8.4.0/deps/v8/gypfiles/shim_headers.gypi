@@ -36,14 +36,8 @@
         "shim_headers_path": "<(SHARED_INTERMEDIATE_DIR)/shim_headers/<(_target_name)/<(_toolset)",
         "shim_generator_additional_args%": [],
     },
-    "include_dirs++": [
-        "<(shim_headers_path)",
-    ],
-    "all_dependent_settings": {
-        "include_dirs+++": [
-            "<(shim_headers_path)",
-        ],
-    },
+    "include_dirs++": ["<(shim_headers_path)",],
+    "all_dependent_settings": {"include_dirs+++": ["<(shim_headers_path)",],},
     "actions": [
         {
             "variables": {
@@ -58,9 +52,7 @@
                 ],
             },
             "action_name": "generate_<(_target_name)_shim_headers",
-            "inputs": [
-                "<(generator_path)",
-            ],
+            "inputs": ["<(generator_path)",],
             "outputs": [
                 "<!@pymod_do_main(generate_shim_headers <@(generator_args) --outputs)",
             ],

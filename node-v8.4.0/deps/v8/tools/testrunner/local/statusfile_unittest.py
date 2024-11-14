@@ -102,10 +102,7 @@ class StatusFileTest(unittest.TestCase):
             rules[""],
         )
         self.assertEquals(
-            {
-                "foo/*": set(["SLOW", "FAIL"]),
-            },
-            wildcards[""],
+            {"foo/*": set(["SLOW", "FAIL"]),}, wildcards[""],
         )
         self.assertEquals({}, rules["default"])
         self.assertEquals({}, wildcards["default"])
@@ -116,51 +113,32 @@ class StatusFileTest(unittest.TestCase):
         )
 
         self.assertEquals(
-            {
-                "foo/bar": set(["PASS", "SKIP"]),
-                "baz/bar": set(["PASS", "FAIL"]),
-            },
+            {"foo/bar": set(["PASS", "SKIP"]), "baz/bar": set(["PASS", "FAIL"]),},
             rules[""],
         )
         self.assertEquals(
-            {
-                "foo/*": set(["PASS", "SLOW"]),
-            },
-            wildcards[""],
+            {"foo/*": set(["PASS", "SLOW"]),}, wildcards[""],
         )
         self.assertEquals({}, rules["default"])
         self.assertEquals({}, wildcards["default"])
 
     def test_read_statusfile_section_variant(self):
         rules, wildcards = statusfile.ReadStatusFile(
-            TEST_STATUS_FILE % "system==linux and variant==default",
-            make_variables(),
+            TEST_STATUS_FILE % "system==linux and variant==default", make_variables(),
         )
 
         self.assertEquals(
-            {
-                "foo/bar": set(["PASS", "SKIP"]),
-                "baz/bar": set(["PASS", "FAIL"]),
-            },
+            {"foo/bar": set(["PASS", "SKIP"]), "baz/bar": set(["PASS", "FAIL"]),},
             rules[""],
         )
         self.assertEquals(
-            {
-                "foo/*": set(["PASS", "SLOW"]),
-            },
-            wildcards[""],
+            {"foo/*": set(["PASS", "SLOW"]),}, wildcards[""],
         )
         self.assertEquals(
-            {
-                "baz/bar": set(["PASS", "SLOW"]),
-            },
-            rules["default"],
+            {"baz/bar": set(["PASS", "SLOW"]),}, rules["default"],
         )
         self.assertEquals(
-            {
-                "foo/*": set(["FAIL"]),
-            },
-            wildcards["default"],
+            {"foo/*": set(["FAIL"]),}, wildcards["default"],
         )
 
 

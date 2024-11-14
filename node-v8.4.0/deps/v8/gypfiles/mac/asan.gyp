@@ -19,9 +19,7 @@
             "copies": [
                 {
                     "destination": "<(PRODUCT_DIR)",
-                    "files": [
-                        "<!(/bin/ls <(asan_osx_dynamic))",
-                    ],
+                    "files": ["<!(/bin/ls <(asan_osx_dynamic))",],
                 },
             ],
         },

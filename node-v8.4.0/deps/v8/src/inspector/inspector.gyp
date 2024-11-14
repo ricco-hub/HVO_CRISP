@@ -3,9 +3,7 @@
 # found in the LICENSE file.
 
 {
-    "variables": {
-        "protocol_path": "../../third_party/inspector_protocol",
-    },
+    "variables": {"protocol_path": "../../third_party/inspector_protocol",},
     "includes": [
         "inspector.gypi",
         "<(PRODUCT_DIR)/../../../third_party/inspector_protocol/inspector_protocol.gypi",
@@ -18,13 +16,8 @@
             "actions": [
                 {
                     "action_name": "convert_js_to_cpp_char_array",
-                    "inputs": [
-                        "build/xxd.py",
-                        "<(inspector_injected_script_source)",
-                    ],
-                    "outputs": [
-                        "<(inspector_generated_injected_script)",
-                    ],
+                    "inputs": ["build/xxd.py", "<(inspector_injected_script_source)",],
+                    "outputs": ["<(inspector_generated_injected_script)",],
                     "action": [
                         "python",
                         "build/xxd.py",
@@ -44,13 +37,8 @@
             "actions": [
                 {
                     "action_name": "convert_js_to_cpp_char_array",
-                    "inputs": [
-                        "build/xxd.py",
-                        "<(inspector_debugger_script_source)",
-                    ],
-                    "outputs": [
-                        "<(inspector_generated_debugger_script)",
-                    ],
+                    "inputs": ["build/xxd.py", "<(inspector_debugger_script_source)",],
+                    "outputs": ["<(inspector_generated_debugger_script)",],
                     "action": [
                         "python",
                         "build/xxd.py",
@@ -70,12 +58,8 @@
             "actions": [
                 {
                     "action_name": "protocol_compatibility",
-                    "inputs": [
-                        "js_protocol.json",
-                    ],
-                    "outputs": [
-                        "<@(SHARED_INTERMEDIATE_DIR)/src/js_protocol.stamp",
-                    ],
+                    "inputs": ["js_protocol.json",],
+                    "outputs": ["<@(SHARED_INTERMEDIATE_DIR)/src/js_protocol.stamp",],
                     "action": [
                         "python",
                         "<(protocol_path)/CheckProtocolCompatibility.py",
@@ -100,9 +84,7 @@
                         "inspector_protocol_config.json",
                         "<@(inspector_protocol_files)",
                     ],
-                    "outputs": [
-                        "<@(inspector_generated_sources)",
-                    ],
+                    "outputs": ["<@(inspector_generated_sources)",],
                     "action": [
                         "python",
                         "<(protocol_path)/CodeGenerator.py",

@@ -68,19 +68,9 @@ EXE_LIST = [
 # Post-processed llvm symbolizer output as returned by
 # process_symbolizer_output. These are lists of this output for merging.
 INSTRUMENTED_LINE_RESULTS = [
-    {
-        "src/baz/bar.h": [0, 3, 7],
-        "src/foo.cc": [11],
-    },
-    {
-        "src/baz/bar.h": [3, 7, 8],
-        "src/baz.cc": [2],
-        "src/foo.cc": [1, 92],
-    },
-    {
-        "src/baz.cc": [1],
-        "src/foo.cc": [92, 93],
-    },
+    {"src/baz/bar.h": [0, 3, 7], "src/foo.cc": [11],},
+    {"src/baz/bar.h": [3, 7, 8], "src/baz.cc": [2], "src/foo.cc": [1, 92],},
+    {"src/baz.cc": [1], "src/foo.cc": [92, 93],},
 ]
 
 # This shows initial instrumentation. No lines are covered, hence,
@@ -103,28 +93,9 @@ EXPECTED_INSTRUMENTED_LINES_DATA = {
 # llvm-symbolizer output as a tuple including the executable name of each data
 # set.
 COVERED_LINE_RESULTS = [
-    (
-        {
-            "src/baz/bar.h": [3, 7],
-            "src/foo.cc": [11],
-        },
-        "d8",
-    ),
-    (
-        {
-            "src/baz/bar.h": [3, 7],
-            "src/baz.cc": [2],
-            "src/foo.cc": [1],
-        },
-        "cctest",
-    ),
-    (
-        {
-            "src/foo.cc": [92],
-            "src/baz.cc": [2],
-        },
-        "unittests",
-    ),
+    ({"src/baz/bar.h": [3, 7], "src/foo.cc": [11],}, "d8",),
+    ({"src/baz/bar.h": [3, 7], "src/baz.cc": [2], "src/foo.cc": [1],}, "cctest",),
+    ({"src/foo.cc": [92], "src/baz.cc": [2],}, "unittests",),
 ]
 
 # This shows initial instrumentation + coverage. The mask bits are:
@@ -151,9 +122,7 @@ EXPECTED_SPLIT_FILES = [
         {
             "version": 1,
             "tests": ["cctest", "d8", "unittests"],
-            "files": {
-                "src/baz/bar.h": [[0, 0b0], [3, 0b11], [7, 0b11], [8, 0b0]],
-            },
+            "files": {"src/baz/bar.h": [[0, 0b0], [3, 0b11], [7, 0b11], [8, 0b0]],},
         },
     ),
     (
@@ -161,9 +130,7 @@ EXPECTED_SPLIT_FILES = [
         {
             "version": 1,
             "tests": ["cctest", "d8", "unittests"],
-            "files": {
-                "src/baz.cc": [[1, 0b0], [2, 0b101]],
-            },
+            "files": {"src/baz.cc": [[1, 0b0], [2, 0b101]],},
         },
     ),
     (
@@ -171,9 +138,7 @@ EXPECTED_SPLIT_FILES = [
         {
             "version": 1,
             "tests": ["cctest", "d8", "unittests"],
-            "files": {
-                "src/foo.cc": [[1, 0b1], [11, 0b10], [92, 0b100], [93, 0b0]],
-            },
+            "files": {"src/foo.cc": [[1, 0b1], [11, 0b10], [92, 0b100], [93, 0b0]],},
         },
     ),
 ]
@@ -219,13 +184,7 @@ class FormatterTests(unittest.TestCase):
 
         try:
             sancov_formatter.main(
-                [
-                    "split",
-                    "--json-input",
-                    json_input,
-                    "--output-dir",
-                    output_dir,
-                ]
+                ["split", "--json-input", json_input, "--output-dir", output_dir,]
             )
 
             for file_name, expected_data in EXPECTED_SPLIT_FILES:

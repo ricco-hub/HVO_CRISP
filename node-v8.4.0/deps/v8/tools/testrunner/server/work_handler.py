@@ -40,111 +40,117 @@ from ..objects import workpacket
 
 
 class WorkHandler(SocketServer.BaseRequestHandler):
+    def handle(self):
+        rec = compression.Receiver(self.request)
+        while not rec.IsDone():
+            data = rec.Current()
+            with self.server.job_lock:
+                self._WorkOnWorkPacket(data)
+            rec.Advance()
 
-  def handle(self):
-    rec = compression.Receiver(self.request)
-    while not rec.IsDone():
-      data = rec.Current()
-      with self.server.job_lock:
-        self._WorkOnWorkPacket(data)
-      rec.Advance()
+    def _WorkOnWorkPacket(self, data):
+        server_root = self.server.daemon.root
+        v8_root = os.path.join(server_root, "v8")
+        os.chdir(v8_root)
+        packet = workpacket.WorkPacket.Unpack(data)
+        self.ctx = packet.context
+        self.ctx.shell_dir = os.path.join(
+            "out", "%s.%s" % (self.ctx.arch, self.ctx.mode)
+        )
+        if not os.path.isdir(self.ctx.shell_dir):
+            os.makedirs(self.ctx.shell_dir)
+        for binary in packet.binaries:
+            if not self._UnpackBinary(binary, packet.pubkey_fingerprint):
+                return
 
-  def _WorkOnWorkPacket(self, data):
-    server_root = self.server.daemon.root
-    v8_root = os.path.join(server_root, "v8")
-    os.chdir(v8_root)
-    packet = workpacket.WorkPacket.Unpack(data)
-    self.ctx = packet.context
-    self.ctx.shell_dir = os.path.join("out",
-                                      "%s.%s" % (self.ctx.arch, self.ctx.mode))
-    if not os.path.isdir(self.ctx.shell_dir):
-      os.makedirs(self.ctx.shell_dir)
-    for binary in packet.binaries:
-      if not self._UnpackBinary(binary, packet.pubkey_fingerprint):
-        return
+        if not self._CheckoutRevision(packet.base_revision):
+            return
 
-    if not self._CheckoutRevision(packet.base_revision):
-      return
+        if not self._ApplyPatch(packet.patch):
+            return
 
-    if not self._ApplyPatch(packet.patch):
-      return
+        tests = packet.tests
+        endpoint.Execute(v8_root, self.ctx, tests, self.request, self.server.daemon)
+        self._SendResponse()
 
-    tests = packet.tests
-    endpoint.Execute(v8_root, self.ctx, tests, self.request, self.server.daemon)
-    self._SendResponse()
+    def _SendResponse(self, error_message=None):
+        try:
+            if error_message:
+                compression.Send([[-1, error_message]], self.request)
+            compression.Send(constants.END_OF_STREAM, self.request)
+            return
+        except Exception, e:
+            pass  # Peer is gone. There's nothing we can do.
+        # Clean up.
+        self._Call("git checkout -f")
+        self._Call("git clean -f -d")
+        self._Call("rm -rf %s" % self.ctx.shell_dir)
 
-  def _SendResponse(self, error_message=None):
-    try:
-      if error_message:
-        compression.Send([[-1, error_message]], self.request)
-      compression.Send(constants.END_OF_STREAM, self.request)
-      return
-    except Exception, e:
-      pass  # Peer is gone. There's nothing we can do.
-    # Clean up.
-    self._Call("git checkout -f")
-    self._Call("git clean -f -d")
-    self._Call("rm -rf %s" % self.ctx.shell_dir)
+    def _UnpackBinary(self, binary, pubkey_fingerprint):
+        binary_name = binary["name"]
+        if binary_name == "libv8.so":
+            libdir = os.path.join(self.ctx.shell_dir, "lib.target")
+            if not os.path.exists(libdir):
+                os.makedirs(libdir)
+            target = os.path.join(libdir, binary_name)
+        else:
+            target = os.path.join(self.ctx.shell_dir, binary_name)
+        pubkeyfile = "../trusted/%s.pem" % pubkey_fingerprint
+        if not signatures.VerifySignature(
+            target, binary["blob"], binary["sign"], pubkeyfile
+        ):
+            self._SendResponse("Signature verification failed")
+            return False
+        os.chmod(target, stat.S_IRWXU)
+        return True
 
-  def _UnpackBinary(self, binary, pubkey_fingerprint):
-    binary_name = binary["name"]
-    if binary_name == "libv8.so":
-      libdir = os.path.join(self.ctx.shell_dir, "lib.target")
-      if not os.path.exists(libdir): os.makedirs(libdir)
-      target = os.path.join(libdir, binary_name)
-    else:
-      target = os.path.join(self.ctx.shell_dir, binary_name)
-    pubkeyfile = "../trusted/%s.pem" % pubkey_fingerprint
-    if not signatures.VerifySignature(target, binary["blob"],
-                                      binary["sign"], pubkeyfile):
-      self._SendResponse("Signature verification failed")
-      return False
-    os.chmod(target, stat.S_IRWXU)
-    return True
+    def _CheckoutRevision(self, base_svn_revision):
+        get_hash_cmd = (
+            "git log -1 --format=%%H --remotes --grep='^git-svn-id:.*@%s'"
+            % base_svn_revision
+        )
+        try:
+            base_revision = subprocess.check_output(get_hash_cmd, shell=True)
+            if not base_revision:
+                raise ValueError
+        except:
+            self._Call("git fetch")
+            try:
+                base_revision = subprocess.check_output(get_hash_cmd, shell=True)
+                if not base_revision:
+                    raise ValueError
+            except:
+                self._SendResponse("Base revision not found.")
+                return False
+        code = self._Call("git checkout -f %s" % base_revision)
+        if code != 0:
+            self._SendResponse("Error trying to check out base revision.")
+            return False
+        code = self._Call("git clean -f -d")
+        if code != 0:
+            self._SendResponse("Failed to reset checkout")
+            return False
+        return True
 
-  def _CheckoutRevision(self, base_svn_revision):
-    get_hash_cmd = (
-        "git log -1 --format=%%H --remotes --grep='^git-svn-id:.*@%s'" %
-        base_svn_revision)
-    try:
-      base_revision = subprocess.check_output(get_hash_cmd, shell=True)
-      if not base_revision: raise ValueError
-    except:
-      self._Call("git fetch")
-      try:
-        base_revision = subprocess.check_output(get_hash_cmd, shell=True)
-        if not base_revision: raise ValueError
-      except:
-        self._SendResponse("Base revision not found.")
-        return False
-    code = self._Call("git checkout -f %s" % base_revision)
-    if code != 0:
-      self._SendResponse("Error trying to check out base revision.")
-      return False
-    code = self._Call("git clean -f -d")
-    if code != 0:
-      self._SendResponse("Failed to reset checkout")
-      return False
-    return True
+    def _ApplyPatch(self, patch):
+        if not patch:
+            return True  # Just skip if the patch is empty.
+        patchfilename = "_dtest_incoming_patch.patch"
+        with open(patchfilename, "w") as f:
+            f.write(patch)
+        code = self._Call("git apply %s" % patchfilename)
+        if code != 0:
+            self._SendResponse("Error applying patch.")
+            return False
+        return True
 
-  def _ApplyPatch(self, patch):
-    if not patch: return True  # Just skip if the patch is empty.
-    patchfilename = "_dtest_incoming_patch.patch"
-    with open(patchfilename, "w") as f:
-      f.write(patch)
-    code = self._Call("git apply %s" % patchfilename)
-    if code != 0:
-      self._SendResponse("Error applying patch.")
-      return False
-    return True
-
-  def _Call(self, cmd):
-    return subprocess.call(cmd, shell=True)
+    def _Call(self, cmd):
+        return subprocess.call(cmd, shell=True)
 
 
 class WorkSocketServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
-  def __init__(self, daemon):
-    address = (daemon.ip, constants.PEER_PORT)
-    SocketServer.TCPServer.__init__(self, address, WorkHandler)
-    self.job_lock = threading.Lock()
-    self.daemon = daemon
+    def __init__(self, daemon):
+        address = (daemon.ip, constants.PEER_PORT)
+        SocketServer.TCPServer.__init__(self, address, WorkHandler)
+        self.job_lock = threading.Lock()
+        self.daemon = daemon

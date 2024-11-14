@@ -112,10 +112,7 @@ class LinuxPerfReportTest(unittest.TestCase):
         )
         self.assertItemsEqual(
             counters,
-            [
-                ("BytecodeHandler:bar;foo", 2),
-                ("BytecodeHandler:bar;beep", 1),
-            ],
+            [("BytecodeHandler:bar;foo", 2), ("BytecodeHandler:bar;beep", 1),],
         )
 
     def test_calculate_samples_count_per_handler_show_compile(self):
@@ -152,10 +149,7 @@ class LinuxPerfReportTest(unittest.TestCase):
         )
         callchains = list(ipr.collapsed_callchains_generator(perf_stream, False))
         self.assertListEqual(
-            callchains,
-            [
-                ["foo", "BytecodeHandler:first", "[interpreter]"],
-            ],
+            callchains, [["foo", "BytecodeHandler:first", "[interpreter]"],],
         )
 
     def test_compiler_symbols_regex(self):

@@ -23,12 +23,8 @@
                 "../third_party/openmax/openmax.gyp:il",
                 "../ui/ui.gyp:ui",
             ],
-            "defines": [
-                "MEDIA_IMPLEMENTATION",
-            ],
-            "include_dirs": [
-                "..",
-            ],
+            "defines": ["MEDIA_IMPLEMENTATION",],
+            "include_dirs": ["..",],
             "sources": [
                 "audio/android/audio_manager_android.cc",
                 "audio/android/audio_manager_android.h",
@@ -289,21 +285,13 @@
                 "webm/webm_tracks_parser.cc",
                 "webm/webm_tracks_parser.h",
             ],
-            "direct_dependent_settings": {
-                "include_dirs": [
-                    "..",
-                ],
-            },
+            "direct_dependent_settings": {"include_dirs": ["..",],},
             "conditions": [
                 # Android doesn't use ffmpeg, so make the dependency conditional
                 # and exclude the sources which depend on ffmpeg.
                 [
                     'OS != "android"',
-                    {
-                        "dependencies": [
-                            "../third_party/ffmpeg/ffmpeg.gyp:ffmpeg",
-                        ],
-                    },
+                    {"dependencies": ["../third_party/ffmpeg/ffmpeg.gyp:ffmpeg",],},
                 ],
                 [
                     'OS == "android"',
@@ -346,28 +334,16 @@
                 [
                     'OS == "android"',
                     {
-                        "sources!": [
-                            "audio/android/audio_track_output_android.cc",
-                        ],
+                        "sources!": ["audio/android/audio_track_output_android.cc",],
                         "sources": [
                             "audio/android/audio_track_output_stub_android.cc",
                         ],
-                        "link_settings": {
-                            "libraries": [
-                                "-lOpenSLES",
-                            ],
-                        },
+                        "link_settings": {"libraries": ["-lOpenSLES",],},
                     },
                 ],
                 [
                     'OS=="linux" or OS=="freebsd" or OS=="solaris"',
-                    {
-                        "link_settings": {
-                            "libraries": [
-                                "-lasound",
-                            ],
-                        },
-                    },
+                    {"link_settings": {"libraries": ["-lasound",],},},
                 ],
                 [
                     'OS=="openbsd"',
@@ -376,9 +352,7 @@
                             ["exclude", "/alsa_"],
                             ["exclude", "/audio_manager_linux"],
                         ],
-                        "link_settings": {
-                            "libraries": [],
-                        },
+                        "link_settings": {"libraries": [],},
                     },
                 ],
                 [
@@ -408,17 +382,13 @@
                             [
                                 "use_cras == 1",
                                 {
-                                    "cflags": [
-                                        "<!@(<(pkg-config) --cflags libcras)",
-                                    ],
+                                    "cflags": ["<!@(<(pkg-config) --cflags libcras)",],
                                     "link_settings": {
                                         "libraries": [
                                             "<!@(<(pkg-config) --libs libcras)",
                                         ],
                                     },
-                                    "defines": [
-                                        "USE_CRAS",
-                                    ],
+                                    "defines": ["USE_CRAS",],
                                 },
                                 {  # else: use_cras == 0
                                     "sources!": [
@@ -437,17 +407,13 @@
                             [
                                 "use_pulseaudio == 1",
                                 {
-                                    "cflags": [
-                                        "<!@(pkg-config --cflags libpulse)",
-                                    ],
+                                    "cflags": ["<!@(pkg-config --cflags libpulse)",],
                                     "link_settings": {
                                         "libraries": [
                                             "<!@(pkg-config --libs-only-l libpulse)",
                                         ],
                                     },
-                                    "defines": [
-                                        "USE_PULSEAUDIO",
-                                    ],
+                                    "defines": ["USE_PULSEAUDIO",],
                                 },
                                 {  # else: use_pulseaudio == 0
                                     "sources!": [
@@ -520,9 +486,7 @@
         {
             "target_name": "yuv_convert",
             "type": "static_library",
-            "include_dirs": [
-                "..",
-            ],
+            "include_dirs": ["..",],
             "conditions": [
                 [
                     "order_profiling != 0",
@@ -530,41 +494,23 @@
                         "target_conditions": [
                             [
                                 '_toolset=="target"',
-                                {
-                                    "cflags!": ["-finstrument-functions"],
-                                },
+                                {"cflags!": ["-finstrument-functions"],},
                             ],
                         ],
                     },
                 ],
                 [
                     'target_arch == "ia32" or target_arch == "x64"',
-                    {
-                        "dependencies": [
-                            "yuv_convert_simd_x86",
-                        ],
-                    },
+                    {"dependencies": ["yuv_convert_simd_x86",],},
                 ],
-                [
-                    'target_arch == "arm"',
-                    {
-                        "dependencies": [
-                            "yuv_convert_simd_arm",
-                        ],
-                    },
-                ],
+                ['target_arch == "arm"', {"dependencies": ["yuv_convert_simd_arm",],},],
             ],
-            "sources": [
-                "base/yuv_convert.cc",
-                "base/yuv_convert.h",
-            ],
+            "sources": ["base/yuv_convert.cc", "base/yuv_convert.h",],
         },
         {
             "target_name": "yuv_convert_simd_x86",
             "type": "static_library",
-            "include_dirs": [
-                "..",
-            ],
+            "include_dirs": ["..",],
             "sources": [
                 "base/simd/convert_rgb_to_yuv_c.cc",
                 "base/simd/convert_rgb_to_yuv_sse2.cc",
@@ -596,9 +542,7 @@
                         "target_conditions": [
                             [
                                 '_toolset=="target"',
-                                {
-                                    "cflags!": ["-finstrument-functions"],
-                                },
+                                {"cflags!": ["-finstrument-functions"],},
                             ],
                         ],
                     },
@@ -615,11 +559,7 @@
                 ],
                 [
                     'os_posix == 1 and OS != "mac" and OS != "android"',
-                    {
-                        "cflags": [
-                            "-msse2",
-                        ],
-                    },
+                    {"cflags": ["-msse2",],},
                 ],
                 [
                     'OS == "mac"',
@@ -692,20 +632,14 @@
                     },
                 ],
             ],
-            "variables": {
-                "yasm_output_path": "<(SHARED_INTERMEDIATE_DIR)/media",
-            },
+            "variables": {"yasm_output_path": "<(SHARED_INTERMEDIATE_DIR)/media",},
             "msvs_2010_disable_uldi_when_referenced": 1,
-            "includes": [
-                "../third_party/yasm/yasm_compile.gypi",
-            ],
+            "includes": ["../third_party/yasm/yasm_compile.gypi",],
         },
         {
             "target_name": "yuv_convert_simd_arm",
             "type": "static_library",
-            "include_dirs": [
-                "..",
-            ],
+            "include_dirs": ["..",],
             "sources": [
                 "base/simd/convert_rgb_to_yuv_c.cc",
                 "base/simd/convert_rgb_to_yuv.h",
@@ -814,11 +748,7 @@
                 ],
                 [
                     'OS != "android"',
-                    {
-                        "dependencies": [
-                            "../third_party/ffmpeg/ffmpeg.gyp:ffmpeg",
-                        ],
-                    },
+                    {"dependencies": ["../third_party/ffmpeg/ffmpeg.gyp:ffmpeg",],},
                 ],
                 [
                     'OS == "android"',
@@ -849,12 +779,8 @@
                             [
                                 "use_cras == 1",
                                 {
-                                    "sources": [
-                                        "audio/linux/cras_output_unittest.cc",
-                                    ],
-                                    "defines": [
-                                        "USE_CRAS",
-                                    ],
+                                    "sources": ["audio/linux/cras_output_unittest.cc",],
+                                    "defines": ["USE_CRAS",],
                                 },
                             ],
                         ],
@@ -862,11 +788,7 @@
                 ],
                 [
                     'target_arch=="ia32" or target_arch=="x64"',
-                    {
-                        "sources": [
-                            "base/simd/convert_rgb_to_yuv_unittest.cc",
-                        ],
-                    },
+                    {"sources": ["base/simd/convert_rgb_to_yuv_unittest.cc",],},
                 ],
                 [
                     'proprietary_codecs==1 or branding=="Chrome"',
@@ -914,9 +836,7 @@
                 "../base/base.gyp:base",
                 "../skia/skia.gyp:skia",
             ],
-            "sources": [
-                "tools/scaler_bench/scaler_bench.cc",
-            ],
+            "sources": ["tools/scaler_bench/scaler_bench.cc",],
         },
         {
             "target_name": "qt_faststart",
@@ -926,13 +846,8 @@
         {
             "target_name": "seek_tester",
             "type": "executable",
-            "dependencies": [
-                "media",
-                "../base/base.gyp:base",
-            ],
-            "sources": [
-                "tools/seek_tester/seek_tester.cc",
-            ],
+            "dependencies": ["media", "../base/base.gyp:base",],
+            "sources": ["tools/seek_tester/seek_tester.cc",],
         },
     ],
     "conditions": [
@@ -950,9 +865,7 @@
                             "../base/third_party/dynamic_annotations/dynamic_annotations.gyp:dynamic_annotations",
                             "../ui/ui.gyp:ui",
                         ],
-                        "include_dirs": [
-                            "<(DEPTH)/third_party/wtl/include",
-                        ],
+                        "include_dirs": ["<(DEPTH)/third_party/wtl/include",],
                         "sources": [
                             "tools/player_wtl/list.h",
                             "tools/player_wtl/mainfrm.h",
@@ -970,9 +883,7 @@
                                 "SubSystem": "2",  # Set /SUBSYSTEM:WINDOWS
                             },
                         },
-                        "defines": [
-                            "_CRT_SECURE_NO_WARNINGS=1",
-                        ],
+                        "defines": ["_CRT_SECURE_NO_WARNINGS=1",],
                     },
                 ],
             },
@@ -1007,12 +918,8 @@
                             [
                                 "toolkit_uses_gtk == 1",
                                 {
-                                    "dependencies": [
-                                        "../build/linux/system.gyp:gtk",
-                                    ],
-                                    "sources": [
-                                        "tools/shader_bench/window_linux.cc",
-                                    ],
+                                    "dependencies": ["../build/linux/system.gyp:gtk",],
+                                    "sources": ["tools/shader_bench/window_linux.cc",],
                                 },
                             ],
                             [
@@ -1022,9 +929,7 @@
                                         "../third_party/angle/src/build_angle.gyp:libEGL",
                                         "../third_party/angle/src/build_angle.gyp:libGLESv2",
                                     ],
-                                    "sources": [
-                                        "tools/shader_bench/window_win.cc",
-                                    ],
+                                    "sources": ["tools/shader_bench/window_win.cc",],
                                 },
                             ],
                         ],
@@ -1043,13 +948,8 @@
                             "../base/base.gyp:base",
                             "../ui/gl/gl.gyp:gl",
                         ],
-                        "libraries": [
-                            "-lGL",
-                            "-ldl",
-                        ],
-                        "sources": [
-                            "tools/tile_render_bench/tile_render_bench.cc",
-                        ],
+                        "libraries": ["-lGL", "-ldl",],
+                        "sources": ["tools/tile_render_bench/tile_render_bench.cc",],
                     },
                 ],
             },
@@ -1068,12 +968,7 @@
                             "../ui/gl/gl.gyp:gl",
                         ],
                         "link_settings": {
-                            "libraries": [
-                                "-ldl",
-                                "-lX11",
-                                "-lXrender",
-                                "-lXext",
-                            ],
+                            "libraries": ["-ldl", "-lX11", "-lXrender", "-lXext",],
                         },
                         "sources": [
                             "tools/player_x11/data_source_logger.cc",
@@ -1099,12 +994,8 @@
                             "base/android/media_player_bridge.cc",
                             "base/android/media_player_bridge.h",
                         ],
-                        "dependencies": [
-                            "../base/base.gyp:base",
-                        ],
-                        "include_dirs": [
-                            "<(SHARED_INTERMEDIATE_DIR)/media",
-                        ],
+                        "dependencies": ["../base/base.gyp:base",],
+                        "include_dirs": ["<(SHARED_INTERMEDIATE_DIR)/media",],
                         "actions": [
                             {
                                 "action_name": "generate-jni-headers",
@@ -1153,9 +1044,7 @@
                             "../testing/gtest.gyp:gtest",
                             "../third_party/ffmpeg/ffmpeg.gyp:ffmpeg",
                         ],
-                        "sources": [
-                            "ffmpeg/ffmpeg_unittest.cc",
-                        ],
+                        "sources": ["ffmpeg/ffmpeg_unittest.cc",],
                         "conditions": [
                             [
                                 "toolkit_uses_gtk == 1",
@@ -1224,9 +1113,7 @@
                             "../base/base.gyp:base",
                             "../third_party/ffmpeg/ffmpeg.gyp:ffmpeg",
                         ],
-                        "sources": [
-                            "test/ffmpeg_tests/ffmpeg_tests.cc",
-                        ],
+                        "sources": ["test/ffmpeg_tests/ffmpeg_tests.cc",],
                     },
                     {
                         "target_name": "media_bench",
@@ -1236,9 +1123,7 @@
                             "../base/base.gyp:base",
                             "../third_party/ffmpeg/ffmpeg.gyp:ffmpeg",
                         ],
-                        "sources": [
-                            "tools/media_bench/media_bench.cc",
-                        ],
+                        "sources": ["tools/media_bench/media_bench.cc",],
                     },
                 ],
             },

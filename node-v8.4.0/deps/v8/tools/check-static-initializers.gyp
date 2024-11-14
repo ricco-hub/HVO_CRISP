@@ -11,16 +11,12 @@
                     {
                         "target_name": "check_static_initializers_run",
                         "type": "none",
-                        "dependencies": [
-                            "../src/d8.gyp:d8_run",
-                        ],
+                        "dependencies": ["../src/d8.gyp:d8_run",],
                         "includes": [
                             "../gypfiles/features.gypi",
                             "../gypfiles/isolate.gypi",
                         ],
-                        "sources": [
-                            "check-static-initializers.isolate",
-                        ],
+                        "sources": ["check-static-initializers.isolate",],
                     },
                 ],
             },

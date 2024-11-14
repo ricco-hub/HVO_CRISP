@@ -40,7 +40,7 @@ class Log2Bucket:
         if bucket == 0:
             return (0, 2 ** (self.start + 1))
         bucket += self.start
-        return (2**bucket, 2 ** (bucket + 1))
+        return (2 ** bucket, 2 ** (bucket + 1))
 
 
 class Histogram:

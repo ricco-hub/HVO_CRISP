@@ -1173,10 +1173,7 @@
             # to avoid build errors on Win. See openssl/engines/e_capi.c
             "OPENSSL_NO_CAPIENG",
         ],
-        "openssl_defines_all_non_win": [
-            "DSO_DLFCN",
-            "HAVE_DLFCN_H",
-        ],
+        "openssl_defines_all_non_win": ["DSO_DLFCN", "HAVE_DLFCN_H",],
         "openssl_defines_ia32_elf": [
             "<@(openssl_defines_non_arm)",
             "OPENSSL_BN_ASM_PART_WORDS",
@@ -1222,10 +1219,7 @@
             "openssl/include",
         ],
         #### Variables for openssl-cli  ####
-        "openssl_cli_libraries_solaris": [
-            "-lsocket",
-            "-lnsl",
-        ],
+        "openssl_cli_libraries_solaris": ["-lsocket", "-lnsl",],
         "openssl_cli_libraries_win": [
             "-lws2_32.lib",
             "-lgdi32.lib",
@@ -1271,10 +1265,7 @@
             "WIN32_LEAN_AND_MEAN",
             "OPENSSL_SYSNAME_WIN32",
         ],
-        "openssl_default_libraries_win": [
-            "-lgdi32.lib",
-            "-luser32.lib",
-        ],
+        "openssl_default_libraries_win": ["-lgdi32.lib", "-luser32.lib",],
         "openssl_default_defines_not_win": [
             # ENGINESDIR must be defined if OPENSSLDIR is.
             'ENGINESDIR="/dev/null"',

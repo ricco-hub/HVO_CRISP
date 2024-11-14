@@ -24,21 +24,13 @@
                 [
                     'openssl_fips != ""',
                     {
-                        "defines": [
-                            "OPENSSL_FIPS",
-                        ],
-                        "include_dirs": [
-                            "<(openssl_fips)/include",
-                        ],
+                        "defines": ["OPENSSL_FIPS",],
+                        "include_dirs": ["<(openssl_fips)/include",],
                         # Trick fipsld, it expects to see libcrypto.a
                         "product_name": "crypto",
                         "direct_dependent_settings": {
-                            "defines": [
-                                "OPENSSL_FIPS",
-                            ],
-                            "include_dirs": [
-                                "<(openssl_fips)/include",
-                            ],
+                            "defines": ["OPENSSL_FIPS",],
+                            "include_dirs": ["<(openssl_fips)/include",],
                         },
                     },
                 ],
@@ -69,9 +61,7 @@
                     "openssl_no_asm!=0",
                     {
                         # Disable asm
-                        "defines": [
-                            "OPENSSL_NO_ASM",
-                        ],
+                        "defines": ["OPENSSL_NO_ASM",],
                         "sources": ["<@(openssl_sources_no_asm)"],
                     },
                     {
@@ -135,9 +125,7 @@
                                 },
                                 'target_arch=="arm64"',
                                 {
-                                    "defines": [
-                                        "<@(openssl_defines_arm64)",
-                                    ],
+                                    "defines": ["<@(openssl_defines_arm64)",],
                                     "sources": [
                                         "<@(openssl_sources_arm64_linux64_gas)"
                                     ],
@@ -153,9 +141,7 @@
                 ],  # end of conditions of openssl_no_asm
                 [
                     'OS=="win"',
-                    {
-                        "defines": ["<@(openssl_defines_all_win)"],
-                    },
+                    {"defines": ["<@(openssl_defines_all_win)"],},
                     {"defines": ["<@(openssl_defines_all_non_win)"]},
                 ],
                 [
@@ -171,15 +157,11 @@
                 ],
             ],
             "include_dirs": ["<@(openssl_include_dirs)"],
-            "direct_dependent_settings": {
-                "include_dirs": ["openssl/include"],
-            },
+            "direct_dependent_settings": {"include_dirs": ["openssl/include"],},
         },
         {
             # openssl-cli target
-            "includes": [
-                "openssl-cli.gypi",
-            ],
+            "includes": ["openssl-cli.gypi",],
         },
     ],
     "target_defaults": {
@@ -201,28 +183,17 @@
                     "conditions": [
                         [
                             'OS=="mac"',
-                            {
-                                "defines": ["<@(openssl_default_defines_mac)"],
-                            },
-                            {
-                                "defines": ["<@(openssl_default_defines_linux_others)"],
-                            },
+                            {"defines": ["<@(openssl_default_defines_mac)"],},
+                            {"defines": ["<@(openssl_default_defines_linux_others)"],},
                         ],
                     ],
                 },
             ],
             [
                 "is_clang==1 or gcc_version>=43",
-                {
-                    "cflags": ["-Wno-old-style-declaration"],
-                },
+                {"cflags": ["-Wno-old-style-declaration"],},
             ],
-            [
-                'OS=="solaris"',
-                {
-                    "defines": ["__EXTENSIONS__"],
-                },
-            ],
+            ['OS=="solaris"', {"defines": ["__EXTENSIONS__"],},],
         ],
     },
 }

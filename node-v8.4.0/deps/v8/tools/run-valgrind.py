@@ -40,43 +40,41 @@ import subprocess
 import sys
 
 V8_ROOT = path.dirname(path.dirname(path.abspath(__file__)))
-MACHINE = 'linux_x64' if platform.machine() == 'x86_64' else 'linux_x86'
-VALGRIND_ROOT = path.join(V8_ROOT, 'third_party', 'valgrind', MACHINE)
-VALGRIND_BIN = path.join(VALGRIND_ROOT, 'bin', 'valgrind')
-VALGRIND_LIB = path.join(VALGRIND_ROOT, 'lib', 'valgrind')
+MACHINE = "linux_x64" if platform.machine() == "x86_64" else "linux_x86"
+VALGRIND_ROOT = path.join(V8_ROOT, "third_party", "valgrind", MACHINE)
+VALGRIND_BIN = path.join(VALGRIND_ROOT, "bin", "valgrind")
+VALGRIND_LIB = path.join(VALGRIND_ROOT, "lib", "valgrind")
 
 VALGRIND_ARGUMENTS = [
-  VALGRIND_BIN,
-  '--error-exitcode=1',
-  '--leak-check=full',
-  '--smc-check=all',
+    VALGRIND_BIN,
+    "--error-exitcode=1",
+    "--leak-check=full",
+    "--smc-check=all",
 ]
 
 if len(sys.argv) < 2:
-  print 'Please provide an executable to analyze.'
-  sys.exit(1)
+    print "Please provide an executable to analyze."
+    sys.exit(1)
 
 executable = path.join(V8_ROOT, sys.argv[1])
 if not path.exists(executable):
-  print 'Cannot find the file specified: %s' % executable
-  sys.exit(1)
+    print "Cannot find the file specified: %s" % executable
+    sys.exit(1)
 
 # Compute the command line.
 command = VALGRIND_ARGUMENTS + [executable] + sys.argv[2:]
 
 # Run valgrind.
 process = subprocess.Popen(
-    command,
-    stderr=subprocess.PIPE,
-    env={'VALGRIND_LIB': VALGRIND_LIB}
+    command, stderr=subprocess.PIPE, env={"VALGRIND_LIB": VALGRIND_LIB}
 )
-code = process.wait();
-errors = process.stderr.readlines();
+code = process.wait()
+errors = process.stderr.readlines()
 
 # If valgrind produced an error, we report that to the user.
 if code != 0:
-  sys.stderr.writelines(errors)
-  sys.exit(code)
+    sys.stderr.writelines(errors)
+    sys.exit(code)
 
 # Look through the leak details and make sure that we don't
 # have any definitely, indirectly, and possibly lost bytes.
@@ -85,17 +83,17 @@ LEAK_LINE_MATCHER = re.compile(LEAK_RE)
 LEAK_OKAY_MATCHER = re.compile(r"lost: 0 bytes in 0 blocks")
 leaks = []
 for line in errors:
-  if LEAK_LINE_MATCHER.search(line):
-    leaks.append(line)
-    if not LEAK_OKAY_MATCHER.search(line):
-      sys.stderr.writelines(errors)
-      sys.exit(1)
+    if LEAK_LINE_MATCHER.search(line):
+        leaks.append(line)
+        if not LEAK_OKAY_MATCHER.search(line):
+            sys.stderr.writelines(errors)
+            sys.exit(1)
 
 # Make sure we found between 2 and 3 leak lines.
 if len(leaks) < 2 or len(leaks) > 3:
-  sys.stderr.writelines(errors)
-  sys.stderr.write('\n\n#### Malformed valgrind output.\n#### Exiting.\n')
-  sys.exit(1)
+    sys.stderr.writelines(errors)
+    sys.stderr.write("\n\n#### Malformed valgrind output.\n#### Exiting.\n")
+    sys.exit(1)
 
 # No leaks found.
 sys.stderr.writelines(errors)

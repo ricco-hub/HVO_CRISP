@@ -48,9 +48,7 @@
                 "<(DEPTH)/tools/swarming_client/isolate.py",
                 "<(DEPTH)/tools/swarming_client/run_isolated.py",
             ],
-            "outputs": [
-                "<(PRODUCT_DIR)/<(RULE_INPUT_ROOT).isolated",
-            ],
+            "outputs": ["<(PRODUCT_DIR)/<(RULE_INPUT_ROOT).isolated",],
             "action": [
                 "python",
                 "<(DEPTH)/tools/isolate_driver.py",
@@ -108,18 +106,8 @@
             "conditions": [
                 [
                     'OS=="win"',
-                    {
-                        "action": [
-                            "--config-variable",
-                            "msvs_version=2013",
-                        ],
-                    },
-                    {
-                        "action": [
-                            "--config-variable",
-                            "msvs_version=0",
-                        ],
-                    },
+                    {"action": ["--config-variable", "msvs_version=2013",],},
+                    {"action": ["--config-variable", "msvs_version=0",],},
                 ],
             ],
         },

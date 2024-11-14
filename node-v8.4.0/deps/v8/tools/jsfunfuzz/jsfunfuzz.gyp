@@ -11,16 +11,12 @@
                     {
                         "target_name": "jsfunfuzz_run",
                         "type": "none",
-                        "dependencies": [
-                            "../../src/d8.gyp:d8_run",
-                        ],
+                        "dependencies": ["../../src/d8.gyp:d8_run",],
                         "includes": [
                             "../../gypfiles/features.gypi",
                             "../../gypfiles/isolate.gypi",
                         ],
-                        "sources": [
-                            "jsfunfuzz.isolate",
-                        ],
+                        "sources": ["jsfunfuzz.isolate",],
                     },
                 ],
             },

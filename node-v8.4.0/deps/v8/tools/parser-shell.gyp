@@ -26,10 +26,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 {
-    "variables": {
-        "v8_code": 1,
-        "v8_enable_i18n_support%": 1,
-    },
+    "variables": {"v8_code": 1, "v8_enable_i18n_support%": 1,},
     "includes": ["../gypfiles/toolchain.gypi", "../gypfiles/features.gypi"],
     "targets": [
         {
@@ -51,13 +48,8 @@
                     },
                 ],
             ],
-            "include_dirs+": [
-                "..",
-            ],
-            "sources": [
-                "parser-shell.cc",
-                "shell-utils.h",
-            ],
+            "include_dirs+": ["..",],
+            "sources": ["parser-shell.cc", "shell-utils.h",],
         },
     ],
 }

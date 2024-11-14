@@ -80,15 +80,11 @@
         "conditions": [
             [
                 'OS=="linux" and host_arch=="x64"',
-                {
-                    "binutils_dir%": "third_party/binutils/Linux_x64/Release/bin",
-                },
+                {"binutils_dir%": "third_party/binutils/Linux_x64/Release/bin",},
             ],
             [
                 'OS=="linux" and host_arch=="ia32"',
-                {
-                    "binutils_dir%": "third_party/binutils/Linux_ia32/Release/bin",
-                },
+                {"binutils_dir%": "third_party/binutils/Linux_ia32/Release/bin",},
             ],
             # linux_use_bundled_gold: whether to use the gold linker binary checked
             # into third_party/binutils.  Force this off via GYP_DEFINES when you
@@ -97,12 +93,8 @@
             # for component=static_library builds.
             [
                 '((OS=="linux" or OS=="android") and (target_arch=="x64" or target_arch=="arm" or (target_arch=="ia32" and host_arch=="x64"))) or (OS=="linux" and target_arch=="mipsel")',
-                {
-                    "linux_use_bundled_gold%": 1,
-                },
-                {
-                    "linux_use_bundled_gold%": 0,
-                },
+                {"linux_use_bundled_gold%": 1,},
+                {"linux_use_bundled_gold%": 0,},
             ],
             # linux_use_bundled_binutils: whether to use the binary binutils
             # checked into third_party/binutils.  These are not multi-arch so cannot
@@ -111,23 +103,15 @@
             # are using a custom toolchain and need to control -B in cflags.
             [
                 'OS=="linux" and (target_arch=="ia32" or target_arch=="x64")',
-                {
-                    "linux_use_bundled_binutils%": 1,
-                },
-                {
-                    "linux_use_bundled_binutils%": 0,
-                },
+                {"linux_use_bundled_binutils%": 1,},
+                {"linux_use_bundled_binutils%": 0,},
             ],
             # linux_use_gold_flags: whether to use build flags that rely on gold.
             # On by default for x64 Linux.
             [
                 'OS=="linux" and target_arch=="x64"',
-                {
-                    "linux_use_gold_flags%": 1,
-                },
-                {
-                    "linux_use_gold_flags%": 0,
-                },
+                {"linux_use_gold_flags%": 1,},
+                {"linux_use_gold_flags%": 0,},
             ],
         ],
         # Link-Time Optimizations
@@ -141,31 +125,15 @@
       host_arch=="ppc" or host_arch=="ppc64" or \
       host_arch=="s390" or host_arch=="s390x" or \
       clang==1',
-            {
-                "variables": {
-                    "host_cxx_is_biarch%": 1,
-                },
-            },
-            {
-                "variables": {
-                    "host_cxx_is_biarch%": 0,
-                },
-            },
+            {"variables": {"host_cxx_is_biarch%": 1,},},
+            {"variables": {"host_cxx_is_biarch%": 0,},},
         ],
         [
             'target_arch=="ia32" or target_arch=="x64" or target_arch=="x87" or \
       target_arch=="ppc" or target_arch=="ppc64" or target_arch=="s390" or \
       target_arch=="s390x" or clang==1',
-            {
-                "variables": {
-                    "target_cxx_is_biarch%": 1,
-                },
-            },
-            {
-                "variables": {
-                    "target_cxx_is_biarch%": 0,
-                },
-            },
+            {"variables": {"target_cxx_is_biarch%": 1,},},
+            {"variables": {"target_cxx_is_biarch%": 0,},},
         ],
     ],
     "target_defaults": {
@@ -173,25 +141,15 @@
             [
                 'v8_target_arch=="arm"',
                 {
-                    "defines": [
-                        "V8_TARGET_ARCH_ARM",
-                    ],
+                    "defines": ["V8_TARGET_ARCH_ARM",],
                     "conditions": [
                         [
                             'arm_version==7 or arm_version=="default"',
-                            {
-                                "defines": [
-                                    "CAN_USE_ARMV7_INSTRUCTIONS",
-                                ],
-                            },
+                            {"defines": ["CAN_USE_ARMV7_INSTRUCTIONS",],},
                         ],
                         [
                             'arm_fpu=="vfpv3-d16" or arm_fpu=="default"',
-                            {
-                                "defines": [
-                                    "CAN_USE_VFP3_INSTRUCTIONS",
-                                ],
-                            },
+                            {"defines": ["CAN_USE_VFP3_INSTRUCTIONS",],},
                         ],
                         [
                             'arm_fpu=="vfpv3"',
@@ -214,11 +172,7 @@
                         ],
                         [
                             'arm_test_noprobe=="on"',
-                            {
-                                "defines": [
-                                    "ARM_TEST_NO_FEATURE_PROBE",
-                                ],
-                            },
+                            {"defines": ["ARM_TEST_NO_FEATURE_PROBE",],},
                         ],
                     ],
                     "target_conditions": [
@@ -233,11 +187,7 @@
                                             "conditions": [
                                                 [
                                                     "arm_version==7",
-                                                    {
-                                                        "cflags": [
-                                                            "-march=armv7-a",
-                                                        ],
-                                                    },
+                                                    {"cflags": ["-march=armv7-a",],},
                                                 ],
                                                 [
                                                     'arm_version==7 or arm_version=="default"',
@@ -264,19 +214,11 @@
                                                 ],
                                                 [
                                                     "arm_thumb==1",
-                                                    {
-                                                        "cflags": [
-                                                            "-mthumb",
-                                                        ],
-                                                    },
+                                                    {"cflags": ["-mthumb",],},
                                                 ],
                                                 [
                                                     "arm_thumb==0",
-                                                    {
-                                                        "cflags": [
-                                                            "-marm",
-                                                        ],
-                                                    },
+                                                    {"cflags": ["-marm",],},
                                                 ],
                                             ],
                                         },
@@ -317,11 +259,7 @@
                                             "conditions": [
                                                 [
                                                     "arm_version==7",
-                                                    {
-                                                        "cflags": [
-                                                            "-march=armv7-a",
-                                                        ],
-                                                    },
+                                                    {"cflags": ["-march=armv7-a",],},
                                                 ],
                                                 [
                                                     'arm_version==7 or arm_version=="default"',
@@ -348,19 +286,11 @@
                                                 ],
                                                 [
                                                     "arm_thumb==1",
-                                                    {
-                                                        "cflags": [
-                                                            "-mthumb",
-                                                        ],
-                                                    },
+                                                    {"cflags": ["-mthumb",],},
                                                 ],
                                                 [
                                                     "arm_thumb==0",
-                                                    {
-                                                        "cflags": [
-                                                            "-marm",
-                                                        ],
-                                                    },
+                                                    {"cflags": ["-marm",],},
                                                 ],
                                             ],
                                         },
@@ -394,12 +324,7 @@
                                     # this way so we keep LTO enabled under LLVM.
                                     [
                                         "clang==0 and use_lto==1",
-                                        {
-                                            "cflags!": [
-                                                "-flto",
-                                                "-ffat-lto-objects",
-                                            ],
-                                        },
+                                        {"cflags!": ["-flto", "-ffat-lto-objects",],},
                                     ],
                                 ],
                             },
@@ -407,39 +332,20 @@
                     ],
                 },
             ],  # v8_target_arch=="arm"
-            [
-                'v8_target_arch=="arm64"',
-                {
-                    "defines": [
-                        "V8_TARGET_ARCH_ARM64",
-                    ],
-                },
-            ],
+            ['v8_target_arch=="arm64"', {"defines": ["V8_TARGET_ARCH_ARM64",],},],
             [
                 'v8_target_arch=="s390" or v8_target_arch=="s390x"',
                 {
-                    "defines": [
-                        "V8_TARGET_ARCH_S390",
-                    ],
+                    "defines": ["V8_TARGET_ARCH_S390",],
                     "conditions": [
                         [
                             'v8_target_arch=="s390x"',
-                            {
-                                "defines": [
-                                    "V8_TARGET_ARCH_S390X",
-                                ],
-                            },
+                            {"defines": ["V8_TARGET_ARCH_S390X",],},
                         ],
                         [
                             'v8_host_byteorder=="little"',
-                            {
-                                "defines": [
-                                    "V8_TARGET_ARCH_S390_LE_SIM",
-                                ],
-                            },
-                            {
-                                "cflags": ["-march=z196"],
-                            },
+                            {"defines": ["V8_TARGET_ARCH_S390_LE_SIM",],},
+                            {"cflags": ["-march=z196"],},
                         ],
                     ],
                 },
@@ -447,32 +353,20 @@
             [
                 'v8_target_arch=="ppc" or v8_target_arch=="ppc64"',
                 {
-                    "defines": [
-                        "V8_TARGET_ARCH_PPC",
-                    ],
+                    "defines": ["V8_TARGET_ARCH_PPC",],
                     "conditions": [
                         [
                             'v8_target_arch=="ppc64"',
-                            {
-                                "defines": [
-                                    "V8_TARGET_ARCH_PPC64",
-                                ],
-                            },
+                            {"defines": ["V8_TARGET_ARCH_PPC64",],},
                         ],
                         [
                             'v8_host_byteorder=="little"',
-                            {
-                                "defines": [
-                                    "V8_TARGET_ARCH_PPC_LE",
-                                ],
-                            },
+                            {"defines": ["V8_TARGET_ARCH_PPC_LE",],},
                         ],
                         [
                             'v8_host_byteorder=="big"',
                             {
-                                "defines": [
-                                    "V8_TARGET_ARCH_PPC_BE",
-                                ],
+                                "defines": ["V8_TARGET_ARCH_PPC_BE",],
                                 "conditions": [
                                     [
                                         'OS=="aix"',
@@ -496,20 +390,11 @@
             ],  # ppc
             [
                 'v8_target_arch=="ia32"',
-                {
-                    "defines": [
-                        "V8_TARGET_ARCH_IA32",
-                    ],
-                },
+                {"defines": ["V8_TARGET_ARCH_IA32",],},
             ],  # v8_target_arch=="ia32"
             [
                 'v8_target_arch=="x87"',
-                {
-                    "defines": [
-                        "V8_TARGET_ARCH_X87",
-                    ],
-                    "cflags": ["-march=i586"],
-                },
+                {"defines": ["V8_TARGET_ARCH_X87",], "cflags": ["-march=i586"],},
             ],  # v8_target_arch=="x87"
             [
                 'v8_target_arch=="mips" or v8_target_arch=="mipsel" \
@@ -547,17 +432,11 @@
                                                 ],
                                                 [
                                                     "clang==1",
-                                                    {
-                                                        "cflags": ["-integrated-as"],
-                                                    },
+                                                    {"cflags": ["-integrated-as"],},
                                                 ],
                                                 [
                                                     'OS!="mac"',
-                                                    {
-                                                        "defines": [
-                                                            "_MIPS_TARGET_HW",
-                                                        ],
-                                                    },
+                                                    {"defines": ["_MIPS_TARGET_HW",],},
                                                     {
                                                         "defines": [
                                                             "_MIPS_TARGET_SIMULATOR",
@@ -566,11 +445,7 @@
                                                 ],
                                             ],
                                         },
-                                        {
-                                            "defines": [
-                                                "_MIPS_TARGET_SIMULATOR",
-                                            ],
-                                        },
+                                        {"defines": ["_MIPS_TARGET_SIMULATOR",],},
                                     ],
                                 ],
                             },
@@ -581,16 +456,8 @@
                                 "conditions": [
                                     [
                                         'v8_target_arch==target_arch and OS!="mac"',
-                                        {
-                                            "defines": [
-                                                "_MIPS_TARGET_HW",
-                                            ],
-                                        },
-                                        {
-                                            "defines": [
-                                                "_MIPS_TARGET_SIMULATOR",
-                                            ],
-                                        },
+                                        {"defines": ["_MIPS_TARGET_HW",],},
+                                        {"defines": ["_MIPS_TARGET_SIMULATOR",],},
                                     ],
                                 ],
                             },
@@ -601,17 +468,11 @@
             [
                 'v8_target_arch=="mips"',
                 {
-                    "defines": [
-                        "V8_TARGET_ARCH_MIPS",
-                    ],
+                    "defines": ["V8_TARGET_ARCH_MIPS",],
                     "conditions": [
                         [
                             'v8_can_use_fpu_instructions=="true"',
-                            {
-                                "defines": [
-                                    "CAN_USE_FPU_INSTRUCTIONS",
-                                ],
-                            },
+                            {"defines": ["CAN_USE_FPU_INSTRUCTIONS",],},
                         ],
                         [
                             'v8_use_mips_abi_hardfloat=="true"',
@@ -728,9 +589,7 @@
                                                 [
                                                     'mips_arch_variant=="r1"',
                                                     {
-                                                        "defines": [
-                                                            "FPU_MODE_FP32",
-                                                        ],
+                                                        "defines": ["FPU_MODE_FP32",],
                                                         "cflags!": ["-mfp64", "-mfpxx"],
                                                         "conditions": [
                                                             [
@@ -819,11 +678,7 @@
                                                 ],
                                                 [
                                                     'mips_arch_variant=="r1"',
-                                                    {
-                                                        "defines": [
-                                                            "FPU_MODE_FP32",
-                                                        ],
-                                                    },
+                                                    {"defines": ["FPU_MODE_FP32",],},
                                                 ],
                                                 [
                                                     'mips_arch_variant=="rx"',
@@ -898,11 +753,7 @@
                                     ],
                                     [
                                         'mips_arch_variant=="r1"',
-                                        {
-                                            "defines": [
-                                                "FPU_MODE_FP32",
-                                            ],
-                                        },
+                                        {"defines": ["FPU_MODE_FP32",],},
                                     ],
                                 ]
                             },
@@ -913,17 +764,11 @@
             [
                 'v8_target_arch=="mipsel"',
                 {
-                    "defines": [
-                        "V8_TARGET_ARCH_MIPS",
-                    ],
+                    "defines": ["V8_TARGET_ARCH_MIPS",],
                     "conditions": [
                         [
                             'v8_can_use_fpu_instructions=="true"',
-                            {
-                                "defines": [
-                                    "CAN_USE_FPU_INSTRUCTIONS",
-                                ],
-                            },
+                            {"defines": ["CAN_USE_FPU_INSTRUCTIONS",],},
                         ],
                         [
                             'v8_use_mips_abi_hardfloat=="true"',
@@ -933,9 +778,7 @@
                                     "CAN_USE_FPU_INSTRUCTIONS",
                                 ],
                             },
-                            {
-                                "defines": ["__mips_soft_float=1"],
-                            },
+                            {"defines": ["__mips_soft_float=1"],},
                         ],
                     ],
                     "target_conditions": [
@@ -1042,9 +885,7 @@
                                                 [
                                                     'mips_arch_variant=="r1"',
                                                     {
-                                                        "defines": [
-                                                            "FPU_MODE_FP32",
-                                                        ],
+                                                        "defines": ["FPU_MODE_FP32",],
                                                         "cflags!": ["-mfp64", "-mfpxx"],
                                                         "conditions": [
                                                             [
@@ -1154,11 +995,7 @@
                                                 ],
                                                 [
                                                     'mips_arch_variant=="r1"',
-                                                    {
-                                                        "defines": [
-                                                            "FPU_MODE_FP32",
-                                                        ],
-                                                    },
+                                                    {"defines": ["FPU_MODE_FP32",],},
                                                 ],
                                                 [
                                                     'mips_arch_variant=="rx"',
@@ -1242,11 +1079,7 @@
                                     ],
                                     [
                                         'mips_arch_variant=="r1"',
-                                        {
-                                            "defines": [
-                                                "FPU_MODE_FP32",
-                                            ],
-                                        },
+                                        {"defines": ["FPU_MODE_FP32",],},
                                     ],
                                     [
                                         'mips_arch_variant=="loongson"',
@@ -1266,33 +1099,19 @@
             [
                 'v8_target_arch=="mips64el" or v8_target_arch=="mips64"',
                 {
-                    "defines": [
-                        "V8_TARGET_ARCH_MIPS64",
-                    ],
+                    "defines": ["V8_TARGET_ARCH_MIPS64",],
                     "conditions": [
                         [
                             'v8_can_use_fpu_instructions=="true"',
-                            {
-                                "defines": [
-                                    "CAN_USE_FPU_INSTRUCTIONS",
-                                ],
-                            },
+                            {"defines": ["CAN_USE_FPU_INSTRUCTIONS",],},
                         ],
                         [
                             'v8_host_byteorder=="little"',
-                            {
-                                "defines": [
-                                    "V8_TARGET_ARCH_MIPS64_LE",
-                                ],
-                            },
+                            {"defines": ["V8_TARGET_ARCH_MIPS64_LE",],},
                         ],
                         [
                             'v8_host_byteorder=="big"',
-                            {
-                                "defines": [
-                                    "V8_TARGET_ARCH_MIPS64_BE",
-                                ],
-                            },
+                            {"defines": ["V8_TARGET_ARCH_MIPS64_BE",],},
                         ],
                         [
                             'v8_use_mips_abi_hardfloat=="true"',
@@ -1302,9 +1121,7 @@
                                     "CAN_USE_FPU_INSTRUCTIONS",
                                 ],
                             },
-                            {
-                                "defines": ["__mips_soft_float=1"],
-                            },
+                            {"defines": ["__mips_soft_float=1"],},
                         ],
                     ],
                     "target_conditions": [
@@ -1430,19 +1247,11 @@
                                 "conditions": [
                                     [
                                         'mips_arch_variant=="r6"',
-                                        {
-                                            "defines": [
-                                                "_MIPS_ARCH_MIPS64R6",
-                                            ],
-                                        },
+                                        {"defines": ["_MIPS_ARCH_MIPS64R6",],},
                                     ],
                                     [
                                         'mips_arch_variant=="r2"',
-                                        {
-                                            "defines": [
-                                                "_MIPS_ARCH_MIPS64R2",
-                                            ],
-                                        },
+                                        {"defines": ["_MIPS_ARCH_MIPS64R2",],},
                                     ],
                                 ],
                             },
@@ -1453,16 +1262,10 @@
             [
                 'v8_target_arch=="x64"',
                 {
-                    "defines": [
-                        "V8_TARGET_ARCH_X64",
-                    ],
-                    "xcode_settings": {
-                        "ARCHS": ["x86_64"],
-                    },
+                    "defines": ["V8_TARGET_ARCH_X64",],
+                    "xcode_settings": {"ARCHS": ["x86_64"],},
                     "msvs_settings": {
-                        "VCLinkerTool": {
-                            "StackReserveSize": "2097152",
-                        },
+                        "VCLinkerTool": {"StackReserveSize": "2097152",},
                     },
                     "msvs_configuration_platform": "x64",
                 },
@@ -1480,9 +1283,7 @@
                         # Inhibit warning if long long type is used.
                         "-Wno-long-long",
                     ],
-                    "ldflags": [
-                        "-mx32",
-                    ],
+                    "ldflags": ["-mx32",],
                 },
             ],  # v8_target_arch=="x32"
             [
@@ -1491,18 +1292,12 @@
                     # Newer gccs and clangs support -fuse-ld, use the flag to force gold
                     # selection.
                     # gcc -- http://gcc.gnu.org/onlinedocs/gcc-4.8.0/gcc/Optimize-Options.html
-                    "ldflags": [
-                        "-fuse-ld=gold",
-                    ],
+                    "ldflags": ["-fuse-ld=gold",],
                 },
             ],
             [
                 "linux_use_bundled_binutils==1",
-                {
-                    "cflags": [
-                        "-B<!(cd <(DEPTH) && pwd -P)/<(binutils_dir)",
-                    ],
-                },
+                {"cflags": ["-B<!(cd <(DEPTH) && pwd -P)/<(binutils_dir)",],},
             ],
             [
                 "linux_use_bundled_gold==1",
@@ -1511,23 +1306,17 @@
                     # the path to gold to the compiler. gyp leaves unspecified what the
                     # cwd is when running the compiler, so the normal gyp path-munging
                     # fails us. This hack gets the right path.
-                    "ldflags": [
-                        "-B<!(cd <(DEPTH) && pwd -P)/<(binutils_dir)",
-                    ],
+                    "ldflags": ["-B<!(cd <(DEPTH) && pwd -P)/<(binutils_dir)",],
                 },
             ],
             [
                 'OS=="win"',
                 {
-                    "defines": [
-                        "WIN32",
-                    ],
+                    "defines": ["WIN32",],
                     # 4351: VS 2005 and later are warning us that they've fixed a bug
                     #       present in VS 2003 and earlier.
                     "msvs_disabled_warnings": [4351],
-                    "msvs_configuration_attributes": {
-                        "CharacterSet": "1",
-                    },
+                    "msvs_configuration_attributes": {"CharacterSet": "1",},
                 },
             ],
             [
@@ -1543,13 +1332,7 @@
             ],
             [
                 'OS=="win" and v8_enable_prof==1',
-                {
-                    "msvs_settings": {
-                        "VCLinkerTool": {
-                            "GenerateMapFile": "true",
-                        },
-                    },
-                },
+                {"msvs_settings": {"VCLinkerTool": {"GenerateMapFile": "true",},},},
             ],
             [
                 '(OS=="linux" or OS=="freebsd" or OS=="openbsd" or OS=="solaris" \
@@ -1595,9 +1378,7 @@
                                         },
                                     ],
                                 ],
-                                "xcode_settings": {
-                                    "ARCHS": ["i386"],
-                                },
+                                "xcode_settings": {"ARCHS": ["i386"],},
                             },
                         ],
                         [
@@ -1623,9 +1404,7 @@
                                         },
                                     ],
                                 ],
-                                "xcode_settings": {
-                                    "ARCHS": ["i386"],
-                                },
+                                "xcode_settings": {"ARCHS": ["i386"],},
                             },
                         ],
                     ],
@@ -1654,10 +1433,7 @@
                                 "conditions": [
                                     [
                                         "target_cxx_is_biarch==1",
-                                        {
-                                            "cflags": ["-m64"],
-                                            "ldflags": ["-m64"],
-                                        },
+                                        {"cflags": ["-m64"], "ldflags": ["-m64"],},
                                     ],
                                 ]
                             },
@@ -1667,11 +1443,7 @@
             ],
             [
                 'OS=="android" and v8_android_log_stdout==1',
-                {
-                    "defines": [
-                        "V8_ANDROID_LOG_STDOUT",
-                    ],
-                },
+                {"defines": ["V8_ANDROID_LOG_STDOUT",],},
             ],
             [
                 'OS=="linux" or OS=="freebsd" or OS=="openbsd" or OS=="solaris" \
@@ -1680,31 +1452,14 @@
                     "conditions": [
                         [
                             "v8_no_strict_aliasing==1",
-                            {
-                                "cflags": ["-fno-strict-aliasing"],
-                            },
+                            {"cflags": ["-fno-strict-aliasing"],},
                         ],
                     ],  # conditions
                 },
             ],
-            [
-                'OS=="solaris"',
-                {
-                    "defines": ["__C99FEATURES__=1"],  # isinf() etc.
-                },
-            ],
-            [
-                'OS=="freebsd" or OS=="openbsd"',
-                {
-                    "cflags": ["-I/usr/local/include"],
-                },
-            ],
-            [
-                'OS=="netbsd"',
-                {
-                    "cflags": ["-I/usr/pkg/include"],
-                },
-            ],
+            ['OS=="solaris"', {"defines": ["__C99FEATURES__=1"],},],  # isinf() etc.
+            ['OS=="freebsd" or OS=="openbsd"', {"cflags": ["-I/usr/local/include"],},],
+            ['OS=="netbsd"', {"cflags": ["-I/usr/pkg/include"],},],
             [
                 'OS=="aix"',
                 {
@@ -1717,9 +1472,7 @@
                     "conditions": [
                         [
                             'v8_target_arch=="ppc"',
-                            {
-                                "ldflags": ["-Wl,-bmaxdata:0x60000000/dsa"],
-                            },
+                            {"ldflags": ["-Wl,-bmaxdata:0x60000000/dsa"],},
                         ],
                         [
                             'v8_target_arch=="ppc64"',
@@ -1742,54 +1495,30 @@
                         "conditions": [
                             [
                                 'component=="shared_library" or force_dynamic_crt==1',
-                                {
-                                    "RuntimeLibrary": "3",  # /MDd
-                                },
-                                {
-                                    "RuntimeLibrary": "1",  # /MTd
-                                },
+                                {"RuntimeLibrary": "3",},  # /MDd
+                                {"RuntimeLibrary": "1",},  # /MTd
                             ],
                         ],
                     },
-                    "VCLinkerTool": {
-                        "LinkIncremental": "2",
-                    },
+                    "VCLinkerTool": {"LinkIncremental": "2",},
                 },
-                "variables": {
-                    "v8_enable_slow_dchecks%": 1,
-                },
+                "variables": {"v8_enable_slow_dchecks%": 1,},
                 "conditions": [
                     [
                         'OS=="linux" or OS=="freebsd" or OS=="openbsd" or OS=="netbsd" or \
             OS=="qnx" or OS=="aix"',
                         {
-                            "cflags!": [
-                                "-O3",
-                                "-O2",
-                                "-O1",
-                                "-Os",
-                            ],
-                            "cflags": [
-                                "-fdata-sections",
-                                "-ffunction-sections",
-                            ],
+                            "cflags!": ["-O3", "-O2", "-O1", "-Os",],
+                            "cflags": ["-fdata-sections", "-ffunction-sections",],
                         },
                     ],
                     [
                         'OS=="mac"',
-                        {
-                            "xcode_settings": {
-                                "GCC_OPTIMIZATION_LEVEL": "0",  # -O0
-                            },
-                        },
+                        {"xcode_settings": {"GCC_OPTIMIZATION_LEVEL": "0",},},  # -O0
                     ],
                     [
                         "v8_enable_slow_dchecks==1",
-                        {
-                            "defines": [
-                                "ENABLE_SLOW_DCHECKS",
-                            ],
-                        },
+                        {"defines": ["ENABLE_SLOW_DCHECKS",],},
                     ],
                 ],
             },  # DebugBase0
@@ -1807,12 +1536,8 @@
                         "conditions": [
                             [
                                 'component=="shared_library" or force_dynamic_crt==1',
-                                {
-                                    "RuntimeLibrary": "3",  # /MDd
-                                },
-                                {
-                                    "RuntimeLibrary": "1",  # /MTd
-                                },
+                                {"RuntimeLibrary": "3",},  # /MDd
+                                {"RuntimeLibrary": "1",},  # /MTd
                             ],
                         ],
                     },
@@ -1822,36 +1547,21 @@
                         "EnableCOMDATFolding": "2",
                     },
                 },
-                "variables": {
-                    "v8_enable_slow_dchecks%": 0,
-                },
+                "variables": {"v8_enable_slow_dchecks%": 0,},
                 "conditions": [
                     [
                         'OS=="linux" or OS=="freebsd" or OS=="openbsd" or OS=="netbsd" or \
             OS=="qnx" or OS=="aix"',
                         {
-                            "cflags!": [
-                                "-O0",
-                                "-O1",
-                                "-Os",
-                            ],
-                            "cflags": [
-                                "-fdata-sections",
-                                "-ffunction-sections",
-                            ],
+                            "cflags!": ["-O0", "-O1", "-Os",],
+                            "cflags": ["-fdata-sections", "-ffunction-sections",],
                             "conditions": [
                                 # Don't use -O3 with sanitizers.
                                 [
                                     "asan==0 and msan==0 and lsan==0 \
                 and tsan==0 and ubsan==0 and ubsan_vptr==0",
-                                    {
-                                        "cflags": ["-O3"],
-                                        "cflags!": ["-O2"],
-                                    },
-                                    {
-                                        "cflags": ["-O2"],
-                                        "cflags!": ["-O3"],
-                                    },
+                                    {"cflags": ["-O3"], "cflags!": ["-O2"],},
+                                    {"cflags": ["-O2"], "cflags!": ["-O3"],},
                                 ],
                             ],
                         },
@@ -1867,11 +1577,7 @@
                     ],
                     [
                         "v8_enable_slow_dchecks==1",
-                        {
-                            "defines": [
-                                "ENABLE_SLOW_DCHECKS",
-                            ],
-                        },
+                        {"defines": ["ENABLE_SLOW_DCHECKS",],},
                     ],
                 ],
             },  # DebugBase1
@@ -1890,12 +1596,7 @@
                     [
                         'OS=="linux" or OS=="freebsd" or OS=="openbsd" or OS=="netbsd" or \
             OS=="qnx" or OS=="aix"',
-                        {
-                            "cflags": [
-                                "-Woverloaded-virtual",
-                                "<(wno_array_bounds)",
-                            ],
-                        },
+                        {"cflags": ["-Woverloaded-virtual", "<(wno_array_bounds)",],},
                     ],
                     [
                         'OS=="linux" and v8_enable_backtrace==1',
@@ -1909,9 +1610,7 @@
                         {
                             # Enable libstdc++ debugging facilities to help catch problems
                             # early, see http://crbug.com/65151 .
-                            "defines": [
-                                "_GLIBCXX_DEBUG=1",
-                            ],
+                            "defines": ["_GLIBCXX_DEBUG=1",],
                         },
                     ],
                     [
@@ -1921,9 +1620,7 @@
                             "conditions": [
                                 [
                                     'v8_target_arch=="ppc64"',
-                                    {
-                                        "cflags": ["-maix64 -mcmodel=large"],
-                                    },
+                                    {"cflags": ["-maix64 -mcmodel=large"],},
                                 ],
                             ],
                         },
@@ -1931,19 +1628,14 @@
                     [
                         'OS=="android"',
                         {
-                            "variables": {
-                                "android_full_debug%": 1,
-                            },
+                            "variables": {"android_full_debug%": 1,},
                             "conditions": [
                                 [
                                     "android_full_debug==0",
                                     {
                                         # Disable full debug if we want a faster v8 in a debug build.
                                         # TODO(2304): pass DISABLE_DEBUG_ASSERT instead of hiding DEBUG.
-                                        "defines!": [
-                                            "DEBUG",
-                                            "ENABLE_SLOW_DCHECKS",
-                                        ],
+                                        "defines!": ["DEBUG", "ENABLE_SLOW_DCHECKS",],
                                     },
                                 ],
                             ],
@@ -1979,28 +1671,20 @@
                 "conditions": [
                     [
                         "v8_optimized_debug==0",
-                        {
-                            "inherit_from": ["DebugBase0"],
-                        },
-                        {
-                            "inherit_from": ["DebugBase1"],
-                        },
+                        {"inherit_from": ["DebugBase0"],},
+                        {"inherit_from": ["DebugBase1"],},
                     ],
                 ],
             },  # Debug
             "ReleaseBase": {
                 "abstract": 1,
-                "variables": {
-                    "v8_enable_slow_dchecks%": 0,
-                },
+                "variables": {"v8_enable_slow_dchecks%": 0,},
                 "conditions": [
                     [
                         'OS=="linux" or OS=="freebsd" or OS=="openbsd" or OS=="netbsd" \
             or OS=="aix"',
                         {
-                            "cflags!": [
-                                "-Os",
-                            ],
+                            "cflags!": ["-Os",],
                             "cflags": [
                                 "-fdata-sections",
                                 "-ffunction-sections",
@@ -2011,14 +1695,8 @@
                                 [
                                     "asan==0 and msan==0 and lsan==0 \
                 and tsan==0 and ubsan==0 and ubsan_vptr==0",
-                                    {
-                                        "cflags": ["-O3"],
-                                        "cflags!": ["-O2"],
-                                    },
-                                    {
-                                        "cflags": ["-O2"],
-                                        "cflags!": ["-O3"],
-                                    },
+                                    {"cflags": ["-O3"], "cflags!": ["-O2"],},
+                                    {"cflags": ["-O2"], "cflags!": ["-O3"],},
                                 ],
                             ],
                         },
@@ -2026,10 +1704,7 @@
                     [
                         'OS=="android"',
                         {
-                            "cflags!": [
-                                "-O3",
-                                "-Os",
-                            ],
+                            "cflags!": ["-O3", "-Os",],
                             "cflags": [
                                 "-fdata-sections",
                                 "-ffunction-sections",
@@ -2063,12 +1738,8 @@
                                     "conditions": [
                                         [
                                             'component=="shared_library" or force_dynamic_crt==1',
-                                            {
-                                                "RuntimeLibrary": "2",  # /MD
-                                            },
-                                            {
-                                                "RuntimeLibrary": "0",  # /MT
-                                            },
+                                            {"RuntimeLibrary": "2",},  # /MD
+                                            {"RuntimeLibrary": "0",},  # /MT
                                         ],
                                     ],
                                 },
@@ -2082,17 +1753,11 @@
                     ],  # OS=="win"
                     [
                         "v8_enable_slow_dchecks==1",
-                        {
-                            "defines": [
-                                "ENABLE_SLOW_DCHECKS",
-                            ],
-                        },
+                        {"defines": ["ENABLE_SLOW_DCHECKS",],},
                     ],
                 ],  # conditions
             },  # Release
-            "Release": {
-                "inherit_from": ["ReleaseBase"],
-            },  # Debug
+            "Release": {"inherit_from": ["ReleaseBase"],},  # Debug
             "conditions": [
                 [
                     'OS=="win"',
@@ -2103,18 +1768,12 @@
                             "conditions": [
                                 [
                                     "v8_optimized_debug==0",
-                                    {
-                                        "inherit_from": ["DebugBase0"],
-                                    },
-                                    {
-                                        "inherit_from": ["DebugBase1"],
-                                    },
+                                    {"inherit_from": ["DebugBase0"],},
+                                    {"inherit_from": ["DebugBase1"],},
                                 ],
                             ],
                         },
-                        "Release_x64": {
-                            "inherit_from": ["ReleaseBase"],
-                        },
+                        "Release_x64": {"inherit_from": ["ReleaseBase"],},
                     },
                 ],
             ],

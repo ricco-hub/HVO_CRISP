@@ -40,14 +40,8 @@
                             "zutil.c",
                             "zutil.h",
                         ],
-                        "include_dirs": [
-                            ".",
-                        ],
-                        "direct_dependent_settings": {
-                            "include_dirs": [
-                                ".",
-                            ],
-                        },
+                        "include_dirs": [".",],
+                        "direct_dependent_settings": {"include_dirs": [".",],},
                         "conditions": [
                             [
                                 'OS!="win"',
@@ -74,19 +68,9 @@
                     {
                         "target_name": "zlib",
                         "type": "static_library",
-                        "direct_dependent_settings": {
-                            "defines": [
-                                "USE_SYSTEM_ZLIB",
-                            ],
-                        },
-                        "defines": [
-                            "USE_SYSTEM_ZLIB",
-                        ],
-                        "link_settings": {
-                            "libraries": [
-                                "-lz",
-                            ],
-                        },
+                        "direct_dependent_settings": {"defines": ["USE_SYSTEM_ZLIB",],},
+                        "defines": ["USE_SYSTEM_ZLIB",],
+                        "link_settings": {"libraries": ["-lz",],},
                     },
                 ],
             },

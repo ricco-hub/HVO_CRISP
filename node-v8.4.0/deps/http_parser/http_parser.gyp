@@ -14,36 +14,23 @@
                 "defines": ["DEBUG", "_DEBUG"],
                 "cflags": ["-Wall", "-Wextra", "-O0", "-g", "-ftrapv"],
                 "msvs_settings": {
-                    "VCCLCompilerTool": {
-                        "RuntimeLibrary": 1,  # static debug
-                    },
+                    "VCCLCompilerTool": {"RuntimeLibrary": 1,},  # static debug
                 },
             },
             "Release": {
                 "defines": ["NDEBUG"],
                 "cflags": ["-Wall", "-Wextra", "-O3"],
                 "msvs_settings": {
-                    "VCCLCompilerTool": {
-                        "RuntimeLibrary": 0,  # static release
-                    },
+                    "VCCLCompilerTool": {"RuntimeLibrary": 0,},  # static release
                 },
             },
         },
         "msvs_settings": {
             "VCCLCompilerTool": {},
             "VCLibrarianTool": {},
-            "VCLinkerTool": {
-                "GenerateDebugInformation": "true",
-            },
+            "VCLinkerTool": {"GenerateDebugInformation": "true",},
         },
-        "conditions": [
-            [
-                'OS == "win"',
-                {
-                    "defines": ["WIN32"],
-                },
-            ]
-        ],
+        "conditions": [['OS == "win"', {"defines": ["WIN32"],},]],
     },
     "targets": [
         {
@@ -55,9 +42,7 @@
                 "include_dirs": ["."],
             },
             "defines": ["HTTP_PARSER_STRICT=0"],
-            "sources": [
-                "./http_parser.c",
-            ],
+            "sources": ["./http_parser.c",],
             "conditions": [
                 [
                     'OS=="win"',
@@ -82,9 +67,7 @@
                 "include_dirs": ["."],
             },
             "defines": ["HTTP_PARSER_STRICT=1"],
-            "sources": [
-                "./http_parser.c",
-            ],
+            "sources": ["./http_parser.c",],
             "conditions": [
                 [
                     'OS=="win"',

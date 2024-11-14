@@ -61,9 +61,7 @@
                     ],
                     [
                         'OS == "mac" or OS == "ios"',
-                        {
-                            "xcode_settings": {"GCC_ENABLE_CPP_RTTI": "YES"},
-                        },
+                        {"xcode_settings": {"GCC_ENABLE_CPP_RTTI": "YES"},},
                     ],
                     [
                         'OS == "win"',
@@ -199,12 +197,8 @@
                                 },
                             ],
                         ],
-                        "include_dirs": [
-                            "<(icu_path)/source/i18n",
-                        ],
-                        "defines": [
-                            "U_I18N_IMPLEMENTATION=1",
-                        ],
+                        "include_dirs": ["<(icu_path)/source/i18n",],
+                        "defines": ["U_I18N_IMPLEMENTATION=1",],
                         "dependencies": [
                             "icuucx",
                             "icu_implementation",
@@ -212,9 +206,7 @@
                             "icu_uconfig_target",
                         ],
                         "direct_dependent_settings": {
-                            "include_dirs": [
-                                "<(icu_path)/source/i18n",
-                            ],
+                            "include_dirs": ["<(icu_path)/source/i18n",],
                         },
                         "export_dependent_settings": ["icuucx", "icu_uconfig_target"],
                     },
@@ -357,9 +349,7 @@
                                         "icu_implementation#host",
                                         "icu_uconfig",
                                     ],
-                                    "include_dirs": [
-                                        "<(icu_path)/source/common",
-                                    ],
+                                    "include_dirs": ["<(icu_path)/source/common",],
                                     "actions": [
                                         {
                                             # Swap endianness (if needed), or at least copy the file
@@ -491,9 +481,7 @@
                                         "<(SHARED_INTERMEDIATE_DIR)/icusmdt<(icu_ver_major)_dat.c"
                                     ],
                                     # for umachine.h
-                                    "include_dirs": [
-                                        "<(icu_path)/source/common",
-                                    ],
+                                    "include_dirs": ["<(icu_path)/source/common",],
                                 },
                             ]
                         ],  # end icu_small == true
@@ -509,9 +497,7 @@
             "toolsets": ["target"],
             "dependencies": ["icu_implementation"],
             "sources": ["<@(icu_src_stubdata)"],
-            "include_dirs": [
-                "<(icu_path)/source/common",
-            ],
+            "include_dirs": ["<(icu_path)/source/common",],
         },
         # this target is for v8 consumption.
         # it is icuuc + stubdata
@@ -543,9 +529,7 @@
             "type": "<(library)",
             "dependencies": ["icu_implementation", "icu_uconfig", "icu_uconfig_target"],
             "toolsets": ["target"],
-            "sources": [
-                "<@(icu_src_common)",
-            ],
+            "sources": ["<@(icu_src_common)",],
             ## if your compiler can dead-strip, this will
             ## make ZERO difference to binary size.
             ## Made ICU-specific for future-proofing.
@@ -587,27 +571,14 @@
                         ]
                     },
                 ],
-                [
-                    'OS == "solaris"',
-                    {
-                        "defines": [
-                            "_XOPEN_SOURCE_EXTENDED=0",
-                        ]
-                    },
-                ],
+                ['OS == "solaris"', {"defines": ["_XOPEN_SOURCE_EXTENDED=0",]},],
             ],
-            "include_dirs": [
-                "<(icu_path)/source/common",
-            ],
-            "defines": [
-                "U_COMMON_IMPLEMENTATION=1",
-            ],
+            "include_dirs": ["<(icu_path)/source/common",],
+            "defines": ["U_COMMON_IMPLEMENTATION=1",],
             "cflags_c": ["-std=c99"],
             "export_dependent_settings": ["icu_uconfig", "icu_uconfig_target"],
             "direct_dependent_settings": {
-                "include_dirs": [
-                    "<(icu_path)/source/common",
-                ],
+                "include_dirs": ["<(icu_path)/source/common",],
                 "conditions": [
                     [
                         'OS=="win"',
@@ -683,10 +654,7 @@
             "sources": ["<@(icu_src_genrb)"],
             # derb is a separate executable
             # (which is not currently built)
-            "sources!": [
-                "<@(icu_src_derb)",
-                "no-op.cc",
-            ],
+            "sources!": ["<@(icu_src_derb)", "no-op.cc",],
         },
         # This tool is used to rebuild res_index.res manifests
         {
@@ -694,10 +662,7 @@
             "toolsets": ["host"],
             "type": "executable",
             "dependencies": ["icutools"],
-            "sources": [
-                "iculslocs.cc",
-                "no-op.cc",
-            ],
+            "sources": ["iculslocs.cc", "no-op.cc",],
         },
         # This tool is used to package, unpackage, repackage .dat files
         # and convert endianesses
@@ -706,10 +671,7 @@
             "toolsets": ["host"],
             "type": "executable",
             "dependencies": ["icutools"],
-            "sources": [
-                "<@(icu_src_icupkg)",
-                "no-op.cc",
-            ],
+            "sources": ["<@(icu_src_icupkg)", "no-op.cc",],
         },
         # this is used to convert .dat directly into .obj
         {
@@ -717,10 +679,7 @@
             "toolsets": ["host"],
             "type": "executable",
             "dependencies": ["icutools"],
-            "sources": [
-                "<@(icu_src_genccode)",
-                "no-op.cc",
-            ],
+            "sources": ["<@(icu_src_genccode)", "no-op.cc",],
         },
     ],
 }

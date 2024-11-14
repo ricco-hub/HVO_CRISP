@@ -41,20 +41,59 @@ def validate_injected_script(fileName):
     lines = f.readlines()
     f.close()
 
-    proto_functions = "|".join([
-        # Array.prototype.*
-        "concat", "every", "filter", "forEach", "indexOf", "join", "lastIndexOf", "map", "pop",
-        "push", "reduce", "reduceRight", "reverse", "shift", "slice", "some", "sort", "splice", "toLocaleString", "toString", "unshift",
-        # Function.prototype.*
-        "apply", "bind", "call", "isGenerator", "toSource",
-        # Object.prototype.*
-        "toString",
-    ])
+    proto_functions = "|".join(
+        [
+            # Array.prototype.*
+            "concat",
+            "every",
+            "filter",
+            "forEach",
+            "indexOf",
+            "join",
+            "lastIndexOf",
+            "map",
+            "pop",
+            "push",
+            "reduce",
+            "reduceRight",
+            "reverse",
+            "shift",
+            "slice",
+            "some",
+            "sort",
+            "splice",
+            "toLocaleString",
+            "toString",
+            "unshift",
+            # Function.prototype.*
+            "apply",
+            "bind",
+            "call",
+            "isGenerator",
+            "toSource",
+            # Object.prototype.*
+            "toString",
+        ]
+    )
 
-    global_functions = "|".join([
-        "eval", "uneval", "isFinite", "isNaN", "parseFloat", "parseInt", "decodeURI", "decodeURIComponent",
-        "encodeURI", "encodeURIComponent", "escape", "unescape", "Map", "Set"
-    ])
+    global_functions = "|".join(
+        [
+            "eval",
+            "uneval",
+            "isFinite",
+            "isNaN",
+            "parseFloat",
+            "parseInt",
+            "decodeURI",
+            "decodeURIComponent",
+            "encodeURI",
+            "encodeURIComponent",
+            "escape",
+            "unescape",
+            "Map",
+            "Set",
+        ]
+    )
 
     # Black list:
     # - instanceof, since e.g. "obj instanceof Error" may throw if Error is overridden and is not a function
@@ -63,7 +102,13 @@ def validate_injected_script(fileName):
     # - Function.prototype.*
     # - Math.*
     # - Global functions
-    black_list_call_regex = re.compile(r"\sinstanceof\s+\w*|\bMath\.\w+\(|(?<!InjectedScriptHost)\.(" + proto_functions + r")\(|[^\.]\b(" + global_functions + r")\(")
+    black_list_call_regex = re.compile(
+        r"\sinstanceof\s+\w*|\bMath\.\w+\(|(?<!InjectedScriptHost)\.("
+        + proto_functions
+        + r")\(|[^\.]\b("
+        + global_functions
+        + r")\("
+    )
 
     errors_found = False
     for i, line in enumerate(lines):
@@ -71,7 +116,12 @@ def validate_injected_script(fileName):
             continue
         for match in re.finditer(black_list_call_regex, line):
             errors_found = True
-            print "ERROR: Black listed expression in %s at line %02d column %02d: %s" % (os.path.basename(fileName), i + 1, match.start(), match.group(0))
+            print "ERROR: Black listed expression in %s at line %02d column %02d: %s" % (
+                os.path.basename(fileName),
+                i + 1,
+                match.start(),
+                match.group(0),
+            )
 
     if not errors_found:
         print "OK"
@@ -79,10 +129,11 @@ def validate_injected_script(fileName):
 
 def main(argv):
     if len(argv) < 2:
-        print('ERROR: Usage: %s path/to/injected-script-source.js' % argv[0])
+        print ("ERROR: Usage: %s path/to/injected-script-source.js" % argv[0])
         return 1
 
     validate_injected_script(argv[1])
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     sys.exit(main(sys.argv))

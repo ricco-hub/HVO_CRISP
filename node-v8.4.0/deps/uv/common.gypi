@@ -16,12 +16,8 @@
                         "target_conditions": [
                             [
                                 'uv_library=="static_library"',
-                                {
-                                    "RuntimeLibrary": 1,  # static debug
-                                },
-                                {
-                                    "RuntimeLibrary": 3,  # DLL debug
-                                },
+                                {"RuntimeLibrary": 1,},  # static debug
+                                {"RuntimeLibrary": 3,},  # DLL debug
                             ],
                         ],
                         "Optimization": 0,  # /Od, no optimization
@@ -47,21 +43,14 @@
             },
             "Release": {
                 "defines": ["NDEBUG"],
-                "cflags": [
-                    "-O3",
-                    "-fstrict-aliasing",
-                ],
+                "cflags": ["-O3", "-fstrict-aliasing",],
                 "msvs_settings": {
                     "VCCLCompilerTool": {
                         "target_conditions": [
                             [
                                 'uv_library=="static_library"',
-                                {
-                                    "RuntimeLibrary": 0,  # static release
-                                },
-                                {
-                                    "RuntimeLibrary": 2,  # debug release
-                                },
+                                {"RuntimeLibrary": 0,},  # static release
+                                {"RuntimeLibrary": 2,},  # debug release
                             ],
                         ],
                         "Optimization": 3,  # /Ox, full optimization
@@ -73,9 +62,7 @@
                         "EnableIntrinsicFunctions": "true",
                     },
                     "VCLibrarianTool": {
-                        "AdditionalOptions": [
-                            "/LTCG",  # link time code generation
-                        ],
+                        "AdditionalOptions": ["/LTCG",],  # link time code generation
                     },
                     "VCLinkerTool": {
                         "LinkTimeCodeGeneration": 1,  # link-time code generation
@@ -107,9 +94,7 @@
                 "ExceptionHandling": 1,  # /EHsc
                 "SuppressStartupBanner": "true",
                 "WarnAsError": "false",
-                "AdditionalOptions": [
-                    "/MP",  # compile across multiple CPUs
-                ],
+                "AdditionalOptions": ["/MP",],  # compile across multiple CPUs
             },
             "VCLibrarianTool": {},
             "VCLinkerTool": {
@@ -119,12 +104,7 @@
                 "AllowIsolation": "true",
                 "SuppressStartupBanner": "true",
                 "target_conditions": [
-                    [
-                        '_type=="executable"',
-                        {
-                            "SubSystem": 1,  # console executable
-                        },
-                    ],
+                    ['_type=="executable"', {"SubSystem": 1,},],  # console executable
                 ],
             },
         },
@@ -163,37 +143,20 @@
                     "conditions": [
                         [
                             'host_arch != target_arch and target_arch=="ia32"',
-                            {
-                                "cflags": ["-m32"],
-                                "ldflags": ["-m32"],
-                            },
+                            {"cflags": ["-m32"], "ldflags": ["-m32"],},
                         ],
                         [
                             'target_arch=="x32"',
-                            {
-                                "cflags": ["-mx32"],
-                                "ldflags": ["-mx32"],
-                            },
+                            {"cflags": ["-mx32"], "ldflags": ["-mx32"],},
                         ],
-                        [
-                            'OS=="linux"',
-                            {
-                                "cflags": ["-ansi"],
-                            },
-                        ],
+                        ['OS=="linux"', {"cflags": ["-ansi"],},],
                         [
                             'OS=="solaris"',
-                            {
-                                "cflags": ["-pthreads"],
-                                "ldflags": ["-pthreads"],
-                            },
+                            {"cflags": ["-pthreads"], "ldflags": ["-pthreads"],},
                         ],
                         [
                             'OS not in "solaris android os390"',
-                            {
-                                "cflags": ["-pthread"],
-                                "ldflags": ["-pthread"],
-                            },
+                            {"cflags": ["-pthread"], "ldflags": ["-pthread"],},
                         ],
                     ],
                 },
@@ -212,9 +175,7 @@
                         "GCC_THREADSAFE_STATICS": "NO",  # -fno-threadsafe-statics
                         "PREBINDING": "NO",  # No -Wl,-prebind
                         "USE_HEADERMAP": "NO",
-                        "OTHER_CFLAGS": [
-                            "-fstrict-aliasing",
-                        ],
+                        "OTHER_CFLAGS": ["-fstrict-aliasing",],
                         "WARNING_CFLAGS": [
                             "-Wall",
                             "-Wendif-labels",
@@ -226,15 +187,11 @@
                     "conditions": [
                         [
                             'target_arch=="ia32"',
-                            {
-                                "xcode_settings": {"ARCHS": ["i386"]},
-                            },
+                            {"xcode_settings": {"ARCHS": ["i386"]},},
                         ],
                         [
                             'target_arch=="x64"',
-                            {
-                                "xcode_settings": {"ARCHS": ["x86_64"]},
-                            },
+                            {"xcode_settings": {"ARCHS": ["x86_64"]},},
                         ],
                     ],
                     "target_conditions": [

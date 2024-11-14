@@ -167,21 +167,13 @@
                 # Set default gomadir.
                 [
                     'OS=="win"',
-                    {
-                        "gomadir": "c:\\goma\\goma-win",
-                    },
-                    {
-                        "gomadir": "<!(/bin/echo -n ${HOME}/goma)",
-                    },
+                    {"gomadir": "c:\\goma\\goma-win",},
+                    {"gomadir": "<!(/bin/echo -n ${HOME}/goma)",},
                 ],
                 [
                     'host_arch!="ppc" and host_arch!="ppc64" and host_arch!="ppc64le" and host_arch!="s390" and host_arch!="s390x"',
-                    {
-                        "host_clang%": 1,
-                    },
-                    {
-                        "host_clang%": 0,
-                    },
+                    {"host_clang%": 1,},
+                    {"host_clang%": 0,},
                 ],
                 # linux_use_bundled_gold: whether to use the gold linker binary checked
                 # into third_party/binutils.  Force this off via GYP_DEFINES when you
@@ -190,12 +182,8 @@
                 # for component=static_library builds.
                 [
                     '((OS=="linux" or OS=="android") and (target_arch=="x64" or target_arch=="arm" or (target_arch=="ia32" and host_arch=="x64"))) or (OS=="linux" and target_arch=="mipsel")',
-                    {
-                        "linux_use_bundled_gold%": 1,
-                    },
-                    {
-                        "linux_use_bundled_gold%": 0,
-                    },
+                    {"linux_use_bundled_gold%": 1,},
+                    {"linux_use_bundled_gold%": 0,},
                 ],
             ],
         },
@@ -262,22 +250,10 @@
         (v8_target_arch=="mips64el" and host_arch!="mips64el") or \
         (v8_target_arch=="x64" and host_arch!="x64") or \
         (OS=="android" or OS=="qnx")',
-                {
-                    "want_separate_host_toolset": 1,
-                },
-                {
-                    "want_separate_host_toolset": 0,
-                },
+                {"want_separate_host_toolset": 1,},
+                {"want_separate_host_toolset": 0,},
             ],
-            [
-                'OS == "win"',
-                {
-                    "os_posix%": 0,
-                },
-                {
-                    "os_posix%": 1,
-                },
-            ],
+            ['OS == "win"', {"os_posix%": 0,}, {"os_posix%": 1,},],
             [
                 'OS=="win" and use_goma==1',
                 {
@@ -290,42 +266,21 @@
             [
                 '((v8_target_arch=="ia32" or v8_target_arch=="x64" or v8_target_arch=="x87") and \
         (OS=="linux" or OS=="mac")) or (v8_target_arch=="ppc64" and OS=="linux")',
-                {
-                    "v8_enable_gdbjit%": 1,
-                },
-                {
-                    "v8_enable_gdbjit%": 0,
-                },
+                {"v8_enable_gdbjit%": 1,},
+                {"v8_enable_gdbjit%": 0,},
             ],
             [
                 '(OS=="linux" or OS=="mac") and (target_arch=="ia32" or target_arch=="x64") and \
         (v8_target_arch!="x87" and v8_target_arch!="x32")',
-                {
-                    "clang%": 1,
-                },
-                {
-                    "clang%": 0,
-                },
+                {"clang%": 1,},
+                {"clang%": 0,},
             ],
             [
                 "asan==1 or lsan==1 or msan==1 or tsan==1",
-                {
-                    "clang%": 1,
-                    "use_allocator%": "none",
-                },
+                {"clang%": 1, "use_allocator%": "none",},
             ],
-            [
-                'asan==1 and OS=="linux"',
-                {
-                    "use_custom_libcxx%": 1,
-                },
-            ],
-            [
-                "tsan==1",
-                {
-                    "use_custom_libcxx%": 1,
-                },
-            ],
+            ['asan==1 and OS=="linux"', {"use_custom_libcxx%": 1,},],
+            ["tsan==1", {"use_custom_libcxx%": 1,},],
             [
                 "msan==1",
                 {
@@ -335,12 +290,7 @@
                     "use_custom_libcxx%": 1,
                 },
             ],
-            [
-                "cfi_vptr==1",
-                {
-                    "use_lto%": 1,
-                },
-            ],
+            ["cfi_vptr==1", {"use_lto%": 1,},],
             [
                 'OS=="android"',
                 {
@@ -441,9 +391,7 @@
                                         {
                                             "android_lib": "<(android_sysroot)/usr/lib64",
                                         },
-                                        {
-                                            "android_lib": "<(android_sysroot)/usr/lib",
-                                        },
+                                        {"android_lib": "<(android_sysroot)/usr/lib",},
                                     ],
                                 ],
                                 "android_libcpp_include": "<(android_stl)/llvm-libc++/libcxx/include",
@@ -463,9 +411,7 @@
                                         {
                                             "android_lib": "<(android_sysroot)/usr/lib64",
                                         },
-                                        {
-                                            "android_lib": "<(android_sysroot)/usr/lib",
-                                        },
+                                        {"android_lib": "<(android_sysroot)/usr/lib",},
                                     ],
                                 ],
                                 "android_libcpp_include": "<(android_stl)/llvm-libc++/libcxx/include",
@@ -494,10 +440,7 @@
                     "host_cc": "<(clang_dir)/bin/clang",
                     "host_cxx": "<(clang_dir)/bin/clang++",
                 },
-                {
-                    "host_cc": "<!(which gcc)",
-                    "host_cxx": "<!(which g++)",
-                },
+                {"host_cc": "<!(which gcc)", "host_cxx": "<!(which g++)",},
             ],
         ],
         # Default ARM variable settings.
@@ -525,68 +468,38 @@
                 # TODO(yangguo): issue 5258
                 "-Wno-nonportable-include-path",
             ],
-            "conditions": [
-                [
-                    'OS=="android"',
-                    {
-                        "host_os%": "<(host_os)",
-                    },
-                ],
-            ],
+            "conditions": [['OS=="android"', {"host_os%": "<(host_os)",},],],
         },
-        "includes": [
-            "set_clang_warning_flags.gypi",
-        ],
+        "includes": ["set_clang_warning_flags.gypi",],
         "default_configuration": "Debug",
         "configurations": {
             "DebugBaseCommon": {
                 "conditions": [
                     [
                         'OS=="aix"',
-                        {
-                            "cflags": ["-g", "-Og", "-gxcoff"],
-                        },
-                        {
-                            "cflags": ["-g", "-O0"],
-                        },
+                        {"cflags": ["-g", "-Og", "-gxcoff"],},
+                        {"cflags": ["-g", "-O0"],},
                     ],
                 ],
             },
-            "Optdebug": {
-                "inherit_from": ["DebugBaseCommon", "DebugBase1"],
-            },
+            "Optdebug": {"inherit_from": ["DebugBaseCommon", "DebugBase1"],},
             "Debug": {
                 # Xcode insists on this empty entry.
             },
-            "Release": {
-                "cflags+": ["<@(release_extra_cflags)"],
-            },
+            "Release": {"cflags+": ["<@(release_extra_cflags)"],},
             "conditions": [
                 [
                     'OS=="win"',
                     {
-                        "Optdebug_x64": {
-                            "inherit_from": ["Optdebug"],
-                        },
-                        "Debug_x64": {
-                            "inherit_from": ["Debug"],
-                        },
-                        "Release_x64": {
-                            "inherit_from": ["Release"],
-                        },
+                        "Optdebug_x64": {"inherit_from": ["Optdebug"],},
+                        "Debug_x64": {"inherit_from": ["Debug"],},
+                        "Release_x64": {"inherit_from": ["Release"],},
                     },
                 ],
             ],
         },
         "conditions": [
-            [
-                "clang==0",
-                {
-                    "cflags+": [
-                        "-Wno-uninitialized",
-                    ],
-                },
-            ],
+            ["clang==0", {"cflags+": ["-Wno-uninitialized",],},],
             [
                 "clang==1 or host_clang==1",
                 {
@@ -602,9 +515,7 @@
             ],
             [
                 'clang==1 and target_arch=="ia32"',
-                {
-                    "cflags": ["-mstack-alignment=16", "-mstackrealign"],
-                },
+                {"cflags": ["-mstack-alignment=16", "-mstackrealign"],},
             ],
             [
                 "fastbuild!=0",
@@ -634,9 +545,7 @@
             [
                 "v8_code == 0",
                 {
-                    "defines!": [
-                        "DEBUG",
-                    ],
+                    "defines!": ["DEBUG",],
                     "conditions": [
                         [
                             'os_posix == 1 and OS != "mac"',
@@ -667,9 +576,7 @@
                                     # is on purpose.
                                     "-Wno-switch",
                                 ],
-                                "cflags_cc!": [
-                                    "-Wnon-virtual-dtor",
-                                ],
+                                "cflags_cc!": ["-Wnon-virtual-dtor",],
                             },
                         ],
                         [
@@ -684,9 +591,7 @@
                             'OS == "win"',
                             {
                                 "msvs_settings": {
-                                    "VCCLCompilerTool": {
-                                        "WarnAsError": "false",
-                                    },
+                                    "VCCLCompilerTool": {"WarnAsError": "false",},
                                 },
                             },
                         ],
@@ -714,9 +619,7 @@
                                                 "-fno-omit-frame-pointer",
                                                 "-gline-tables-only",
                                             ],
-                                            "cflags!": [
-                                                "-fomit-frame-pointer",
-                                            ],
+                                            "cflags!": ["-fomit-frame-pointer",],
                                         },
                                     ],
                                 ],
@@ -729,15 +632,9 @@
                                     [
                                         '_toolset=="target"',
                                         {
-                                            "cflags": [
-                                                "-fsanitize=address",
-                                            ],
-                                            "ldflags": [
-                                                "-fsanitize=address",
-                                            ],
-                                            "defines": [
-                                                "ADDRESS_SANITIZER",
-                                            ],
+                                            "cflags": ["-fsanitize=address",],
+                                            "ldflags": ["-fsanitize=address",],
+                                            "defines": ["ADDRESS_SANITIZER",],
                                         },
                                     ],
                                 ],
@@ -750,15 +647,9 @@
                                     [
                                         '_toolset=="target"',
                                         {
-                                            "cflags": [
-                                                "-fsanitize=leak",
-                                            ],
-                                            "ldflags": [
-                                                "-fsanitize=leak",
-                                            ],
-                                            "defines": [
-                                                "LEAK_SANITIZER",
-                                            ],
+                                            "cflags": ["-fsanitize=leak",],
+                                            "ldflags": ["-fsanitize=leak",],
+                                            "defines": ["LEAK_SANITIZER",],
                                         },
                                     ],
                                 ],
@@ -771,15 +662,9 @@
                                     [
                                         '_toolset=="target"',
                                         {
-                                            "cflags": [
-                                                "-fsanitize=thread",
-                                            ],
-                                            "ldflags": [
-                                                "-fsanitize=thread",
-                                            ],
-                                            "defines": [
-                                                "THREAD_SANITIZER",
-                                            ],
+                                            "cflags": ["-fsanitize=thread",],
+                                            "ldflags": ["-fsanitize=thread",],
+                                            "defines": ["THREAD_SANITIZER",],
                                         },
                                     ],
                                 ],
@@ -797,13 +682,8 @@
                                                 "-fsanitize-memory-track-origins=<(msan_track_origins)",
                                                 "-fPIC",
                                             ],
-                                            "ldflags": [
-                                                "-fsanitize=memory",
-                                                "-pie",
-                                            ],
-                                            "defines": [
-                                                "MEMORY_SANITIZER",
-                                            ],
+                                            "ldflags": ["-fsanitize=memory", "-pie",],
+                                            "defines": ["MEMORY_SANITIZER",],
                                         },
                                     ],
                                 ],
@@ -835,9 +715,7 @@
                                             "cflags": [
                                                 "-fsanitize-coverage=<(sanitizer_coverage)",
                                             ],
-                                            "defines": [
-                                                "SANITIZER_COVERAGE",
-                                            ],
+                                            "defines": ["SANITIZER_COVERAGE",],
                                         },
                                     ],
                                 ],
@@ -868,9 +746,7 @@
                                     [
                                         '_toolset=="target"',
                                         {
-                                            "cflags": [
-                                                "--sysroot=<(sysroot)",
-                                            ],
+                                            "cflags": ["--sysroot=<(sysroot)",],
                                             "ldflags": [
                                                 "--sysroot=<(sysroot)",
                                                 "<!(<(DEPTH)/build/linux/sysroot_ld_path.sh <(sysroot))",
@@ -900,12 +776,8 @@
                                         "-fsanitize=address",
                                         "-w",  # http://crbug.com/162783
                                     ],
-                                    "OTHER_CFLAGS!": [
-                                        "-fomit-frame-pointer",
-                                    ],
-                                    "defines": [
-                                        "ADDRESS_SANITIZER",
-                                    ],
+                                    "OTHER_CFLAGS!": ["-fomit-frame-pointer",],
+                                    "defines": ["ADDRESS_SANITIZER",],
                                 },
                                 "dependencies": [
                                     "<(DEPTH)/gypfiles/mac/asan.gyp:asan_dynamic_runtime",
@@ -932,9 +804,7 @@
                                             "cflags": [
                                                 "-fsanitize-coverage=<(sanitizer_coverage)",
                                             ],
-                                            "defines": [
-                                                "SANITIZER_COVERAGE",
-                                            ],
+                                            "defines": ["SANITIZER_COVERAGE",],
                                         },
                                     ],
                                 ],
@@ -964,9 +834,7 @@
                         "-fno-rtti",
                         "-std=gnu++11",
                     ],
-                    "ldflags": [
-                        "-pthread",
-                    ],
+                    "ldflags": ["-pthread",],
                     "conditions": [
                         # Don't warn about TRACE_EVENT_* macros with zero arguments passed to
                         # ##__VA_ARGS__. C99 strict mode prohibits having zero variadic macro
@@ -990,30 +858,17 @@
                         [
                             'clang==1 and (v8_target_arch=="x64" or v8_target_arch=="arm64" \
             or v8_target_arch=="mips64el")',
-                            {
-                                "cflags": ["-Wshorten-64-to-32"],
-                            },
+                            {"cflags": ["-Wshorten-64-to-32"],},
                         ],
                         [
                             'host_arch=="ppc64" and OS!="aix"',
-                            {
-                                "cflags": ["-mminimal-toc"],
-                            },
+                            {"cflags": ["-mminimal-toc"],},
                         ],
                         [
                             'visibility=="hidden" and v8_enable_backtrace==0',
-                            {
-                                "cflags": ["-fvisibility=hidden"],
-                            },
+                            {"cflags": ["-fvisibility=hidden"],},
                         ],
-                        [
-                            'component=="shared_library"',
-                            {
-                                "cflags": [
-                                    "-fPIC",
-                                ],
-                            },
-                        ],
+                        ['component=="shared_library"', {"cflags": ["-fPIC",],},],
                         [
                             "clang==0 and coverage==1",
                             {
@@ -1046,18 +901,8 @@
                         "-std=gnu++11",
                     ],
                     "conditions": [
-                        [
-                            'visibility=="hidden"',
-                            {
-                                "cflags": ["-fvisibility=hidden"],
-                            },
-                        ],
-                        [
-                            'component=="shared_library"',
-                            {
-                                "cflags": ["-fPIC"],
-                            },
-                        ],
+                        ['visibility=="hidden"', {"cflags": ["-fvisibility=hidden"],},],
+                        ['component=="shared_library"', {"cflags": ["-fPIC"],},],
                     ],
                     "target_conditions": [
                         [
@@ -1091,11 +936,7 @@
                     "conditions": [
                         [
                             'component=="static_library"',
-                            {
-                                "defines": [
-                                    "_HAS_EXCEPTIONS=0",
-                                ],
-                            },
+                            {"defines": ["_HAS_EXCEPTIONS=0",],},
                         ],
                     ],
                     "msvs_cygwin_shell": 0,
@@ -1185,18 +1026,12 @@
                             "conditions": [
                                 [
                                     "msvs_multi_core_compile",
-                                    {
-                                        "AdditionalOptions": ["/MP"],
-                                    },
+                                    {"AdditionalOptions": ["/MP"],},
                                 ],
                                 [
                                     'component=="shared_library"',
-                                    {
-                                        "ExceptionHandling": "1",  # /EHsc
-                                    },
-                                    {
-                                        "ExceptionHandling": "0",
-                                    },
+                                    {"ExceptionHandling": "1",},  # /EHsc
+                                    {"ExceptionHandling": "0",},
                                 ],
                             ],
                         },
@@ -1205,19 +1040,13 @@
                             "conditions": [
                                 [
                                     'v8_target_arch=="x64"',
-                                    {
-                                        "TargetMachine": "17",  # x64
-                                    },
-                                    {
-                                        "TargetMachine": "1",  # ia32
-                                    },
+                                    {"TargetMachine": "17",},  # x64
+                                    {"TargetMachine": "1",},  # ia32
                                 ],
                             ],
                         },
                         "VCLinkerTool": {
-                            "AdditionalDependencies": [
-                                "ws2_32.lib",
-                            ],
+                            "AdditionalDependencies": ["ws2_32.lib",],
                             "GenerateDebugInformation": "true",
                             "MapFileName": "$(OutDir)\\$(TargetName).map",
                             "ImportLibrary": "$(OutDir)\\lib\\$(TargetName).lib",
@@ -1235,11 +1064,7 @@
                             "conditions": [
                                 [
                                     "v8_enable_i18n_support==1",
-                                    {
-                                        "AdditionalDependencies": [
-                                            "advapi32.lib",
-                                        ],
-                                    },
+                                    {"AdditionalDependencies": ["advapi32.lib",],},
                                 ],
                                 [
                                     'v8_target_arch=="x64"',
@@ -1279,9 +1104,7 @@
                                 'clang==1 and MSVS_VERSION == "2013"',
                                 {
                                     "VCCLCompilerTool": {
-                                        "AdditionalOptions": [
-                                            "-fmsc-version=1800",
-                                        ],
+                                        "AdditionalOptions": ["-fmsc-version=1800",],
                                     },
                                 },
                             ],
@@ -1289,9 +1112,7 @@
                                 'clang==1 and MSVS_VERSION == "2015"',
                                 {
                                     "VCCLCompilerTool": {
-                                        "AdditionalOptions": [
-                                            "-fmsc-version=1900",
-                                        ],
+                                        "AdditionalOptions": ["-fmsc-version=1900",],
                                     },
                                 },
                             ],
@@ -1327,9 +1148,7 @@
                         "PREBINDING": "NO",  # No -Wl,-prebind
                         "SYMROOT": "<(DEPTH)/xcodebuild",
                         "USE_HEADERMAP": "NO",
-                        "OTHER_CFLAGS": [
-                            "-fno-strict-aliasing",
-                        ],
+                        "OTHER_CFLAGS": ["-fno-strict-aliasing",],
                         "WARNING_CFLAGS": [
                             "-Wall",
                             "-Wendif-labels",
@@ -1342,11 +1161,7 @@
                     "conditions": [
                         [
                             'werror==""',
-                            {
-                                "xcode_settings": {
-                                    "GCC_TREAT_WARNINGS_AS_ERRORS": "NO"
-                                },
-                            },
+                            {"xcode_settings": {"GCC_TREAT_WARNINGS_AS_ERRORS": "NO"},},
                             {
                                 "xcode_settings": {
                                     "GCC_TREAT_WARNINGS_AS_ERRORS": "YES"
@@ -1401,15 +1216,9 @@
             'OS=="android"',
             {
                 "target_defaults": {
-                    "defines": [
-                        "ANDROID",
-                    ],
+                    "defines": ["ANDROID",],
                     "configurations": {
-                        "Release": {
-                            "cflags": [
-                                "-fomit-frame-pointer",
-                            ],
-                        },  # Release
+                        "Release": {"cflags": ["-fomit-frame-pointer",],},  # Release
                     },  # configurations
                     "cflags": ["-Wno-abi", "-Wall", "-W", "-Wno-unused-parameter"],
                     "cflags_cc": [
@@ -1529,12 +1338,8 @@
                                         'target_arch=="ia32" or target_arch=="x87"',
                                         {
                                             # The x86 toolchain currently has problems with stack-protector.
-                                            "cflags!": [
-                                                "-fstack-protector",
-                                            ],
-                                            "cflags": [
-                                                "-fno-stack-protector",
-                                            ],
+                                            "cflags!": ["-fstack-protector",],
+                                            "cflags": ["-fno-stack-protector",],
                                             "ldflags": [
                                                 "-L<(android_libcpp_libs)/x86",
                                             ],
@@ -1548,9 +1353,7 @@
                                                 "-fstack-protector",
                                                 "-U__linux__",
                                             ],
-                                            "cflags": [
-                                                "-fno-stack-protector",
-                                            ],
+                                            "cflags": ["-fno-stack-protector",],
                                             "ldflags": [
                                                 "-L<(android_libcpp_libs)/mips",
                                             ],
@@ -1558,14 +1361,7 @@
                                     ],
                                     [
                                         '(target_arch=="arm" or target_arch=="arm64" or target_arch=="x64" or target_arch=="ia32") and component!="shared_library"',
-                                        {
-                                            "cflags": [
-                                                "-fPIE",
-                                            ],
-                                            "ldflags": [
-                                                "-pie",
-                                            ],
-                                        },
+                                        {"cflags": ["-fPIE",], "ldflags": ["-pie",],},
                                     ],
                                 ],
                                 "target_conditions": [
@@ -1669,14 +1465,7 @@
             'clang==0 and host_clang==1 and target_arch!="ia32" and target_arch!="x64"',
             {
                 "target_conditions": [
-                    [
-                        '_toolset=="host"',
-                        {
-                            "cflags_cc": [
-                                "-std=gnu++11",
-                            ],
-                        },
-                    ],
+                    ['_toolset=="host"', {"cflags_cc": ["-std=gnu++11",],},],
                 ],
                 "target_defaults": {
                     "target_conditions": [
@@ -1820,14 +1609,7 @@
             {
                 "target_defaults": {
                     "target_conditions": [
-                        [
-                            '_toolset=="target"',
-                            {
-                                "cflags": [
-                                    "-flto",
-                                ],
-                            },
-                        ],
+                        ['_toolset=="target"', {"cflags": ["-flto",],},],
                     ],
                 },
             },
@@ -1837,14 +1619,7 @@
             {
                 "target_defaults": {
                     "target_conditions": [
-                        [
-                            '_toolset=="target"',
-                            {
-                                "cflags": [
-                                    "-ffat-lto-objects",
-                                ],
-                            },
-                        ],
+                        ['_toolset=="target"', {"cflags": ["-ffat-lto-objects",],},],
                     ],
                 },
             },
@@ -1864,9 +1639,7 @@
                                 # Apply a lower optimization level with lto. Chromium does this
                                 # for non-official builds only - a differentiation that doesn't
                                 # exist in v8.
-                                "ldflags": [
-                                    "-Wl,--plugin-opt,O1",
-                                ],
+                                "ldflags": ["-Wl,--plugin-opt,O1",],
                             },
                         ],
                     ],
@@ -1878,14 +1651,7 @@
             {
                 "target_defaults": {
                     "target_conditions": [
-                        [
-                            '_toolset=="target"',
-                            {
-                                "ldflags": [
-                                    "-flto=32",
-                                ],
-                            },
-                        ],
+                        ['_toolset=="target"', {"ldflags": ["-flto=32",],},],
                     ],
                 },
             },
@@ -1895,14 +1661,7 @@
             {
                 "target_defaults": {
                     "target_conditions": [
-                        [
-                            '_toolset=="target"',
-                            {
-                                "ldflags": [
-                                    "-flto",
-                                ],
-                            },
-                        ],
+                        ['_toolset=="target"', {"ldflags": ["-flto",],},],
                     ],
                 },
             },
@@ -1919,12 +1678,8 @@
                                     "-fno-sanitize-trap=cfi",
                                     "-fno-sanitize-recover=cfi",
                                 ],
-                                "cflags_cc!": [
-                                    "-fno-rtti",
-                                ],
-                                "cflags!": [
-                                    "-fno-rtti",
-                                ],
+                                "cflags_cc!": ["-fno-rtti",],
+                                "cflags!": ["-fno-rtti",],
                                 "ldflags": [
                                     "-fno-sanitize-trap=cfi",
                                     "-fno-sanitize-recover=cfi",

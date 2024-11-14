@@ -41,15 +41,10 @@ type_traits = {
     "object": "!Object",
 }
 
-promisified_domains = {
-    "Accessibility",
-    "Animation",
-    "CSS",
-    "Emulation",
-    "Profiler"
-}
+promisified_domains = {"Accessibility", "Animation", "CSS", "Emulation", "Profiler"}
 
 ref_types = {}
+
 
 def full_qualified_type_id(domain_name, type_id):
     if type_id.find(".") == -1:
@@ -62,9 +57,11 @@ def fix_camel_case(name):
     if name[0] == "-":
         prefix = "Negative"
         name = name[1:]
-    refined = re.sub(r'-(\w)', lambda pat: pat.group(1).upper(), name)
+    refined = re.sub(r"-(\w)", lambda pat: pat.group(1).upper(), name)
     refined = to_title_case(refined)
-    return prefix + re.sub(r'(?i)HTML|XML|WML|API', lambda pat: pat.group(0).upper(), refined)
+    return prefix + re.sub(
+        r"(?i)HTML|XML|WML|API", lambda pat: pat.group(0).upper(), refined
+    )
 
 
 def to_title_case(name):
@@ -74,8 +71,11 @@ def to_title_case(name):
 def generate_enum(name, json):
     enum_members = []
     for member in json["enum"]:
-        enum_members.append("    %s: \"%s\"" % (fix_camel_case(member), member))
-    return "\n/** @enum {string} */\n%s = {\n%s\n};\n" % (name, (",\n".join(enum_members)))
+        enum_members.append('    %s: "%s"' % (fix_camel_case(member), member))
+    return "\n/** @enum {string} */\n%s = {\n%s\n};\n" % (
+        name,
+        (",\n".join(enum_members)),
+    )
 
 
 def param_type(domain_name, param):
@@ -107,13 +107,14 @@ def generate_protocol_externs(output_path, file1):
     output_file = open(output_path, "w")
 
     output_file.write(
-"""
+        """
 var InspectorBackend = {}
 
 var Protocol = {};
 /** @typedef {string}*/
 Protocol.Error;
-""")
+"""
+    )
 
     for domain in domains:
         domain_name = domain["domain"]
@@ -135,22 +136,28 @@ Protocol.Error;
                 params = []
                 has_return_value = "returns" in command
                 explicit_parameters = promisified and has_return_value
-                if ("parameters" in command):
+                if "parameters" in command:
                     for in_param in command["parameters"]:
                         # All parameters are not optional in case of promisified domain with return value.
-                        if (not explicit_parameters and "optional" in in_param):
+                        if not explicit_parameters and "optional" in in_param:
                             params.append("opt_%s" % in_param["name"])
-                            output_file.write(" * @param {%s=} opt_%s\n" % (param_type(domain_name, in_param), in_param["name"]))
+                            output_file.write(
+                                " * @param {%s=} opt_%s\n"
+                                % (param_type(domain_name, in_param), in_param["name"])
+                            )
                         else:
                             params.append(in_param["name"])
-                            output_file.write(" * @param {%s} %s\n" % (param_type(domain_name, in_param), in_param["name"]))
+                            output_file.write(
+                                " * @param {%s} %s\n"
+                                % (param_type(domain_name, in_param), in_param["name"])
+                            )
                 returns = []
                 returns.append("?Protocol.Error")
-                if ("error" in command):
+                if "error" in command:
                     returns.append("%s=" % param_type(domain_name, command["error"]))
-                if (has_return_value):
+                if has_return_value:
                     for out_param in command["returns"]:
-                        if ("optional" in out_param):
+                        if "optional" in out_param:
                             returns.append("%s=" % param_type(domain_name, out_param))
                         else:
                             returns.append("%s" % param_type(domain_name, out_param))
@@ -159,16 +166,28 @@ Protocol.Error;
                     callback_return_type = "T"
                 elif promisified:
                     callback_return_type = "T="
-                output_file.write(" * @param {function(%s):%s} opt_callback\n" % (", ".join(returns), callback_return_type))
-                if (promisified):
+                output_file.write(
+                    " * @param {function(%s):%s} opt_callback\n"
+                    % (", ".join(returns), callback_return_type)
+                )
+                if promisified:
                     output_file.write(" * @return {!Promise.<T>}\n")
                     output_file.write(" * @template T\n")
                 params.append("opt_callback")
 
                 output_file.write(" */\n")
-                output_file.write("Protocol.%sAgent.prototype.%s = function(%s) {}\n" % (domain_name, command["name"], ", ".join(params)))
-                output_file.write("/** @param {function(%s):void=} opt_callback */\n" % ", ".join(returns))
-                output_file.write("Protocol.%sAgent.prototype.invoke_%s = function(obj, opt_callback) {}\n" % (domain_name, command["name"]))
+                output_file.write(
+                    "Protocol.%sAgent.prototype.%s = function(%s) {}\n"
+                    % (domain_name, command["name"], ", ".join(params))
+                )
+                output_file.write(
+                    "/** @param {function(%s):void=} opt_callback */\n"
+                    % ", ".join(returns)
+                )
+                output_file.write(
+                    "Protocol.%sAgent.prototype.invoke_%s = function(obj, opt_callback) {}\n"
+                    % (domain_name, command["name"])
+                )
 
         output_file.write("\n\n\nvar %sAgent = function(){};\n" % domain_name)
 
@@ -179,64 +198,126 @@ Protocol.Error;
                     if "properties" in type:
                         for property in type["properties"]:
                             suffix = ""
-                            if ("optional" in property):
+                            if "optional" in property:
                                 suffix = "|undefined"
                             if "enum" in property:
-                                enum_name = "%sAgent.%s%s" % (domain_name, type["id"], to_title_case(property["name"]))
+                                enum_name = "%sAgent.%s%s" % (
+                                    domain_name,
+                                    type["id"],
+                                    to_title_case(property["name"]),
+                                )
                                 output_file.write(generate_enum(enum_name, property))
-                                typedef_args.append("%s:(%s%s)" % (property["name"], enum_name, suffix))
+                                typedef_args.append(
+                                    "%s:(%s%s)" % (property["name"], enum_name, suffix)
+                                )
                             else:
-                                typedef_args.append("%s:(%s%s)" % (property["name"], param_type(domain_name, property), suffix))
-                    if (typedef_args):
-                        output_file.write("\n/** @typedef {!{%s}} */\n%sAgent.%s;\n" % (", ".join(typedef_args), domain_name, type["id"]))
+                                typedef_args.append(
+                                    "%s:(%s%s)"
+                                    % (
+                                        property["name"],
+                                        param_type(domain_name, property),
+                                        suffix,
+                                    )
+                                )
+                    if typedef_args:
+                        output_file.write(
+                            "\n/** @typedef {!{%s}} */\n%sAgent.%s;\n"
+                            % (", ".join(typedef_args), domain_name, type["id"])
+                        )
                     else:
-                        output_file.write("\n/** @typedef {!Object} */\n%sAgent.%s;\n" % (domain_name, type["id"]))
+                        output_file.write(
+                            "\n/** @typedef {!Object} */\n%sAgent.%s;\n"
+                            % (domain_name, type["id"])
+                        )
                 elif type["type"] == "string" and "enum" in type:
-                    output_file.write(generate_enum("%sAgent.%s" % (domain_name, type["id"]), type))
+                    output_file.write(
+                        generate_enum("%sAgent.%s" % (domain_name, type["id"]), type)
+                    )
                 elif type["type"] == "array":
-                    output_file.write("\n/** @typedef {!Array.<!%s>} */\n%sAgent.%s;\n" % (param_type(domain_name, type["items"]), domain_name, type["id"]))
+                    output_file.write(
+                        "\n/** @typedef {!Array.<!%s>} */\n%sAgent.%s;\n"
+                        % (
+                            param_type(domain_name, type["items"]),
+                            domain_name,
+                            type["id"],
+                        )
+                    )
                 else:
-                    output_file.write("\n/** @typedef {%s} */\n%sAgent.%s;\n" % (type_traits[type["type"]], domain_name, type["id"]))
+                    output_file.write(
+                        "\n/** @typedef {%s} */\n%sAgent.%s;\n"
+                        % (type_traits[type["type"]], domain_name, type["id"])
+                    )
 
         output_file.write("/** @interface */\n")
         output_file.write("%sAgent.Dispatcher = function() {};\n" % domain_name)
         if "events" in domain:
             for event in domain["events"]:
                 params = []
-                if ("parameters" in event):
+                if "parameters" in event:
                     output_file.write("/**\n")
                     for param in event["parameters"]:
-                        if ("optional" in param):
+                        if "optional" in param:
                             params.append("opt_%s" % param["name"])
-                            output_file.write(" * @param {%s=} opt_%s\n" % (param_type(domain_name, param), param["name"]))
+                            output_file.write(
+                                " * @param {%s=} opt_%s\n"
+                                % (param_type(domain_name, param), param["name"])
+                            )
                         else:
                             params.append(param["name"])
-                            output_file.write(" * @param {%s} %s\n" % (param_type(domain_name, param), param["name"]))
+                            output_file.write(
+                                " * @param {%s} %s\n"
+                                % (param_type(domain_name, param), param["name"])
+                            )
                     output_file.write(" */\n")
-                output_file.write("%sAgent.Dispatcher.prototype.%s = function(%s) {};\n" % (domain_name, event["name"], ", ".join(params)))
+                output_file.write(
+                    "%sAgent.Dispatcher.prototype.%s = function(%s) {};\n"
+                    % (domain_name, event["name"], ", ".join(params))
+                )
 
-    output_file.write("\n/** @constructor\n * @param {!Object.<string, !Object>} agentsMap\n */\n")
+    output_file.write(
+        "\n/** @constructor\n * @param {!Object.<string, !Object>} agentsMap\n */\n"
+    )
     output_file.write("Protocol.Agents = function(agentsMap){this._agentsMap;};\n")
-    output_file.write("/**\n * @param {string} domain\n * @param {!Object} dispatcher\n */\n")
-    output_file.write("Protocol.Agents.prototype.registerDispatcher = function(domain, dispatcher){};\n")
+    output_file.write(
+        "/**\n * @param {string} domain\n * @param {!Object} dispatcher\n */\n"
+    )
+    output_file.write(
+        "Protocol.Agents.prototype.registerDispatcher = function(domain, dispatcher){};\n"
+    )
     for domain in domains:
         domain_name = domain["domain"]
         uppercase_length = 0
-        while uppercase_length < len(domain_name) and domain_name[uppercase_length].isupper():
+        while (
+            uppercase_length < len(domain_name)
+            and domain_name[uppercase_length].isupper()
+        ):
             uppercase_length += 1
 
         output_file.write("/** @return {!Protocol.%sAgent}*/\n" % domain_name)
-        output_file.write("Protocol.Agents.prototype.%s = function(){};\n" % (domain_name[:uppercase_length].lower() + domain_name[uppercase_length:] + "Agent"))
+        output_file.write(
+            "Protocol.Agents.prototype.%s = function(){};\n"
+            % (
+                domain_name[:uppercase_length].lower()
+                + domain_name[uppercase_length:]
+                + "Agent"
+            )
+        )
 
-        output_file.write("/**\n * @param {!%sAgent.Dispatcher} dispatcher\n */\n" % domain_name)
-        output_file.write("Protocol.Agents.prototype.register%sDispatcher = function(dispatcher) {}\n" % domain_name)
-
+        output_file.write(
+            "/**\n * @param {!%sAgent.Dispatcher} dispatcher\n */\n" % domain_name
+        )
+        output_file.write(
+            "Protocol.Agents.prototype.register%sDispatcher = function(dispatcher) {}\n"
+            % domain_name
+        )
 
     output_file.close()
+
 
 if __name__ == "__main__":
     import sys
     import os.path
+
     program_name = os.path.basename(__file__)
     if len(sys.argv) < 4 or sys.argv[1] != "-o":
         sys.stderr.write("Usage: %s -o OUTPUT_FILE INPUT_FILE\n" % program_name)

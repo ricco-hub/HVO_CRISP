@@ -397,11 +397,7 @@ class UnitTest(unittest.TestCase):
         out = json.loads(mbw.files["/tmp/out.json"])
         self.assertEqual(
             out,
-            {
-                "status": "No dependency",
-                "compile_targets": [],
-                "test_targets": [],
-            },
+            {"status": "No dependency", "compile_targets": [], "test_targets": [],},
         )
 
     def test_gn_gen(self):

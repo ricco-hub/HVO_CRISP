@@ -134,12 +134,7 @@
                         "defines": ["HAVE_CONFIG_H"],
                     },
                 ],
-                [
-                    'OS not in "win android"',
-                    {
-                        "cflags": ["--std=gnu89"],
-                    },
-                ],
+                ['OS not in "win android"', {"cflags": ["--std=gnu89"],},],
                 [
                     'OS=="linux"',
                     {

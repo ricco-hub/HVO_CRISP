@@ -32,56 +32,60 @@ import time
 from . import statusfile
 
 
-REPORT_TEMPLATE = (
-"""Total: %(total)i tests
+REPORT_TEMPLATE = """Total: %(total)i tests
  * %(skipped)4d tests will be skipped
  * %(timeout)4d tests are expected to timeout sometimes
  * %(nocrash)4d tests are expected to be flaky but not crash
  * %(pass)4d tests are expected to pass
  * %(fail_ok)4d tests are expected to fail that we won't fix
- * %(fail)4d tests are expected to fail that we should fix""")
+ * %(fail)4d tests are expected to fail that we should fix"""
 
 
 def PrintReport(tests):
-  total = len(tests)
-  skipped = timeout = nocrash = passes = fail_ok = fail = 0
-  for t in tests:
-    if "outcomes" not in dir(t) or not t.outcomes:
-      passes += 1
-      continue
-    o = t.outcomes
-    if statusfile.DoSkip(o):
-      skipped += 1
-      continue
-    if statusfile.TIMEOUT in o: timeout += 1
-    if statusfile.IsPassOrFail(o): nocrash += 1
-    if list(o) == [statusfile.PASS]: passes += 1
-    if statusfile.IsFailOk(o): fail_ok += 1
-    if list(o) == [statusfile.FAIL]: fail += 1
-  print REPORT_TEMPLATE % {
-    "total": total,
-    "skipped": skipped,
-    "timeout": timeout,
-    "nocrash": nocrash,
-    "pass": passes,
-    "fail_ok": fail_ok,
-    "fail": fail
-  }
+    total = len(tests)
+    skipped = timeout = nocrash = passes = fail_ok = fail = 0
+    for t in tests:
+        if "outcomes" not in dir(t) or not t.outcomes:
+            passes += 1
+            continue
+        o = t.outcomes
+        if statusfile.DoSkip(o):
+            skipped += 1
+            continue
+        if statusfile.TIMEOUT in o:
+            timeout += 1
+        if statusfile.IsPassOrFail(o):
+            nocrash += 1
+        if list(o) == [statusfile.PASS]:
+            passes += 1
+        if statusfile.IsFailOk(o):
+            fail_ok += 1
+        if list(o) == [statusfile.FAIL]:
+            fail += 1
+    print REPORT_TEMPLATE % {
+        "total": total,
+        "skipped": skipped,
+        "timeout": timeout,
+        "nocrash": nocrash,
+        "pass": passes,
+        "fail_ok": fail_ok,
+        "fail": fail,
+    }
 
 
 def PrintTestSource(tests):
-  for test in tests:
-    suite = test.suite
-    source = suite.GetSourceForTest(test).strip()
-    if len(source) > 0:
-      print "--- begin source: %s/%s ---" % (suite.name, test.path)
-      print source
-      print "--- end source: %s/%s ---" % (suite.name, test.path)
+    for test in tests:
+        suite = test.suite
+        source = suite.GetSourceForTest(test).strip()
+        if len(source) > 0:
+            print "--- begin source: %s/%s ---" % (suite.name, test.path)
+            print source
+            print "--- end source: %s/%s ---" % (suite.name, test.path)
 
 
 def FormatTime(d):
-  millis = round(d * 1000) % 1000
-  return time.strftime("%M:%S.", time.gmtime(d)) + ("%03i" % millis)
+    millis = round(d * 1000) % 1000
+    return time.strftime("%M:%S.", time.gmtime(d)) + ("%03i" % millis)
 
 
 def PrintTestDurations(suites, overall_time):
@@ -89,11 +93,10 @@ def PrintTestDurations(suites, overall_time):
     # test output.
     print
     sys.stderr.write("--- Total time: %s ---\n" % FormatTime(overall_time))
-    timed_tests = [ t for s in suites for t in s.tests
-                    if t.duration is not None ]
+    timed_tests = [t for s in suites for t in s.tests if t.duration is not None]
     timed_tests.sort(lambda a, b: cmp(b.duration, a.duration))
     index = 1
     for entry in timed_tests[:20]:
-      t = FormatTime(entry.duration)
-      sys.stderr.write("%4i (%s) %s\n" % (index, t, entry.GetLabel()))
-      index += 1
+        t = FormatTime(entry.duration)
+        sys.stderr.write("%4i (%s) %s\n" % (index, t, entry.GetLabel()))
+        index += 1

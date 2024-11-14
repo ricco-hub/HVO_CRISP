@@ -15,9 +15,7 @@
                             "../../gypfiles/features.gypi",
                             "../../gypfiles/isolate.gypi",
                         ],
-                        "sources": [
-                            "run-gcmole.isolate",
-                        ],
+                        "sources": ["run-gcmole.isolate",],
                     },
                 ],
             },

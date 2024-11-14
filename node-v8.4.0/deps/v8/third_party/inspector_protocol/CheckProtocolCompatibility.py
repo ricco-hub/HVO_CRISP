@@ -97,7 +97,9 @@ def compare_schemas(d_1, d_2, reverse):
         if name not in domains_by_name_2:
             errors.append("%s: domain has been %s" % (name, removed(reverse)))
             continue
-        compare_domains(domain_1, domains_by_name_2[name], types_1, types_2, errors, reverse)
+        compare_domains(
+            domain_1, domains_by_name_2[name], types_1, types_2, errors, reverse
+        )
     return errors
 
 
@@ -108,58 +110,134 @@ def compare_domains(domain_1, domain_2, types_map_1, types_map_2, errors, revers
     for name in commands_1:
         command_1 = commands_1[name]
         if name not in commands_2:
-            errors.append("%s.%s: command has been %s" % (domain_1["domain"], name, removed(reverse)))
+            errors.append(
+                "%s.%s: command has been %s"
+                % (domain_1["domain"], name, removed(reverse))
+            )
             continue
-        compare_commands(domain_name, command_1, commands_2[name], types_map_1, types_map_2, errors, reverse)
+        compare_commands(
+            domain_name,
+            command_1,
+            commands_2[name],
+            types_map_1,
+            types_map_2,
+            errors,
+            reverse,
+        )
 
     events_1 = named_list_to_map(domain_1, "events", "name")
     events_2 = named_list_to_map(domain_2, "events", "name")
     for name in events_1:
         event_1 = events_1[name]
         if name not in events_2:
-            errors.append("%s.%s: event has been %s" % (domain_1["domain"], name, removed(reverse)))
+            errors.append(
+                "%s.%s: event has been %s"
+                % (domain_1["domain"], name, removed(reverse))
+            )
             continue
-        compare_events(domain_name, event_1, events_2[name], types_map_1, types_map_2, errors, reverse)
+        compare_events(
+            domain_name,
+            event_1,
+            events_2[name],
+            types_map_1,
+            types_map_2,
+            errors,
+            reverse,
+        )
 
 
-def compare_commands(domain_name, command_1, command_2, types_map_1, types_map_2, errors, reverse):
+def compare_commands(
+    domain_name, command_1, command_2, types_map_1, types_map_2, errors, reverse
+):
     context = domain_name + "." + command_1["name"]
 
     params_1 = named_list_to_map(command_1, "parameters", "name")
     params_2 = named_list_to_map(command_2, "parameters", "name")
     # Note the reversed order: we allow removing but forbid adding parameters.
-    compare_params_list(context, "parameter", params_2, params_1, types_map_2, types_map_1, 0, errors, not reverse)
+    compare_params_list(
+        context,
+        "parameter",
+        params_2,
+        params_1,
+        types_map_2,
+        types_map_1,
+        0,
+        errors,
+        not reverse,
+    )
 
     returns_1 = named_list_to_map(command_1, "returns", "name")
     returns_2 = named_list_to_map(command_2, "returns", "name")
-    compare_params_list(context, "response parameter", returns_1, returns_2, types_map_1, types_map_2, 0, errors, reverse)
+    compare_params_list(
+        context,
+        "response parameter",
+        returns_1,
+        returns_2,
+        types_map_1,
+        types_map_2,
+        0,
+        errors,
+        reverse,
+    )
 
 
-def compare_events(domain_name, event_1, event_2, types_map_1, types_map_2, errors, reverse):
+def compare_events(
+    domain_name, event_1, event_2, types_map_1, types_map_2, errors, reverse
+):
     context = domain_name + "." + event_1["name"]
     params_1 = named_list_to_map(event_1, "parameters", "name")
     params_2 = named_list_to_map(event_2, "parameters", "name")
-    compare_params_list(context, "parameter", params_1, params_2, types_map_1, types_map_2, 0, errors, reverse)
+    compare_params_list(
+        context,
+        "parameter",
+        params_1,
+        params_2,
+        types_map_1,
+        types_map_2,
+        0,
+        errors,
+        reverse,
+    )
 
 
-def compare_params_list(context, kind, params_1, params_2, types_map_1, types_map_2, depth, errors, reverse):
+def compare_params_list(
+    context, kind, params_1, params_2, types_map_1, types_map_2, depth, errors, reverse
+):
     for name in params_1:
         param_1 = params_1[name]
         if name not in params_2:
             if "optional" not in param_1:
-                errors.append("%s.%s: required %s has been %s" % (context, name, kind, removed(reverse)))
+                errors.append(
+                    "%s.%s: required %s has been %s"
+                    % (context, name, kind, removed(reverse))
+                )
             continue
 
         param_2 = params_2[name]
         if param_2 and "optional" in param_2 and "optional" not in param_1:
-            errors.append("%s.%s: %s %s is now %s" % (context, name, required(reverse), kind, required(not reverse)))
+            errors.append(
+                "%s.%s: %s %s is now %s"
+                % (context, name, required(reverse), kind, required(not reverse))
+            )
             continue
         type_1 = extract_type(param_1, types_map_1, errors)
         type_2 = extract_type(param_2, types_map_2, errors)
-        compare_types(context + "." + name, kind, type_1, type_2, types_map_1, types_map_2, depth, errors, reverse)
+        compare_types(
+            context + "." + name,
+            kind,
+            type_1,
+            type_2,
+            types_map_1,
+            types_map_2,
+            depth,
+            errors,
+            reverse,
+        )
 
 
-def compare_types(context, kind, type_1, type_2, types_map_1, types_map_2, depth, errors, reverse):
+def compare_types(
+    context, kind, type_1, type_2, types_map_1, types_map_2, depth, errors, reverse
+):
     if depth > 10:
         return
 
@@ -167,7 +245,10 @@ def compare_types(context, kind, type_1, type_2, types_map_1, types_map_2, depth
     base_type_2 = type_2["type"]
 
     if base_type_1 != base_type_2:
-        errors.append("%s: %s base type mismatch, '%s' vs '%s'" % (context, kind, base_type_1, base_type_2))
+        errors.append(
+            "%s: %s base type mismatch, '%s' vs '%s'"
+            % (context, kind, base_type_1, base_type_2)
+        )
     elif base_type_1 == "object":
         params_1 = named_list_to_map(type_1, "properties", "name")
         params_2 = named_list_to_map(type_2, "properties", "name")
@@ -177,11 +258,31 @@ def compare_types(context, kind, type_1, type_2, types_map_1, types_map_2, depth
         else:
             type_name = "<object>"
         context += " %s->%s" % (kind, type_name)
-        compare_params_list(context, "property", params_1, params_2, types_map_1, types_map_2, depth + 1, errors, reverse)
+        compare_params_list(
+            context,
+            "property",
+            params_1,
+            params_2,
+            types_map_1,
+            types_map_2,
+            depth + 1,
+            errors,
+            reverse,
+        )
     elif base_type_1 == "array":
         item_type_1 = extract_type(type_1["items"], types_map_1, errors)
         item_type_2 = extract_type(type_2["items"], types_map_2, errors)
-        compare_types(context, kind, item_type_1, item_type_2, types_map_1, types_map_2, depth + 1, errors, reverse)
+        compare_types(
+            context,
+            kind,
+            item_type_1,
+            item_type_2,
+            types_map_1,
+            types_map_2,
+            depth + 1,
+            errors,
+            reverse,
+        )
 
 
 def extract_type(typed_object, types_map, errors):
@@ -240,14 +341,8 @@ def self_test():
             {
                 "domain": "Network",
                 "types": [
-                    {
-                        "id": "LoaderId",
-                        "type": "string"
-                    },
-                    {
-                        "id": "Headers",
-                        "type": "object"
-                    },
+                    {"id": "LoaderId", "type": "string"},
+                    {"id": "Headers", "type": "object"},
                     {
                         "id": "Request",
                         "type": "object",
@@ -257,13 +352,11 @@ def self_test():
                             {"name": "headers", "$ref": "Headers"},
                             {"name": "becameOptionalField", "type": "string"},
                             {"name": "removedField", "type": "string"},
-                        ]
-                    }
+                        ],
+                    },
                 ],
                 "commands": [
-                    {
-                        "name": "removedCommand",
-                    },
+                    {"name": "removedCommand",},
                     {
                         "name": "setExtraHTTPHeaders",
                         "parameters": [
@@ -271,17 +364,33 @@ def self_test():
                             {"name": "mismatched", "type": "string"},
                             {"name": "becameOptional", "$ref": "Headers"},
                             {"name": "removedRequired", "$ref": "Headers"},
-                            {"name": "becameRequired", "$ref": "Headers", "optional": True},
-                            {"name": "removedOptional", "$ref": "Headers", "optional": True},
+                            {
+                                "name": "becameRequired",
+                                "$ref": "Headers",
+                                "optional": True,
+                            },
+                            {
+                                "name": "removedOptional",
+                                "$ref": "Headers",
+                                "optional": True,
+                            },
                         ],
                         "returns": [
                             {"name": "mimeType", "type": "string"},
                             {"name": "becameOptional", "type": "string"},
                             {"name": "removedRequired", "type": "string"},
-                            {"name": "becameRequired", "type": "string", "optional": True},
-                            {"name": "removedOptional", "type": "string", "optional": True},
-                        ]
-                    }
+                            {
+                                "name": "becameRequired",
+                                "type": "string",
+                                "optional": True,
+                            },
+                            {
+                                "name": "removedOptional",
+                                "type": "string",
+                                "optional": True,
+                            },
+                        ],
+                    },
                 ],
                 "events": [
                     {
@@ -291,22 +400,28 @@ def self_test():
                             {"name": "request", "$ref": "Request"},
                             {"name": "becameOptional", "type": "string"},
                             {"name": "removedRequired", "type": "string"},
-                            {"name": "becameRequired", "type": "string", "optional": True},
-                            {"name": "removedOptional", "type": "string", "optional": True},
-                        ]
+                            {
+                                "name": "becameRequired",
+                                "type": "string",
+                                "optional": True,
+                            },
+                            {
+                                "name": "removedOptional",
+                                "type": "string",
+                                "optional": True,
+                            },
+                        ],
                     },
                     {
                         "name": "removedEvent",
                         "parameters": [
                             {"name": "errorText", "type": "string"},
-                            {"name": "canceled", "type": "boolean", "optional": True}
-                        ]
-                    }
-                ]
+                            {"name": "canceled", "type": "boolean", "optional": True},
+                        ],
+                    },
+                ],
             },
-            {
-                "domain":  "removedDomain"
-            }
+            {"domain": "removedDomain"},
         ]
 
     def create_test_schema_2():
@@ -314,10 +429,7 @@ def self_test():
             {
                 "domain": "Network",
                 "types": [
-                    {
-                        "id": "LoaderId",
-                        "type": "string"
-                    },
+                    {"id": "LoaderId", "type": "string"},
                     {
                         "id": "Request",
                         "type": "object",
@@ -325,52 +437,74 @@ def self_test():
                             {"name": "url", "type": "string"},
                             {"name": "method", "type": "string"},
                             {"name": "headers", "type": "object"},
-                            {"name": "becameOptionalField", "type": "string", "optional": True},
-                        ]
-                    }
+                            {
+                                "name": "becameOptionalField",
+                                "type": "string",
+                                "optional": True,
+                            },
+                        ],
+                    },
                 ],
                 "commands": [
-                    {
-                        "name": "addedCommand",
-                    },
+                    {"name": "addedCommand",},
                     {
                         "name": "setExtraHTTPHeaders",
                         "parameters": [
                             {"name": "headers", "type": "object"},
                             {"name": "mismatched", "type": "object"},
-                            {"name": "becameOptional", "type": "object", "optional": True},
+                            {
+                                "name": "becameOptional",
+                                "type": "object",
+                                "optional": True,
+                            },
                             {"name": "addedRequired", "type": "object"},
                             {"name": "becameRequired", "type": "object"},
-                            {"name": "addedOptional", "type": "object", "optional": True},
+                            {
+                                "name": "addedOptional",
+                                "type": "object",
+                                "optional": True,
+                            },
                         ],
                         "returns": [
                             {"name": "mimeType", "type": "string"},
-                            {"name": "becameOptional", "type": "string", "optional": True},
+                            {
+                                "name": "becameOptional",
+                                "type": "string",
+                                "optional": True,
+                            },
                             {"name": "addedRequired", "type": "string"},
                             {"name": "becameRequired", "type": "string"},
-                            {"name": "addedOptional", "type": "string", "optional": True},
-                        ]
-                    }
+                            {
+                                "name": "addedOptional",
+                                "type": "string",
+                                "optional": True,
+                            },
+                        ],
+                    },
                 ],
                 "events": [
                     {
                         "name": "requestWillBeSent",
                         "parameters": [
                             {"name": "request", "$ref": "Request"},
-                            {"name": "becameOptional", "type": "string", "optional": True},
+                            {
+                                "name": "becameOptional",
+                                "type": "string",
+                                "optional": True,
+                            },
                             {"name": "addedRequired", "type": "string"},
                             {"name": "becameRequired", "type": "string"},
-                            {"name": "addedOptional", "type": "string", "optional": True},
-                        ]
+                            {
+                                "name": "addedOptional",
+                                "type": "string",
+                                "optional": True,
+                            },
+                        ],
                     },
-                    {
-                        "name": "addedEvent"
-                    }
-                ]
+                    {"name": "addedEvent"},
+                ],
             },
-            {
-                "domain": "addedDomain"
-            }
+            {"domain": "addedDomain"},
         ]
 
     expected_errors = [
@@ -409,13 +543,17 @@ def self_test():
         return True
 
     def errors_match(expected, actual):
-        return (is_subset(actual, expected, "Unexpected") and
-                is_subset(expected, actual, "Missing"))
+        return is_subset(actual, expected, "Unexpected") and is_subset(
+            expected, actual, "Missing"
+        )
 
-    return (errors_match(expected_errors,
-                         compare_schemas(create_test_schema_1(), create_test_schema_2(), False)) and
-            errors_match(expected_errors_reverse,
-                         compare_schemas(create_test_schema_2(), create_test_schema_1(), True)))
+    return errors_match(
+        expected_errors,
+        compare_schemas(create_test_schema_1(), create_test_schema_2(), False),
+    ) and errors_match(
+        expected_errors_reverse,
+        compare_schemas(create_test_schema_2(), create_test_schema_1(), True),
+    )
 
 
 def load_domains_and_baselines(file_name, domains, baseline_domains):
@@ -438,7 +576,10 @@ def main():
     arg_options, arg_values = cmdline_parser.parse_args()
 
     if len(arg_values) < 1:
-        sys.stderr.write("Usage: %s [--show_changes] <protocol-1> [, <protocol-2>...]\n" % sys.argv[0])
+        sys.stderr.write(
+            "Usage: %s [--show_changes] <protocol-1> [, <protocol-2>...]\n"
+            % sys.argv[0]
+        )
         return 1
 
     domains = []
@@ -472,8 +613,9 @@ def main():
                 print "    %s" % change
 
     if arg_options.stamp:
-        with open(arg_options.stamp, 'a') as _:
+        with open(arg_options.stamp, "a") as _:
             pass
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     sys.exit(main())

@@ -39,16 +39,9 @@
                 "gtest/src/gtest.cc",
                 "gtest-support.h",
             ],
-            "sources!": [
-                "gtest/src/gtest-all.cc",  # Not needed by our build.
-            ],
-            "include_dirs": [
-                "gtest",
-                "gtest/include",
-            ],
-            "dependencies": [
-                "gtest_prod",
-            ],
+            "sources!": ["gtest/src/gtest-all.cc",],  # Not needed by our build.
+            "include_dirs": ["gtest", "gtest/include",],
+            "dependencies": ["gtest_prod",],
             "defines": [
                 # In order to allow regex matches in gtest to be shared between Windows
                 # and other systems, we tell gtest to always use it's internal engine.
@@ -56,30 +49,21 @@
                 "GTEST_LANG_CXX11=1",
             ],
             "all_dependent_settings": {
-                "defines": [
-                    "GTEST_HAS_POSIX_RE=0",
-                    "GTEST_LANG_CXX11=1",
-                ],
+                "defines": ["GTEST_HAS_POSIX_RE=0", "GTEST_LANG_CXX11=1",],
             },
             "conditions": [
                 [
                     'OS=="android"',
                     {
-                        "defines": [
-                            "GTEST_HAS_CLONE=0",
-                        ],
+                        "defines": ["GTEST_HAS_CLONE=0",],
                         "direct_dependent_settings": {
-                            "defines": [
-                                "GTEST_HAS_CLONE=0",
-                            ],
+                            "defines": ["GTEST_HAS_CLONE=0",],
                         },
                     },
                 ],
             ],
             "direct_dependent_settings": {
-                "defines": [
-                    "UNIT_TEST",
-                ],
+                "defines": ["UNIT_TEST",],
                 "include_dirs": [
                     "gtest/include",  # So that gtest headers can find themselves.
                 ],
@@ -120,20 +104,14 @@
         {
             "target_name": "gtest_main",
             "type": "static_library",
-            "dependencies": [
-                "gtest",
-            ],
-            "sources": [
-                "gtest/src/gtest_main.cc",
-            ],
+            "dependencies": ["gtest",],
+            "sources": ["gtest/src/gtest_main.cc",],
         },
         {
             "target_name": "gtest_prod",
             "toolsets": ["host", "target"],
             "type": "none",
-            "sources": [
-                "gtest/include/gtest/gtest_prod.h",
-            ],
+            "sources": ["gtest/include/gtest/gtest_prod.h",],
         },
     ],
 }

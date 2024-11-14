@@ -94,9 +94,7 @@ def _LicenseHeader(input_api):
         r".*? Use of this source code is governed by a BSD-style license that "
         r"can be\n"
         r".*? found in the LICENSE file\.\n"
-    ) % {
-        "year": years_re,
-    }
+    ) % {"year": years_re,}
 
 
 def CheckChangeOnUpload(input_api, output_api):

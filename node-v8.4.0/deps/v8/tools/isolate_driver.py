@@ -84,7 +84,7 @@ def load_ninja_recursively(build_dir, ninja_path, build_steps):
                 elif statement == "subninja":
                     subninja.append(line[9:])
     except IOError:
-        print >> sys.stderr, "Failed to open %s" % ninja_path
+        print >>sys.stderr, "Failed to open %s" % ninja_path
         raise
 
     total = 1
@@ -95,7 +95,7 @@ def load_ninja_recursively(build_dir, ninja_path, build_steps):
             # lot of processing time.
             total += load_ninja_recursively(build_dir, rel_path, build_steps)
         except IOError:
-            print >> sys.stderr, "... as referenced by %s" % ninja_path
+            print >>sys.stderr, "... as referenced by %s" % ninja_path
             raise
     return total
 
@@ -261,9 +261,7 @@ def create_wrapper(args, isolate_index, isolated_index):
 
     # Now do actual wrapping .isolate.
     isolate_dict = {
-        "includes": [
-            posixpath.join(isolate_relpath, isolate),
-        ],
+        "includes": [posixpath.join(isolate_relpath, isolate),],
         "variables": {
             # Will look like ['<(PRODUCT_DIR)/lib/flibuser_prefs.so'].
             "files": sorted(
@@ -296,11 +294,7 @@ def prepare_isolate_call(args, output):
     """
     with open(output, "wb") as f:
         json.dump(
-            {
-                "args": args,
-                "dir": os.getcwd(),
-                "version": 1,
-            },
+            {"args": args, "dir": os.getcwd(), "version": 1,},
             f,
             indent=2,
             sort_keys=True,
@@ -333,7 +327,7 @@ def main():
         if arg == "--isolated":
             isolated = i + 1
     if isolate is None or isolated is None or not mode:
-        print >> sys.stderr, "Internal failure"
+        print >>sys.stderr, "Internal failure"
         return 1
 
     # Make sure all paths are relative to the isolate file. This is an

@@ -4,22 +4,12 @@
             [
                 'OS != "win"',
                 {
-                    "defines": [
-                        "_LARGEFILE_SOURCE",
-                        "_FILE_OFFSET_BITS=64",
-                    ],
+                    "defines": ["_LARGEFILE_SOURCE", "_FILE_OFFSET_BITS=64",],
                     "conditions": [
-                        [
-                            'OS=="solaris"',
-                            {
-                                "cflags": ["-pthreads"],
-                            },
-                        ],
+                        ['OS=="solaris"', {"cflags": ["-pthreads"],},],
                         [
                             'OS not in "solaris android os390"',
-                            {
-                                "cflags": ["-pthread"],
-                            },
+                            {"cflags": ["-pthread"],},
                         ],
                         [
                             'OS in "os390"',
@@ -61,34 +51,16 @@
         {
             "target_name": "libuv",
             "type": "<(uv_library)",
-            "include_dirs": [
-                "include",
-                "src/",
-            ],
+            "include_dirs": ["include", "src/",],
             "direct_dependent_settings": {
                 "include_dirs": ["include"],
                 "conditions": [
                     [
                         'OS != "win"',
-                        {
-                            "defines": [
-                                "_LARGEFILE_SOURCE",
-                                "_FILE_OFFSET_BITS=64",
-                            ],
-                        },
+                        {"defines": ["_LARGEFILE_SOURCE", "_FILE_OFFSET_BITS=64",],},
                     ],
-                    [
-                        'OS in "mac ios"',
-                        {
-                            "defines": ["_DARWIN_USE_64_BIT_INODE=1"],
-                        },
-                    ],
-                    [
-                        'OS == "linux"',
-                        {
-                            "defines": ["_POSIX_C_SOURCE=200112"],
-                        },
-                    ],
+                    ['OS in "mac ios"', {"defines": ["_DARWIN_USE_64_BIT_INODE=1"],},],
+                    ['OS == "linux"', {"defines": ["_POSIX_C_SOURCE=200112"],},],
                 ],
             },
             "sources": [
@@ -111,10 +83,7 @@
                 [
                     'OS=="win"',
                     {
-                        "defines": [
-                            "_WIN32_WINNT=0x0600",
-                            "_GNU_SOURCE",
-                        ],
+                        "defines": ["_WIN32_WINNT=0x0600", "_GNU_SOURCE",],
                         "sources": [
                             "include/uv-win.h",
                             "src/win/async.c",
@@ -197,23 +166,14 @@
                         "link_settings": {
                             "libraries": ["-lm"],
                             "conditions": [
-                                [
-                                    'OS=="solaris"',
-                                    {
-                                        "ldflags": ["-pthreads"],
-                                    },
-                                ],
+                                ['OS=="solaris"', {"ldflags": ["-pthreads"],},],
                                 [
                                     'OS=="os390" and uv_library=="shared_library"',
-                                    {
-                                        "ldflags": ["-Wl,DLL"],
-                                    },
+                                    {"ldflags": ["-Wl,DLL"],},
                                 ],
                                 [
                                     'OS != "solaris" and OS != "android" and OS != "os390"',
-                                    {
-                                        "ldflags": ["-pthread"],
-                                    },
+                                    {"ldflags": ["-pthread"],},
                                 ],
                             ],
                         },
@@ -224,12 +184,8 @@
                                     "conditions": [
                                         [
                                             'OS=="os390"',
-                                            {
-                                                "cflags": ["-qexportall"],
-                                            },
-                                            {
-                                                "cflags": ["-fPIC"],
-                                            },
+                                            {"cflags": ["-qexportall"],},
+                                            {"cflags": ["-fPIC"],},
                                         ],
                                     ],
                                 },
@@ -248,9 +204,7 @@
                 ],
                 [
                     'OS in "linux mac ios android os390"',
-                    {
-                        "sources": ["src/unix/proctitle.c"],
-                    },
+                    {"sources": ["src/unix/proctitle.c"],},
                 ],
                 [
                     'OS != "os390"',
@@ -303,9 +257,7 @@
                             "src/unix/sysinfo-loadavg.c",
                             "src/unix/sysinfo-memory.c",
                         ],
-                        "link_settings": {
-                            "libraries": ["-ldl", "-lrt"],
-                        },
+                        "link_settings": {"libraries": ["-ldl", "-lrt"],},
                     },
                 ],
                 [
@@ -323,22 +275,14 @@
                             "src/unix/sysinfo-loadavg.c",
                             "src/unix/sysinfo-memory.c",
                         ],
-                        "link_settings": {
-                            "libraries": ["-ldl"],
-                        },
+                        "link_settings": {"libraries": ["-ldl"],},
                     },
                 ],
                 [
                     'OS=="solaris"',
                     {
-                        "sources": [
-                            "src/unix/no-proctitle.c",
-                            "src/unix/sunos.c",
-                        ],
-                        "defines": [
-                            "__EXTENSIONS__",
-                            "_XOPEN_SOURCE=500",
-                        ],
+                        "sources": ["src/unix/no-proctitle.c", "src/unix/sunos.c",],
+                        "defines": ["__EXTENSIONS__", "_XOPEN_SOURCE=500",],
                         "link_settings": {
                             "libraries": [
                                 "-lkstat",
@@ -360,48 +304,28 @@
                             "_THREAD_SAFE",
                             "HAVE_SYS_AHAFS_EVPRODS_H",
                         ],
-                        "link_settings": {
-                            "libraries": [
-                                "-lperfstat",
-                            ],
-                        },
+                        "link_settings": {"libraries": ["-lperfstat",],},
                     },
                 ],
                 [
                     'OS=="freebsd" or OS=="dragonflybsd"',
-                    {
-                        "sources": ["src/unix/freebsd.c"],
-                    },
+                    {"sources": ["src/unix/freebsd.c"],},
                 ],
-                [
-                    'OS=="openbsd"',
-                    {
-                        "sources": ["src/unix/openbsd.c"],
-                    },
-                ],
+                ['OS=="openbsd"', {"sources": ["src/unix/openbsd.c"],},],
                 [
                     'OS=="netbsd"',
                     {
-                        "link_settings": {
-                            "libraries": ["-lkvm"],
-                        },
+                        "link_settings": {"libraries": ["-lkvm"],},
                         "sources": ["src/unix/netbsd.c"],
                     },
                 ],
                 [
                     'OS in "freebsd dragonflybsd openbsd netbsd".split()',
-                    {
-                        "sources": ["src/unix/posix-hrtime.c"],
-                    },
+                    {"sources": ["src/unix/posix-hrtime.c"],},
                 ],
                 [
                     'OS in "ios mac freebsd dragonflybsd openbsd netbsd".split()',
-                    {
-                        "sources": [
-                            "src/unix/bsd-ifaddrs.c",
-                            "src/unix/kqueue.c",
-                        ],
-                    },
+                    {"sources": ["src/unix/bsd-ifaddrs.c", "src/unix/kqueue.c",],},
                 ],
                 ['uv_library=="shared_library"', {"defines": ["BUILDING_UV_SHARED=1"]}],
                 [
@@ -575,10 +499,7 @@
                         "libraries": ["-lws2_32"],
                     },
                     {  # POSIX
-                        "sources": [
-                            "test/runner-unix.c",
-                            "test/runner-unix.h",
-                        ],
+                        "sources": ["test/runner-unix.c", "test/runner-unix.h",],
                         "conditions": [
                             [
                                 'OS != "os390"',
@@ -595,50 +516,29 @@
                 ],
                 [
                     'OS in "mac dragonflybsd freebsd linux netbsd openbsd".split()',
-                    {
-                        "link_settings": {
-                            "libraries": ["-lutil"],
-                        },
-                    },
+                    {"link_settings": {"libraries": ["-lutil"],},},
                 ],
                 [
                     'OS=="solaris"',
                     {  # make test-fs.c compile, needs _POSIX_C_SOURCE
-                        "defines": [
-                            "__EXTENSIONS__",
-                            "_XOPEN_SOURCE=500",
-                        ],
+                        "defines": ["__EXTENSIONS__", "_XOPEN_SOURCE=500",],
                     },
                 ],
                 [
                     'OS=="aix"',
                     {  # make test-fs.c compile, needs _POSIX_C_SOURCE
-                        "defines": [
-                            "_ALL_SOURCE",
-                            "_XOPEN_SOURCE=500",
-                        ],
+                        "defines": ["_ALL_SOURCE", "_XOPEN_SOURCE=500",],
                     },
                 ],
                 [
                     'uv_library=="shared_library"',
                     {
                         "defines": ["USING_UV_SHARED=1"],
-                        "conditions": [
-                            [
-                                'OS == "os390"',
-                                {
-                                    "cflags": ["-Wc,DLL"],
-                                },
-                            ],
-                        ],
+                        "conditions": [['OS == "os390"', {"cflags": ["-Wc,DLL"],},],],
                     },
                 ],
             ],
-            "msvs-settings": {
-                "VCLinkerTool": {
-                    "SubSystem": 1,  # /subsystem:console
-                },
-            },
+            "msvs-settings": {"VCLinkerTool": {"SubSystem": 1,},},  # /subsystem:console
         },
         {
             "target_name": "run-benchmarks",
@@ -683,32 +583,18 @@
                     },
                     {  # POSIX
                         "defines": ["_GNU_SOURCE"],
-                        "sources": [
-                            "test/runner-unix.c",
-                            "test/runner-unix.h",
-                        ],
+                        "sources": ["test/runner-unix.c", "test/runner-unix.h",],
                     },
                 ],
                 [
                     'uv_library=="shared_library"',
                     {
                         "defines": ["USING_UV_SHARED=1"],
-                        "conditions": [
-                            [
-                                'OS == "os390"',
-                                {
-                                    "cflags": ["-Wc,DLL"],
-                                },
-                            ],
-                        ],
+                        "conditions": [['OS == "os390"', {"cflags": ["-Wc,DLL"],},],],
                     },
                 ],
             ],
-            "msvs-settings": {
-                "VCLinkerTool": {
-                    "SubSystem": 1,  # /subsystem:console
-                },
-            },
+            "msvs-settings": {"VCLinkerTool": {"SubSystem": 1,},},  # /subsystem:console
         },
     ],
 }

@@ -27,9 +27,7 @@
 # }
 
 {
-    "variables": {
-        "clang_warning_flags_unset%": [],  # Provide a default value.
-    },
+    "variables": {"clang_warning_flags_unset%": [],},  # Provide a default value.
     "conditions": [
         [
             "clang==1",

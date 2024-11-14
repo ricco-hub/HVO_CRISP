@@ -130,23 +130,15 @@
         "conditions": [
             [
                 'node_shared=="true"',
-                {
-                    "node_target_type%": "shared_library",
-                },
-                {
-                    "node_target_type%": "executable",
-                },
+                {"node_target_type%": "shared_library",},
+                {"node_target_type%": "executable",},
             ],
             [
                 'OS=="win" and '
                 'node_use_openssl=="true" and '
                 'node_shared_openssl=="false"',
-                {
-                    "use_openssl_def": 1,
-                },
-                {
-                    "use_openssl_def": 0,
-                },
+                {"use_openssl_def": 1,},
+                {"use_openssl_def": 0,},
             ],
         ],
     },
@@ -304,9 +296,7 @@
                         "conditions": [
                             [
                                 'openssl_fips!=""',
-                                {
-                                    "variables": {"mkssldef_flags": ["-DOPENSSL_FIPS"]},
-                                },
+                                {"variables": {"mkssldef_flags": ["-DOPENSSL_FIPS"]},},
                             ],
                         ],
                         "actions": [
@@ -397,9 +387,7 @@
                             {
                                 "action_name": "v8_inspector_compress_protocol_json",
                                 "process_outputs_as_sources": 1,
-                                "inputs": [
-                                    "deps/v8/src/inspector/js_protocol.json",
-                                ],
+                                "inputs": ["deps/v8/src/inspector/js_protocol.json",],
                                 "outputs": [
                                     "<(SHARED_INTERMEDIATE_DIR)/v8_inspector_protocol_json.h",
                                 ],
@@ -423,13 +411,8 @@
                 {
                     "action_name": "node_js2c",
                     "process_outputs_as_sources": 1,
-                    "inputs": [
-                        "<@(library_files)",
-                        "./config.gypi",
-                    ],
-                    "outputs": [
-                        "<(SHARED_INTERMEDIATE_DIR)/node_javascript.cc",
-                    ],
+                    "inputs": ["<@(library_files)", "./config.gypi",],
+                    "outputs": ["<(SHARED_INTERMEDIATE_DIR)/node_javascript.cc",],
                     "conditions": [
                         [
                             'node_use_dtrace=="false" and node_use_etw=="false"',
@@ -514,9 +497,7 @@
                         "actions": [
                             {
                                 "action_name": "node_dtrace_provider_o",
-                                "inputs": [
-                                    "<(OBJ_DIR)/node/src/node_dtrace.o",
-                                ],
+                                "inputs": ["<(OBJ_DIR)/node/src/node_dtrace.o",],
                                 "outputs": [
                                     "<(OBJ_DIR)/node/src/node_dtrace_provider.o"
                                 ],
@@ -637,9 +618,7 @@
                             {
                                 "action_name": "specialize_node_d",
                                 "inputs": ["src/node.d"],
-                                "outputs": [
-                                    "<(PRODUCT_DIR)/node.d",
-                                ],
+                                "outputs": ["<(PRODUCT_DIR)/node.d",],
                                 "action": [
                                     "tools/specialize_node_d.py",
                                     "<@(_outputs)",
@@ -671,12 +650,7 @@
                 "OBJ_SUFFIX": "o",
                 "OBJ_SEPARATOR": "/",
                 "conditions": [
-                    [
-                        'OS=="win"',
-                        {
-                            "OBJ_SUFFIX": "obj",
-                        },
-                    ],
+                    ['OS=="win"', {"OBJ_SUFFIX": "obj",},],
                     [
                         'GENERATOR=="ninja"',
                         {
@@ -756,11 +730,7 @@
                         "conditions": [
                             [
                                 'node_shared_zlib=="false"',
-                                {
-                                    "dependencies": [
-                                        "deps/zlib/zlib.gyp:zlib",
-                                    ]
-                                },
+                                {"dependencies": ["deps/zlib/zlib.gyp:zlib",]},
                             ],
                             [
                                 'node_shared_openssl=="false" and node_shared=="false"',
@@ -783,11 +753,7 @@
                 ],
                 [
                     'node_use_v8_platform=="true"',
-                    {
-                        "dependencies": [
-                            "deps/v8/src/v8.gyp:v8_libplatform",
-                        ],
-                    },
+                    {"dependencies": ["deps/v8/src/v8.gyp:v8_libplatform",],},
                 ],
                 [
                     'node_use_dtrace=="true" and OS!="mac" and OS!="linux"',
@@ -823,9 +789,7 @@
                                     "ldflags": ["--shared"],
                                     "product_extension": "<(shlib_suffix)",
                                 },
-                                {
-                                    "type": "executable",
-                                },
+                                {"type": "executable",},
                             ],
                             [
                                 'target_arch=="ppc64"',
@@ -845,10 +809,7 @@
                             ],
                         ],
                         "dependencies": ["<(node_core_target_name)", "node_exp"],
-                        "include_dirs": [
-                            "src",
-                            "deps/v8/include",
-                        ],
+                        "include_dirs": ["src", "deps/v8/include",],
                         "sources": [
                             "src/node_main.cc",
                             "<@(library_files)",
@@ -860,9 +821,7 @@
                     {
                         "target_name": "node_exp",
                         "type": "none",
-                        "dependencies": [
-                            "<(node_core_target_name)",
-                        ],
+                        "dependencies": ["<(node_core_target_name)",],
                         "actions": [
                             {
                                 "action_name": "expfile",

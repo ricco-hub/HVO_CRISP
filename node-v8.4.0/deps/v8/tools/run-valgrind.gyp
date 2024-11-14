@@ -11,16 +11,12 @@
                     {
                         "target_name": "run_valgrind_run",
                         "type": "none",
-                        "dependencies": [
-                            "../src/d8.gyp:d8_run",
-                        ],
+                        "dependencies": ["../src/d8.gyp:d8_run",],
                         "includes": [
                             "../gypfiles/features.gypi",
                             "../gypfiles/isolate.gypi",
                         ],
-                        "sources": [
-                            "run-valgrind.isolate",
-                        ],
+                        "sources": ["run-valgrind.isolate",],
                     },
                 ],
             },

@@ -46,10 +46,7 @@
                     "OBJ_DIR": "<(PRODUCT_DIR)/obj",
                     "V8_BASE": "<(PRODUCT_DIR)/lib/v8_libbase.lib",
                 },
-                {
-                    "os_posix": 1,
-                    "v8_postmortem_support%": "true",
-                },
+                {"os_posix": 1, "v8_postmortem_support%": "true",},
             ],
             [
                 'OS== "mac"',
@@ -60,46 +57,24 @@
             ],
             [
                 'openssl_fips != ""',
-                {
-                    "OPENSSL_PRODUCT": "libcrypto.a",
-                },
-                {
-                    "OPENSSL_PRODUCT": "libopenssl.a",
-                },
+                {"OPENSSL_PRODUCT": "libcrypto.a",},
+                {"OPENSSL_PRODUCT": "libopenssl.a",},
             ],
-            [
-                'OS=="mac"',
-                {
-                    "clang%": 1,
-                },
-                {
-                    "clang%": 0,
-                },
-            ],
+            ['OS=="mac"', {"clang%": 1,}, {"clang%": 0,},],
         ],
     },
     "target_defaults": {
         "default_configuration": "Release",
         "configurations": {
             "Debug": {
-                "variables": {
-                    "v8_enable_handle_zapping": 1,
-                },
+                "variables": {"v8_enable_handle_zapping": 1,},
                 "defines": ["DEBUG", "_DEBUG", "V8_ENABLE_CHECKS"],
                 "cflags": ["-g", "-O0"],
                 "conditions": [
-                    [
-                        'target_arch=="x64"',
-                        {
-                            "msvs_configuration_platform": "x64",
-                        },
-                    ],
+                    ['target_arch=="x64"', {"msvs_configuration_platform": "x64",},],
                     [
                         'OS=="aix"',
-                        {
-                            "cflags": ["-gxcoff"],
-                            "ldflags": ["-Wl,-bbigtoc"],
-                        },
+                        {"cflags": ["-gxcoff"], "ldflags": ["-Wl,-bbigtoc"],},
                     ],
                     [
                         'OS == "android"',
@@ -142,17 +117,10 @@
                 },
             },
             "Release": {
-                "variables": {
-                    "v8_enable_handle_zapping": 0,
-                },
+                "variables": {"v8_enable_handle_zapping": 0,},
                 "cflags": ["-O3"],
                 "conditions": [
-                    [
-                        'target_arch=="x64"',
-                        {
-                            "msvs_configuration_platform": "x64",
-                        },
-                    ],
+                    ['target_arch=="x64"', {"msvs_configuration_platform": "x64",},],
                     [
                         'OS=="solaris"',
                         {
@@ -162,9 +130,7 @@
                     ],
                     [
                         'OS!="mac" and OS!="win"',
-                        {
-                            "cflags": ["-fno-omit-frame-pointer"],
-                        },
+                        {"cflags": ["-fno-omit-frame-pointer"],},
                     ],
                     [
                         'OS == "android"',
@@ -201,14 +167,10 @@
                         "EnableFunctionLevelLinking": "true",
                         "EnableIntrinsicFunctions": "true",
                         "RuntimeTypeInfo": "false",
-                        "AdditionalOptions": [
-                            "/MP",  # compile across multiple CPUs
-                        ],
+                        "AdditionalOptions": ["/MP",],  # compile across multiple CPUs
                     },
                     "VCLibrarianTool": {
-                        "AdditionalOptions": [
-                            "/LTCG",  # link time code generation
-                        ],
+                        "AdditionalOptions": ["/LTCG",],  # link time code generation
                     },
                     "VCLinkerTool": {
                         "LinkTimeCodeGeneration": 1,  # link-time code generation
@@ -306,9 +268,7 @@
                             "-fsanitize=address",
                             "-DLEAK_SANITIZER",
                         ],
-                        "OTHER_CFLAGS!": [
-                            "-fomit-frame-pointer",
-                        ],
+                        "OTHER_CFLAGS!": ["-fomit-frame-pointer",],
                     },
                     "target_conditions": [
                         [
@@ -343,73 +303,42 @@
             ],
             [
                 'OS in "linux freebsd openbsd solaris aix"',
-                {
-                    "cflags": [
-                        "-pthread",
-                    ],
-                    "ldflags": ["-pthread"],
-                },
+                {"cflags": ["-pthread",], "ldflags": ["-pthread"],},
             ],
             [
                 'OS in "linux freebsd openbsd solaris android aix"',
                 {
-                    "cflags": [
-                        "-Wall",
-                        "-Wextra",
-                        "-Wno-unused-parameter",
-                    ],
+                    "cflags": ["-Wall", "-Wextra", "-Wno-unused-parameter",],
                     "cflags_cc": ["-fno-rtti", "-fno-exceptions", "-std=gnu++0x"],
                     "ldflags": ["-rdynamic"],
                     "target_conditions": [
                         # The 1990s toolchain on SmartOS can't handle thin archives.
                         [
                             '_type=="static_library" and OS=="solaris"',
-                            {
-                                "standalone_static_library": 1,
-                            },
+                            {"standalone_static_library": 1,},
                         ],
-                        [
-                            'OS=="openbsd"',
-                            {
-                                "ldflags": ["-Wl,-z,wxneeded"],
-                            },
-                        ],
+                        ['OS=="openbsd"', {"ldflags": ["-Wl,-z,wxneeded"],},],
                     ],
                     "conditions": [
                         [
                             'target_arch=="ia32"',
-                            {
-                                "cflags": ["-m32"],
-                                "ldflags": ["-m32"],
-                            },
+                            {"cflags": ["-m32"], "ldflags": ["-m32"],},
                         ],
                         [
                             'target_arch=="x32"',
-                            {
-                                "cflags": ["-mx32"],
-                                "ldflags": ["-mx32"],
-                            },
+                            {"cflags": ["-mx32"], "ldflags": ["-mx32"],},
                         ],
                         [
                             'target_arch=="x64"',
-                            {
-                                "cflags": ["-m64"],
-                                "ldflags": ["-m64"],
-                            },
+                            {"cflags": ["-m64"], "ldflags": ["-m64"],},
                         ],
                         [
                             'target_arch=="ppc" and OS!="aix"',
-                            {
-                                "cflags": ["-m32"],
-                                "ldflags": ["-m32"],
-                            },
+                            {"cflags": ["-m32"], "ldflags": ["-m32"],},
                         ],
                         [
                             'target_arch=="ppc64" and OS!="aix"',
-                            {
-                                "cflags": ["-m64", "-mminimal-toc"],
-                                "ldflags": ["-m64"],
-                            },
+                            {"cflags": ["-m64", "-mminimal-toc"], "ldflags": ["-m64"],},
                         ],
                         [
                             'target_arch=="s390"',
@@ -440,9 +369,7 @@
                                 "conditions": [
                                     [
                                         'target_arch=="ppc"',
-                                        {
-                                            "ldflags": ["-Wl,-bmaxdata:0x60000000/dsa"],
-                                        },
+                                        {"ldflags": ["-Wl,-bmaxdata:0x60000000/dsa"],},
                                     ],
                                     [
                                         'target_arch=="ppc64"',
@@ -456,12 +383,7 @@
                                 "ldflags!": ["-rdynamic"],
                             },
                         ],
-                        [
-                            'node_shared=="true"',
-                            {
-                                "cflags": ["-fPIC"],
-                            },
-                        ],
+                        ['node_shared=="true"', {"cflags": ["-fPIC"],},],
                     ],
                 },
             ],
@@ -495,9 +417,7 @@
                         "PREBINDING": "NO",  # No -Wl,-prebind
                         "MACOSX_DEPLOYMENT_TARGET": "10.7",  # -mmacosx-version-min=10.7
                         "USE_HEADERMAP": "NO",
-                        "OTHER_CFLAGS": [
-                            "-fno-strict-aliasing",
-                        ],
+                        "OTHER_CFLAGS": ["-fno-strict-aliasing",],
                         "WARNING_CFLAGS": [
                             "-Wall",
                             "-Wendif-labels",
@@ -521,15 +441,11 @@
                     "conditions": [
                         [
                             'target_arch=="ia32"',
-                            {
-                                "xcode_settings": {"ARCHS": ["i386"]},
-                            },
+                            {"xcode_settings": {"ARCHS": ["i386"]},},
                         ],
                         [
                             'target_arch=="x64"',
-                            {
-                                "xcode_settings": {"ARCHS": ["x86_64"]},
-                            },
+                            {"xcode_settings": {"ARCHS": ["x86_64"]},},
                         ],
                         [
                             "clang==1",
@@ -544,12 +460,7 @@
                     ],
                 },
             ],
-            [
-                'OS=="freebsd" and node_use_dtrace=="true"',
-                {
-                    "libraries": ["-lelf"],
-                },
-            ],
+            ['OS=="freebsd" and node_use_dtrace=="true"', {"libraries": ["-lelf"],},],
             [
                 'OS=="freebsd"',
                 {
@@ -565,9 +476,7 @@
                             },
                         ],
                     ],
-                    "ldflags": [
-                        "-Wl,--export-dynamic",
-                    ],
+                    "ldflags": ["-Wl,--export-dynamic",],
                 },
             ],
         ],

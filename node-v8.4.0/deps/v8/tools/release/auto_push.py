@@ -38,82 +38,89 @@ import create_release
 
 
 class Preparation(Step):
-  MESSAGE = "Preparation."
+    MESSAGE = "Preparation."
 
-  def RunStep(self):
-    # Fetch unfetched revisions.
-    self.vc.Fetch()
+    def RunStep(self):
+        # Fetch unfetched revisions.
+        self.vc.Fetch()
 
 
 class FetchCandidate(Step):
-  MESSAGE = "Fetching V8 lkgr ref."
+    MESSAGE = "Fetching V8 lkgr ref."
 
-  def RunStep(self):
-    # The roll ref points to the candidate to be rolled.
-    self.Git("fetch origin +refs/heads/lkgr:refs/heads/lkgr")
-    self["candidate"] = self.Git("show-ref -s refs/heads/lkgr").strip()
+    def RunStep(self):
+        # The roll ref points to the candidate to be rolled.
+        self.Git("fetch origin +refs/heads/lkgr:refs/heads/lkgr")
+        self["candidate"] = self.Git("show-ref -s refs/heads/lkgr").strip()
 
 
 class LastReleaseBailout(Step):
-  MESSAGE = "Checking last V8 release base."
+    MESSAGE = "Checking last V8 release base."
 
-  def RunStep(self):
-    last_release = self.GetLatestReleaseBase()
-    commits = self.GitLog(
-        format="%H", git_hash="%s..%s" % (last_release, self["candidate"]))
+    def RunStep(self):
+        last_release = self.GetLatestReleaseBase()
+        commits = self.GitLog(
+            format="%H", git_hash="%s..%s" % (last_release, self["candidate"])
+        )
 
-    if not commits:
-      print "Already pushed current candidate %s" % self["candidate"]
-      return True
+        if not commits:
+            print "Already pushed current candidate %s" % self["candidate"]
+            return True
 
 
 class CreateRelease(Step):
-  MESSAGE = "Creating release if specified."
+    MESSAGE = "Creating release if specified."
 
-  def RunStep(self):
-    print "Creating release for %s." % self["candidate"]
+    def RunStep(self):
+        print "Creating release for %s." % self["candidate"]
 
-    args = [
-      "--author", self._options.author,
-      "--reviewer", self._options.reviewer,
-      "--revision", self["candidate"],
-      "--force",
-    ]
+        args = [
+            "--author",
+            self._options.author,
+            "--reviewer",
+            self._options.reviewer,
+            "--revision",
+            self["candidate"],
+            "--force",
+        ]
 
-    if self._options.work_dir:
-      args.extend(["--work-dir", self._options.work_dir])
+        if self._options.work_dir:
+            args.extend(["--work-dir", self._options.work_dir])
 
-    if self._options.push:
-      self._side_effect_handler.Call(
-          create_release.CreateRelease().Run, args)
+        if self._options.push:
+            self._side_effect_handler.Call(create_release.CreateRelease().Run, args)
 
 
 class AutoPush(ScriptsBase):
-  def _PrepareOptions(self, parser):
-    parser.add_argument("-p", "--push",
-                        help="Create release. Dry run if unspecified.",
-                        default=False, action="store_true")
+    def _PrepareOptions(self, parser):
+        parser.add_argument(
+            "-p",
+            "--push",
+            help="Create release. Dry run if unspecified.",
+            default=False,
+            action="store_true",
+        )
 
-  def _ProcessOptions(self, options):
-    if not options.author or not options.reviewer:  # pragma: no cover
-      print "You need to specify author and reviewer."
-      return False
-    options.requires_editor = False
-    return True
+    def _ProcessOptions(self, options):
+        if not options.author or not options.reviewer:  # pragma: no cover
+            print "You need to specify author and reviewer."
+            return False
+        options.requires_editor = False
+        return True
 
-  def _Config(self):
-    return {
-      "PERSISTFILE_BASENAME": "/tmp/v8-auto-push-tempfile",
-    }
+    def _Config(self):
+        return {
+            "PERSISTFILE_BASENAME": "/tmp/v8-auto-push-tempfile",
+        }
 
-  def _Steps(self):
-    return [
-      Preparation,
-      FetchCandidate,
-      LastReleaseBailout,
-      CreateRelease,
-    ]
+    def _Steps(self):
+        return [
+            Preparation,
+            FetchCandidate,
+            LastReleaseBailout,
+            CreateRelease,
+        ]
 
 
 if __name__ == "__main__":  # pragma: no cover
-  sys.exit(AutoPush().Run())
+    sys.exit(AutoPush().Run())

@@ -7,9 +7,7 @@
         {
             "target_name": "gmock",
             "type": "static_library",
-            "dependencies": [
-                "gtest.gyp:gtest",
-            ],
+            "dependencies": ["gtest.gyp:gtest",],
             "sources": [
                 # Sources based on files in r173 of gmock.
                 "gmock/include/gmock/gmock-actions.h",
@@ -33,44 +31,28 @@
                 "gmock-support.h",  # gMock helpers
                 "gmock_custom/gmock/internal/custom/gmock-port.h",
             ],
-            "sources!": [
-                "gmock/src/gmock-all.cc",  # Not needed by our build.
-            ],
-            "include_dirs": [
-                "gmock_custom",
-                "gmock",
-                "gmock/include",
-            ],
+            "sources!": ["gmock/src/gmock-all.cc",],  # Not needed by our build.
+            "include_dirs": ["gmock_custom", "gmock", "gmock/include",],
             "all_dependent_settings": {
                 "include_dirs": [
                     "gmock_custom",
                     "gmock/include",  # So that gmock headers can find themselves.
                 ],
             },
-            "export_dependent_settings": [
-                "gtest.gyp:gtest",
-            ],
+            "export_dependent_settings": ["gtest.gyp:gtest",],
             "conditions": [
                 [
                     "want_separate_host_toolset==1",
-                    {
-                        "toolsets": ["host", "target"],
-                    },
-                    {
-                        "toolsets": ["target"],
-                    },
+                    {"toolsets": ["host", "target"],},
+                    {"toolsets": ["target"],},
                 ],
             ],
         },
         {
             "target_name": "gmock_main",
             "type": "static_library",
-            "dependencies": [
-                "gmock",
-            ],
-            "sources": [
-                "gmock/src/gmock_main.cc",
-            ],
+            "dependencies": ["gmock",],
+            "sources": ["gmock/src/gmock_main.cc",],
         },
     ],
 }
