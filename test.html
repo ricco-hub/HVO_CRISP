@@ -1,13 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- !DOCTYPE html -->
+<!-- html lang="en" -->
+<html>
 <head>
-    <meta charset="UTF-8">
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/header.html" ?>
+</head>
+<style>
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/style.html" ?>
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/column3.html" ?>
+        img[usemap] {
+            border: none;
+            height: auto;
+            max-height: 70%; 
+            max-width: 60%;
+            width: auto;
+        }
+</style>
+<body>
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/menu.html" ?>
+<head>
+    <!-- meta charset="UTF-8" -->
     <title>Bokeh Plot</title>
     <link rel="stylesheet" href="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.3.min.css" type="text/css">
     <script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.3.min.js"></script>
 </head>
 <body>
-    {{ div|safe }}
-    {{ script|safe }}
+    <iframe src="/SSN/bokeh_test_plot.html" title="Dynamic SSN test plot" width="1000" height="700" style="border: none;"></iframe>
 </body>
+<?php include "/var/www/ricco_website/HVO_CRISP/CSS2/footer.html" ?>
 </html>
