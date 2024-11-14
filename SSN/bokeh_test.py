@@ -1,15 +1,14 @@
 import requests
 import pandas as pd
 
-from bokeh.plotting import figure, curdoc
-from bokeh.models import ColumnDataSource
-from bokeh.layouts import layout
+from bokeh.plotting import figure, output_file, save
+from bokeh.models import ColumnDataSource, HoverTool
 from io import StringIO
 
 URL = "http://www.sidc.be/silso/DATA/SN_d_tot_V2.0.txt"
 
 
-# Function to scrape data from a remote CSV file
+# Function to scrape data from a remote txt file
 def fetch_data():
     response = requests.get(URL)
     response.raise_for_status()  # Raise an error if the request fails
@@ -23,7 +22,7 @@ def fetch_data():
         "SNvalue",
         "SNerror",
         "Nb observations",
-        "Status",
+        "Status"
     ]
 
     data = pd.read_csv(
@@ -32,7 +31,7 @@ def fetch_data():
         names=column_data,
         sep=r"\s+",
         dtype={"Status": str},
-        low_memory=False,
+        low_memory=False
     )
     # Remove asterisks from Status and convert to numeric
     data["Status"] = pd.to_numeric(
@@ -56,16 +55,23 @@ plot = figure(
     title="Sunspot Number",
     x_axis_label="Time (decimal year)",
     y_axis_label="Sunspot Number",
+    sizing_mode='stretch_both',
     width=1000,
-    height=600,
+    height=700
 )
-plot.scatter("dec_year", "sn_value", source=source, size=8, color="navy", alpha=0.5)
+plot.scatter("dec_year", "sn_value", source=source, size=8, color="navy", alpha=0.5) # make dec_year more human readable
 
-# Organize the layout
-layout = layout([plot])
+# create hover tool
+renderer = plot.circle("dec_year", "sn_value", source=source, size=8, color="navy", alpha=0.5) # currently rounding values
 
-# Add the layout to the current document
-curdoc().add_root(layout)
-curdoc().title = "Scraped Data Scatter Plot"
+hover = HoverTool(tooltips=[
+    ("Year", "@dec_year"),
+    ("SSN", "@sn_value")
+], renderers=[renderer])
 
-print("Bokeh server is running on http://localhost:5006/bokeh_test")
+plot.add_tools(hover)
+
+# write to HTML file
+output_file("/var/www/ricco_website/HVO_CRISP/SSN/bokeh_test_plot.html")
+
+save(plot)
