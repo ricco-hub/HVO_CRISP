@@ -1,9 +1,13 @@
 import requests
 import pandas as pd
 
-from bokeh.plotting import figure, output_file, save
-from bokeh.models import ColumnDataSource, HoverTool
+from bokeh.plotting import figure
+from bokeh.models import ColumnDataSource, HoverTool, DateRangePicker
+from bokeh.layouts import column
+from bokeh.io import curdoc
+from bokeh.embed import server_document
 from io import StringIO
+from datetime import datetime
 
 URL = "http://www.sidc.be/silso/DATA/SN_d_tot_V2.0.txt"
 
@@ -45,9 +49,19 @@ def fetch_data():
 # Fetch the data
 data = fetch_data()
 
-# Set up the data source for Bokeh
+# Convert data to YYYY-MM-DD
+df = pd.DataFrame(data)
+
+# # Using pd.to_datetime to create a datetime object
+df["date"] = pd.to_datetime(df[["year", "month", "day"]])
+
 source = ColumnDataSource(
-    data=dict(dec_year=data["decimal year"], sn_value=data["SNvalue"])
+    data=dict(
+        dec_year=df["decimal year"],
+        sn_value=df["SNvalue"],
+        date=df["date"],
+        year=df["year"],
+    )
 )
 
 # Create a scatter plot
@@ -55,9 +69,9 @@ plot = figure(
     title="Sunspot Number",
     x_axis_label="Time (decimal year)",
     y_axis_label="Sunspot Number",
-    sizing_mode="stretch_both",
     width=1000,
     height=700,
+    sizing_mode="scale_both",
 )
 plot.scatter(
     "dec_year", "sn_value", source=source, size=8, color="navy", alpha=0.5
@@ -65,16 +79,57 @@ plot.scatter(
 
 # create hover tool
 renderer = plot.circle(
-    "dec_year", "sn_value", source=source, size=8, color="navy", alpha=0.5
-)  # currently rounding values
+    "dec_year", "sn_value", source=source, size=8, color="navy", alpha=0.0
+)
 
 hover = HoverTool(
     tooltips=[("Year", "@dec_year"), ("SSN", "@sn_value")], renderers=[renderer]
-)
+)  # dec_year rounding
 
 plot.add_tools(hover)
 
-# write to HTML file
-output_file("/var/www/ricco_website/HVO_CRISP/SSN/bokeh_test_plot.html")
+# Create DateRangeSlider
+min_date = datetime(1818, 1, 1).date()
+max_date = max(df["date"]).date()
+date_range_picker = DateRangePicker(
+    title="Select data range manually. Double click to select a date.",
+    value=(min_date, max_date),
+    min_date=min_date,
+    max_date=max_date,
+)
 
-save(plot)
+# Define python callback
+def update_data(attr, old, new):
+    """
+    Python callback to update data everytime user picks new data range
+    """
+
+    # Get the date range selected in the DateRangeSlider
+    start_date, end_date = date_range_picker.value
+
+    # convert to datetime.date
+    start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+    end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+
+    # convert to datetime.datetime
+    start_date = datetime.combine(start_date, datetime.min.time())
+    end_date = datetime.combine(end_date, datetime.max.time())
+
+    # Filter the data based on the selected date range
+    filtered_data = df[(df["date"] >= start_date) & (df["date"] <= end_date)]
+    # Update the data source with filtered data
+    source.data = {
+        "dec_year": filtered_data["decimal year"],
+        "sn_value": filtered_data["SNvalue"],
+    }
+
+
+# Attach Callback to the DateRangeSlider
+date_range_picker.on_change("value", update_data)
+
+layout = column(date_range_picker, plot, sizing_mode="stretch_both")
+curdoc().add_root(layout)
+
+# Get tag to include in HTML file
+# script = server_document()
+# print(script)

@@ -1,4 +1,4 @@
-<!-- !DOCTYPE html -->
+<!DOCTYPE html>
 <!-- html lang="en" -->
 <html>
 <head>
@@ -20,11 +20,25 @@
 <head>
     <!-- meta charset="UTF-8" -->
     <title>Bokeh Plot</title>
-    <link rel="stylesheet" href="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.3.min.css" type="text/css">
-    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.4.3.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.bokeh.org/bokeh/release/bokeh-3.1.1.min.css" type="text/css">
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.1.1.min.js"></script>
+    <script id="p1089">
+        (function() {
+          const xhr = new XMLHttpRequest()
+          xhr.responseType = 'blob';
+          xhr.open('GET', "http://localhost:5006/autoload.js?bokeh-autoload-element=p1089&bokeh-absolute-url=http://localhost:5006", true);
+          xhr.onload = function (event) {
+            const script = document.createElement('script');
+            const src = URL.createObjectURL(event.target.response);
+            script.src = src;
+            document.body.appendChild(script);
+          };
+          xhr.send();
+        })();
+      </script>
 </head>
 <body>
-    <iframe src="/SSN/bokeh_test_plot.html" title="Dynamic SSN test plot" width="1000" height="700" style="border: none;"></iframe>
+    <iframe src="http://localhost:5006/bokeh_test" title="Dynamic SSN test plot" width="1000" height="700" style="border: none;"></iframe>
 </body>
 <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/footer.html" ?>
 </html>
