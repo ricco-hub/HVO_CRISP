@@ -52,11 +52,11 @@ def fetch_data(url: str, col_data: list) -> pd.DataFrame:
     """
     Scrape data from website. In col_data, Status 0.0 means data is up to date,
         Status 1.0 means data has not been finalized
-    Inputs
-        url, url to website to scrape from
-        col_data, list of names for each column of data
-    Output
-        return df, a DataFrame from url containing col_data or None for error request
+    Inputs:
+        url: url to website to scrape from
+        col_data: list of names for each column of data
+    Output:
+        return df: a DataFrame from url containing col_data or None for error request
     """
 
     try:
@@ -95,10 +95,10 @@ def scrape_all_sources(sources: list, columns: list):
     """
     Implement I/O bound parallel computing for list of sources sources with column data columns
     Inputs:
-        sources, generic list of urls to scrape from
-        columns, generic list of column data names
+        sources: generic list of urls to scrape from
+        columns: generic list of column data names
     Output:
-        results, dictionary of scraped data with keys set to columns
+        results: dictionary of scraped data with keys set to columns
     """
 
     global _scrape_all_sources_called
@@ -127,9 +127,9 @@ def update_cols(old_dict: dict) -> dict:
     """
     Replace url keys with more readable keys corresponding to url data. Must call scrape_all_sources() before calling update_cols()
     Input:
-        old_dict, dictionary containing scraped data with url keys
+        old_dict: dictionary containing scraped data with url keys
     Output:
-        old_dict, new dictionary containing readable, updated key names
+        old_dict: new dictionary containing readable, updated key names
     """
 
     if not _scrape_all_sources_called:
@@ -137,16 +137,16 @@ def update_cols(old_dict: dict) -> dict:
             "'scrape_all_sources()' must be called before using 'update_cols()'"
         )
 
-    old_dict["yearly_data"] = old_dict.pop(
+    old_dict["Yearly SSN"] = old_dict.pop(
         "https://www.sidc.be/SILSO/DATA/SN_y_tot_V2.0.txt"
     )
-    old_dict["monthly_data"] = old_dict.pop(
+    old_dict["Monthly SSN"] = old_dict.pop(
         "https://www.sidc.be/SILSO/DATA/SN_m_tot_V2.0.txt"
     )
-    old_dict["monthly_smoothed_data"] = old_dict.pop(
+    old_dict["Smoothed SSN"] = old_dict.pop(
         "https://www.sidc.be/SILSO/DATA/SN_ms_tot_V2.0.txt"
     )
-    old_dict["daily_data"] = old_dict.pop(
+    old_dict["Daily SSN"] = old_dict.pop(
         "http://www.sidc.be/silso/DATA/SN_d_tot_V2.0.txt"
     )
 
