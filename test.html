@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- html lang="en" -->
+<html lang="en">
 <html>
 <head>
     <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/header.html" ?>
@@ -19,7 +19,7 @@
     <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/menu.html" ?>
 <head>
     <!-- meta charset="UTF-8" -->
-    <title>Bokeh Plot</title>
+    <title>Sunspot Number Plots</title>
     <link rel="stylesheet" href="https://cdn.bokeh.org/bokeh/release/bokeh-3.1.1.min.css" type="text/css">
     <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.1.1.min.js"></script>
     <script id="p1089">
@@ -36,9 +36,33 @@
           xhr.send();
         })();
       </script>
+    <script id="p1184">
+        (function() {
+          const xhr = new XMLHttpRequest()
+          xhr.responseType = 'blob';
+          xhr.open('GET', "http://localhost:5006/autoload.js?bokeh-autoload-element=p1184&bokeh-absolute-url=http://localhost:5006", true);
+          xhr.onload = function (event) {
+            const script = document.createElement('script');
+            const src = URL.createObjectURL(event.target.response);
+            script.src = src;
+            document.body.appendChild(script);
+          };
+          xhr.send();
+        })();
+      </script>
 </head>
 <body>
-    <iframe src="http://localhost:5006/bokeh_test" title="Dynamic SSN test plot" width="1000" height="700" style="border: none;"></iframe>
+    <center><h3 style="color:rgb(60, 128, 214);"><b>Sunspot Data</b></h3></center>
+
+    This section is dedicated to sunspot number (SSN). Daily, monthly, smoothed (over 13 months), and yearly sunspot numbers are taken from <a href="http://sidc.oma.be/silso/home">SILSO</a>. You can select the date range manually from the checkbox menu or directly from the dynamic plot.
+
+    <iframe src="http://localhost:5006/plot_ssn" title="Dynamic SSN plot" width="1000" height="700" style="border: none;"></iframe>
+
+    You can select the data-type from the checkbox menu below.
+
+    <iframe src="http://localhost:5006/ssn_select_box" title="Checkbox for SSN data" width="1000" height="700" style="border: none;"></iframe>
+
+    Last updated date: <p id="date"></p> <br>
 </body>
 <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/footer.html" ?>
 </html>
