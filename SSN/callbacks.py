@@ -1,0 +1,67 @@
+from datetime import datetime
+
+
+def update_plots(attr, old, new, checkbox, series: list, plots: dict) -> None:
+    """
+    Callback function to update the visibility of scatter plots for SSN
+    Inputs:
+        checkbox: bokeh CheckboxGroup object
+        series: column data names
+        plots: dictionary of pre-made scatter plot data
+    """
+
+    # Get the selected indices from checkbox group
+    active_indices = checkbox.active
+
+    # Update visibility for each plot and error bars
+    for i, name in enumerate(series):
+        is_active = i in active_indices
+        plots[name]["scatter"].visible = is_active
+
+
+def update_error_bars(attr, old, new, checkbox, series: list, plots: dict) -> None:
+    """
+    Callback function to update visibility of error bars for SSN
+    Inputs:
+        checkbox: bokeh CheckboxGroup object
+        series: column data names
+        plots: dictionary of pre-made scatter plot data
+    """
+
+    # Get selected indices from checkbox group for error bars
+    active_indices = checkbox.active
+
+    # Update visibility for each error bar set
+    for i, name in enumerate(series):
+        is_active = i in active_indices
+        for line in plots[name]["error_bars"]:
+            line.visible = is_active
+
+
+def update_hover_data(attr, old, new, date_range, data, source) -> None:
+    """
+    Python callback to update SSN data every time user picks new date range in calendar
+    Inputs:
+        date_range: bokeh DateRangePicker object
+        data: pandas DataFrame containing data
+        source: bokeh ColumnDataSource
+    """
+
+    # Get the date range selected in the DateRangeSlider
+    start_date, end_date = date_range.value
+
+    # convert to datetime.date
+    start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+    end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+
+    # convert to datetime.datetime
+    start_date = datetime.combine(start_date, datetime.min.time())
+    end_date = datetime.combine(end_date, datetime.max.time())
+
+    # Filter the data based on the selected date range
+    filtered_data = data[(data["date"] >= start_date) & (data["date"] <= end_date)]
+    # Update the data source with filtered data
+    source.data = {
+        "dec_year": filtered_data["decimal year"],
+        "sn_value": filtered_data["SNvalue"],
+    }
