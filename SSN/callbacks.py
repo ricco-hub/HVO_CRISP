@@ -65,3 +65,18 @@ def update_hover_data(attr, old, new, date_range, data, source) -> None:
         "dec_year": filtered_data["decimal year"],
         "sn_value": filtered_data["SNvalue"],
     }
+
+
+def reset_data(original_data, date_picker) -> None:
+    """
+    Python callback to reset data in SSN plot after manually manipulating data
+    Inputs:
+        original_data: pandas DataFrame containing data
+        date_picker: bokeh DateRangerPicker object
+    """
+
+    # convert pd.Timestamp to datetime.date for DateRangePicker
+    min_date = original_data["date"].min().date()
+    max_date = original_data["date"].max().date()
+
+    date_picker.value = (min_date, max_date)
