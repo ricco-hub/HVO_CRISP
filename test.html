@@ -22,20 +22,20 @@
     <title>Sunspot Number Plots</title>
     <link rel="stylesheet" href="https://cdn.bokeh.org/bokeh/release/bokeh-3.1.1.min.css" type="text/css">
     <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.1.1.min.js"></script>
-    <script id="p1089">
-        (function() {
-          const xhr = new XMLHttpRequest()
-          xhr.responseType = 'blob';
-          xhr.open('GET', "http://localhost:5006/autoload.js?bokeh-autoload-element=p1089&bokeh-absolute-url=http://localhost:5006", true);
-          xhr.onload = function (event) {
-            const script = document.createElement('script');
-            const src = URL.createObjectURL(event.target.response);
-            script.src = src;
-            document.body.appendChild(script);
-          };
-          xhr.send();
-        })();
-      </script>
+    <script id="p1323">
+      (function() {
+        const xhr = new XMLHttpRequest()
+        xhr.responseType = 'blob';
+        xhr.open('GET', "http://localhost:5006/autoload.js?bokeh-autoload-element=p1323&bokeh-absolute-url=http://localhost:5006", true);
+        xhr.onload = function (event) {
+          const script = document.createElement('script');
+          const src = URL.createObjectURL(event.target.response);
+          script.src = src;
+          document.body.appendChild(script);
+        };
+        xhr.send();
+      })();
+    </script>
     <script id="p1184">
         (function() {
           const xhr = new XMLHttpRequest()
@@ -51,10 +51,15 @@
         })();
       </script>
 </head>
+<div class="column right">
+  <img src="/sunspot.gif" alt="centered image" style="max-width:68%"
+  height="auto" width="auto" class="responsive" >
+</div>
 <body>
     <center><h3 style="color:rgb(60, 128, 214);"><b>Sunspot Data</b></h3></center>
 
-    This section is dedicated to sunspot number (SSN). Daily, monthly, smoothed (over 13 months), and yearly sunspot numbers are taken from <a href="http://sidc.oma.be/silso/home">SILSO</a>. You can select the date range manually from the checkbox menu or directly from the dynamic plot.
+    This section is dedicated to sunspot number (SSN). Daily, monthly, smoothed (over 13 months), and yearly sunspot numbers are taken from <a href="http://sidc.oma.be/silso/home">SILSO</a>.
+    You can select the date range manually from the dynamic plot or directly from the checkbox menu. You can download the plots directly by pressing the save button attached to the right hand side of the plot.
 
     <iframe src="http://localhost:5006/plot_ssn" title="Dynamic SSN plot" width="1000" height="700" style="border: none;"></iframe>
 
@@ -62,7 +67,8 @@
 
     <iframe src="http://localhost:5006/ssn_select_box" title="Checkbox for SSN data" width="1000" height="700" style="border: none;"></iframe>
 
-    Last updated date: <p id="date"></p> <br>
+    Last updated date: <p id="date"></p>
+    <?php include "/var/www/html/CSS2/date.html" ?>
 </body>
 <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/footer.html" ?>
 </html>
