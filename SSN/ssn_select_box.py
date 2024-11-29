@@ -6,6 +6,7 @@ from bokeh.embed import server_document
 from get_solar_data import *
 from callbacks import update_plots, update_error_bars
 from functools import partial
+from pathlib import Path
 
 
 def errorbar(fig, x, y, yerr=None, color="red", point_kwargs={}, error_kwargs={}):
@@ -44,12 +45,17 @@ sources = {name: ColumnDataSource(data=series) for name, series in data.items()}
 # Create a figure
 plot = figure(
     title="Sunspot Number",
-    x_axis_label="Time (decimal year)",
+    x_axis_label="Time (years)",
     y_axis_label="Sunspot Number",
     width=1000,
     height=700,
     sizing_mode="scale_both",
 )
+plot.y_range.start = 0
+plot.xaxis.minor_tick_line_color = "black"
+plot.xaxis.minor_tick_line_color = "black"
+plot.xgrid.grid_line_dash = "dashed"
+plot.ygrid.grid_line_dash = "dashed"
 
 # Create plots and error bars for each series and make them initially invisible
 plots = {}
@@ -96,111 +102,20 @@ download_csv_button = Button(label="Download CSV Data", button_type="success")
 download_txt_button = Button(label="Download TXT Data", button_type="success")
 
 # JavaScript code for downloading data
-download_csv_code = """
-const visiblePlots = [];
-for (const [name, plotObj] of Object.entries(plots)) {
-    if (plotObj.scatter.visible) {
-        const source = sources[name];
-        const data = source.data;
-        const keys = Object.keys(data);
-        const rows = [];
-
-        // Convert data into rows
-        for (let i = 0; i < data[keys[0]].length; i++) {
-            const row = {};
-            keys.forEach(key => row[key] = data[key][i]);
-            rows.push(row);
-        }
-
-        // Add rows to visiblePlots array
-        rows.forEach(row => {
-            row['Dataset'] = name; // Add dataset name for context
-            visiblePlots.push(row);
-        });
-    }
-}
-
-// Generate CSV if there are visible plots
-if (visiblePlots.length > 0) {
-    const csv = [
-        Object.keys(visiblePlots[0]).join(','),  // Header
-        ...visiblePlots.map(row => Object.values(row).join(','))  // Rows
-    ].join('\\n');
-
-    // Trigger download
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'visible_data.csv';
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-} else {
-    alert("No visible data to download.");
-}
-"""
-
-download_txt_code = """
-const visiblePlots = [];
-for (const [name, plotObj] of Object.entries(plots)) {
-    if (plotObj.scatter.visible) {
-        const source = sources[name];
-        const data = source.data;
-        const keys = Object.keys(data);
-        const rows = [];
-
-        // Convert data into rows
-        for (let i = 0; i < data[keys[0]].length; i++) {
-            const row = {};
-            keys.forEach(key => row[key] = data[key][i]);
-            rows.push(row);
-        }
-
-        // Add rows to visiblePlots array
-        rows.forEach(row => {
-            row['Dataset'] = name; // Add dataset name for context
-            visiblePlots.push(row);
-        });
-    }
-}
-
-// Generate TXT content if there are visible plots
-if (visiblePlots.length > 0) {
-    // Generate header
-    const keys = Object.keys(visiblePlots[0]);
-    let txt = `# Data from visible plots\\n`;
-    txt += keys.join('\\t') + '\\n';  // Tab-delimited header
-
-    // Generate rows
-    visiblePlots.forEach(row => {
-        const values = keys.map(key => row[key]);
-        txt += values.join('\\t') + '\\n';  // Tab-delimited rows
-    });
-
-    // Trigger download
-    const blob = new Blob([txt], { type: 'text/plain;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'visible_data.txt';
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-} else {
-    alert("No visible data to download.");
-}
-"""
+js_code = (Path(__file__).parent / "callbacks.js").read_text("utf8")
 
 # Attach the CustomJS callback
 download_csv_button.js_on_click(
-    CustomJS(args=dict(sources=sources, plots=plots), code=download_csv_code)
+    CustomJS(
+        args=dict(source=sources, format="csv", filename="ssn_data.csv", plots=plots),
+        code=js_code + "triggerDownload(source, filename, format, plots);",
+    )
 )
-
 download_txt_button.js_on_click(
-    CustomJS(args=dict(sources=sources, plots=plots), code=download_txt_code)
+    CustomJS(
+        args=dict(source=sources, format="txt", filename="ssn_data.txt", plots=plots),
+        code=js_code + "triggerDownload(source, filename, format, plots);",
+    )
 )
 
 # Layout the components
