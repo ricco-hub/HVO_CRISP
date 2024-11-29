@@ -8,6 +8,7 @@ from datetime import datetime
 from callbacks import update_hover_data, reset_data
 from functools import partial
 from get_solar_data import *
+from pathlib import Path
 
 URL = "http://www.sidc.be/silso/DATA/SN_d_tot_V2.0.txt"
 
@@ -28,15 +29,16 @@ source = ColumnDataSource(
 # Create a scatter plot
 plot = figure(
     title="Sunspot Number",
-    x_axis_label="Time (decimal year)",
+    x_axis_label="Time (years)",
     y_axis_label="Sunspot Number",
     width=1000,
     height=700,
     sizing_mode="scale_both",
 )
-plot.scatter(
-    "dec_year", "sn_value", source=source, size=8, color="navy", alpha=0.5
+plot.line(
+    "dec_year", "sn_value", source=source, color="navy", alpha=0.5
 )  # make dec_year more human readable
+plot.y_range.start = 0
 
 # create hover tool
 renderer = plot.circle(
@@ -78,69 +80,20 @@ download_txt_button = Button(label="Download TXT data", button_type="success")
 
 
 # CustomJS for downloading data
-txt_code = """
-function tableToText(source) {
-    const columns = Object.keys(source.data);
-    const rows = source.get_length();
-    const text = [];
+js_code = (Path(__file__).parent / "callbacks.js").read_text("utf8")
 
-    // Data rows
-    for (let i = 0; i < rows; i++) {
-        const row = columns.map(column => source.data[column][i]);
-        text.push(row.join('\\t')); // Tab-separated values
-    }
-
-    return text.join('\\n');
-}
-
-// Convert data to text format
-const text = tableToText(source);
-
-// Create a Blob with text data and trigger a download
-const blob = new Blob([text], { type: 'text/plain' });
-const url = URL.createObjectURL(blob);
-
-const a = document.createElement('a');
-a.href = url;
-a.download = 'ssn_data.txt';
-a.click();
-URL.revokeObjectURL(url);
-"""
-
-csv_code = """
-function tableToCSV(source) {
-    const columns = Object.keys(source.data);
-    const rows = source.get_length();
-    const csv = [];
-
-    // Header row
-    csv.push(columns.join(','));
-
-    // Data rows
-    for (let i = 0; i < rows; i++) {
-        const row = columns.map(column => source.data[column][i]);
-        csv.push(row.join(','));
-    }
-
-    return csv.join('\\n');
-}
-
-// Convert data to CSV format
-const csv = tableToCSV(source);
-
-// Create a Blob with CSV data and trigger a download
-const blob = new Blob([csv], { type: 'text/csv' });
-const url = URL.createObjectURL(blob);
-
-const a = document.createElement('a');
-a.href = url;
-a.download = 'ssn_data.csv';
-a.click();
-URL.revokeObjectURL(url);
-"""
-
-download_csv_button.js_on_click(CustomJS(args=dict(source=source), code=csv_code))
-download_txt_button.js_on_click(CustomJS(args=dict(source=source), code=txt_code))
+download_csv_button.js_on_click(
+    CustomJS(
+        args=dict(source=source, format="csv", filename="ssn_data.csv", plots=None),
+        code=js_code + "triggerDownload(source, filename, format, plots);",
+    )
+)
+download_txt_button.js_on_click(
+    CustomJS(
+        args=dict(source=source, format="txt", filename="ssn_data.txt", plots=None),
+        code=js_code + "triggerDownload(source, filename, format, plots);",
+    )
+)
 
 layout = column(
     row(date_range_picker, reset_button),
