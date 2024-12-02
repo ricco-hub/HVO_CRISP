@@ -39,6 +39,10 @@ plot.line(
     "dec_year", "sn_value", source=source, color="navy", alpha=0.5
 )  # make dec_year more human readable
 plot.y_range.start = 0
+plot.xaxis.minor_tick_line_color = "black"
+plot.xaxis.minor_tick_line_color = "black"
+plot.xgrid.grid_line_dash = "dashed"
+plot.ygrid.grid_line_dash = "dashed"
 
 # create hover tool
 renderer = plot.circle(
@@ -46,8 +50,8 @@ renderer = plot.circle(
 )
 
 hover = HoverTool(
-    tooltips=[("Year", "@dec_year"), ("SSN", "@sn_value")], renderers=[renderer]
-)  # dec_year rounding
+    tooltips=[("Year", "@dec_year{0.00}"), ("SSN", "@sn_value")], renderers=[renderer]
+)
 
 plot.add_tools(hover)
 
@@ -84,14 +88,14 @@ js_code = (Path(__file__).parent / "callbacks.js").read_text("utf8")
 
 download_csv_button.js_on_click(
     CustomJS(
-        args=dict(source=source, format="csv", filename="ssn_data.csv", plots=None),
-        code=js_code + "triggerDownload(source, filename, format, plots);",
+        args=dict(source=source, format="csv", filename="ssn_data.csv"),
+        code=js_code + "downloadFile(source, filename, format);",
     )
 )
 download_txt_button.js_on_click(
     CustomJS(
-        args=dict(source=source, format="txt", filename="ssn_data.txt", plots=None),
-        code=js_code + "triggerDownload(source, filename, format, plots);",
+        args=dict(source=source, format="txt", filename="ssn_data.txt"),
+        code=js_code + "downloadFile(source, filename, format);",
     )
 )
 
