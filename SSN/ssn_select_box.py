@@ -107,14 +107,40 @@ js_code = (Path(__file__).parent / "callbacks.js").read_text("utf8")
 # Attach the CustomJS callback
 download_csv_button.js_on_click(
     CustomJS(
-        args=dict(source=sources, format="csv", filename="ssn_data.csv", plots=plots),
-        code=js_code + "triggerDownload(source, filename, format, plots);",
+        args=dict(
+            source=sources,
+            plots=plots,
+            x_range=plot.x_range,
+            y_range=plot.y_range,
+            filename="visible_data",
+        ),
+        code=js_code
+        + """
+        const x_start = x_range.start;
+        const x_end = x_range.end;
+        const y_start = y_range.start;
+        const y_end = y_range.end;
+        downloadAxes(source, filename, x_start, x_end, y_start, y_end, plots, "csv");
+        """,
     )
 )
 download_txt_button.js_on_click(
     CustomJS(
-        args=dict(source=sources, format="txt", filename="ssn_data.txt", plots=plots),
-        code=js_code + "triggerDownload(source, filename, format, plots);",
+        args=dict(
+            source=sources,
+            plots=plots,
+            x_range=plot.x_range,
+            y_range=plot.y_range,
+            filename="visible_data",
+        ),
+        code=js_code
+        + """
+        const x_start = x_range.start;
+        const x_end = x_range.end;
+        const y_start = y_range.start;
+        const y_end = y_range.end;
+        downloadAxes(source, filename, x_start, x_end, y_start, y_end, plots, "txt");
+        """,
     )
 )
 
