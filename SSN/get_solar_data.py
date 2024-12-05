@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 import concurrent.futures
+import warnings
 
 from io import StringIO
 from concurrent.futures import ThreadPoolExecutor
@@ -60,8 +61,9 @@ def fetch_data(url: str, col_data: list) -> pd.DataFrame:
     """
 
     try:
-        response = requests.get(url)
+        response = requests.get(url, verify=False)
         response.raise_for_status()  # Raise an error if the request fails
+        warnings.filterwarnings("ignore", message="Unverified HTTPS request")
 
         # Convert the txt data to a DataFrame
         data = pd.read_csv(
@@ -81,6 +83,9 @@ def fetch_data(url: str, col_data: list) -> pd.DataFrame:
         data["Status"] = data["Status"].fillna(0)
         # Only include SSN values that are not -1
         data = data[~data["SNvalue"].isin([-1, -1.0])]
+
+        # Replace -1 in SNerror with 0
+        data["SNerror"] = data["SNerror"].replace(-1, 0)
 
         # Convert data to YYYY-MM-DD
         df = pd.DataFrame(data)
