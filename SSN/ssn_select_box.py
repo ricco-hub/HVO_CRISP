@@ -1,17 +1,32 @@
 from bokeh.layouts import column, row
-from bokeh.models import CheckboxGroup, ColumnDataSource, Button, CustomJS
+
+# from bokeh.models import CheckboxGroup
+from bokeh.models import ColumnDataSource, Button, CustomJS
 from bokeh.plotting import figure, curdoc
 from bokeh.palettes import Category10
-from bokeh.embed import server_document
+
+# from bokeh.embed import server_document
 from get_solar_data import *
-from callbacks import update_plots, update_error_bars
-from functools import partial
+
+# from callbacks import update_plots, update_error_bars
+# from functools import partial
 from pathlib import Path
 
 
-def errorbar(fig, x, y, yerr=None, color="red", point_kwargs={}, error_kwargs={}):
+def errorbar(
+    fig,
+    x,
+    y,
+    yerr=None,
+    color="red",
+    point_kwargs={},
+    error_kwargs={},
+    legend_label=None,
+):
 
-    points = fig.circle(x, y, color=color, **point_kwargs)
+    points = fig.line(
+        x, y, color=color, legend_label=legend_label, line_width=2, **point_kwargs
+    )
 
     error_lines = []
 
@@ -31,13 +46,8 @@ def errorbar(fig, x, y, yerr=None, color="red", point_kwargs={}, error_kwargs={}
 temp_data = scrape_all_sources(URLS, COLUMNS)
 data = update_cols(temp_data)
 
-# Use a color palette. The number of colors should match the number of data series.
 colors = Category10[10]  # `Category10` can hold up to 10 different colors
 series_names = list(data.keys())
-
-# Ensure the number of colors matches the number of series
-if len(colors) < len(series_names):
-    raise ValueError("Not enough colors for the number of data series!")
 
 # Create a ColumnDataSource for each data series
 sources = {name: ColumnDataSource(data=series) for name, series in data.items()}
@@ -66,36 +76,38 @@ for i, (name, source) in enumerate(sources.items()):
         if "decimal year" in source.data
         else source.data["mid year"],
         y=source.data["SNvalue"],
-        yerr=source.data["SNerror"],
+        yerr=None,  # source.data["SNerror"]
         color=colors[i],
-        point_kwargs={"size": 8, "alpha": 0.5, "visible": False},
-        error_kwargs={"line_width": 1, "visible": False},
+        point_kwargs={"alpha": 0.5, "visible": False},
+        # error_kwargs={"alpha": 0.5, "line_width": 2, "visible": False},
+        legend_label=name,
     )
 
-    plots[name] = {"scatter": scatter, "error_bars": errors}
+    plots[name] = {"scatter": scatter}  # , "error_bars": errors
 
+plot.legend.click_policy = "hide"
 # Create CheckboxGroup with options
-plot_checkbox_group = CheckboxGroup(labels=series_names, active=[])
-error_checkbox_group = CheckboxGroup(
-    labels=[f"{name} (error bars)" for name in series_names], active=[]
-)
+# plot_checkbox_group = CheckboxGroup(labels=series_names, active=[])
+# error_checkbox_group = CheckboxGroup(
+#     labels=[f"{name} (error bars)" for name in series_names], active=[]
+# )
 
 # Attach the callback to checkbox group
-plot_checkbox_group.on_change(
-    "active",
-    partial(
-        update_plots, checkbox=plot_checkbox_group, series=series_names, plots=plots
-    ),
-)
-error_checkbox_group.on_change(
-    "active",
-    partial(
-        update_error_bars,
-        checkbox=error_checkbox_group,
-        series=series_names,
-        plots=plots,
-    ),
-)
+# plot_checkbox_group.on_change(
+#     "active",
+#     partial(
+#         update_plots, checkbox=plot_checkbox_group, series=series_names, plots=plots
+#     ),
+# )
+# error_checkbox_group.on_change(
+#     "active",
+#     partial(
+#         update_error_bars,
+#         checkbox=error_checkbox_group,
+#         series=series_names,
+#         plots=plots,
+#     ),
+# )
 
 # Create a button for downloading visible data
 download_csv_button = Button(label="Download CSV Data", button_type="success")
@@ -146,7 +158,7 @@ download_txt_button.js_on_click(
 
 # Layout the components
 layout = column(
-    row(plot_checkbox_group, error_checkbox_group),
+    # row(plot_checkbox_group, error_checkbox_group),
     plot,
     row(download_csv_button, download_txt_button),
     sizing_mode="stretch_both",
