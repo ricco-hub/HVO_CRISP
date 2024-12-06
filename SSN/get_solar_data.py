@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 import concurrent.futures
 import warnings
+import os
 
 from io import StringIO
 from concurrent.futures import ThreadPoolExecutor
@@ -46,13 +47,14 @@ COL_DATA_YEARLY = [
 
 COLUMNS = [COL_DATA_DAILY, COL_DATA_MONTHLY, COL_DATA_SMOOTH, COL_DATA_YEARLY]
 
-_scrape_all_sources_called = False
 
-
-def fetch_data(url: str, col_data: list) -> pd.DataFrame:
+def fetch_data(url: str, col_data: list, save_dir: str = "test") -> pd.DataFrame:
     """
-    Scrape data from website. In col_data, Status 0.0 means data is up to date,
+    Scrape data from website and save in pickle file.
+        In col_data, Status 0.0 means data is up to date,
         Status 1.0 means data has not been finalized
+
+        save_dir: name of directory to save pickle files
     Inputs:
         url: url to website to scrape from
         col_data: list of names for each column of data
@@ -90,6 +92,11 @@ def fetch_data(url: str, col_data: list) -> pd.DataFrame:
         # Convert data to YYYY-MM-DD
         df = pd.DataFrame(data)
 
+        # Save in pickle file
+        os.makedirs(save_dir, exist_ok=True)
+        filename = os.path.join(save_dir, url.split("/")[-1].replace(".txt", ".pkl"))
+        df.to_pickle(filename)
+
         return df
     except requests.RequestException as e:
         print(f"Failed to scrape {url}: {e}")
@@ -102,57 +109,14 @@ def scrape_all_sources(sources: list, columns: list):
     Inputs:
         sources: generic list of urls to scrape from
         columns: generic list of column data names
-    Output:
-        results: dictionary of scraped data with keys set to columns
     """
 
-    global _scrape_all_sources_called
-
-    results = {}
     with ThreadPoolExecutor(max_workers=8) as executor:
-        future_to_url = {
+        {
             executor.submit(fetch_data, url, column_name): url
             for url, column_name in zip(sources, columns)
         }
 
-        for future in concurrent.futures.as_completed(future_to_url):
-            url = future_to_url[future]
-            try:
-                data = future.result()
-                results[url] = data
-            except Exception as e:
-                print(f"Error processing {url}: {e}")
 
-    _scrape_all_sources_called = True
-
-    return results
-
-
-def update_cols(old_dict: dict) -> dict:
-    """
-    Replace url keys with more readable keys corresponding to url data. Must call scrape_all_sources() before calling update_cols()
-    Input:
-        old_dict: dictionary containing scraped data with url keys
-    Output:
-        old_dict: new dictionary containing readable, updated key names
-    """
-
-    if not _scrape_all_sources_called:
-        raise RuntimeError(
-            "'scrape_all_sources()' must be called before using 'update_cols()'"
-        )
-
-    old_dict["Yearly SSN"] = old_dict.pop(
-        "https://www.sidc.be/SILSO/DATA/SN_y_tot_V2.0.txt"
-    )
-    old_dict["Monthly SSN"] = old_dict.pop(
-        "https://www.sidc.be/SILSO/DATA/SN_m_tot_V2.0.txt"
-    )
-    old_dict["Smoothed SSN"] = old_dict.pop(
-        "https://www.sidc.be/SILSO/DATA/SN_ms_tot_V2.0.txt"
-    )
-    old_dict["Daily SSN"] = old_dict.pop(
-        "http://www.sidc.be/silso/DATA/SN_d_tot_V2.0.txt"
-    )
-
-    return old_dict
+if __name__ == "__main__":
+    scrape_all_sources(URLS, COLUMNS)
