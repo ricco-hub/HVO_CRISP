@@ -1,4 +1,5 @@
 import pandas as pd
+from hvo_plots import *
 
 from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource, HoverTool, DateRangePicker, Button, CustomJS
@@ -7,13 +8,10 @@ from bokeh.io import curdoc
 from datetime import datetime
 from callbacks import update_hover_data, reset_data
 from functools import partial
-from get_solar_data import *
 from pathlib import Path
 
-URL = "http://www.sidc.be/silso/DATA/SN_d_tot_V2.0.txt"
 
-
-df = fetch_data(URL, COL_DATA_DAILY)
+df = pd.read_pickle("test/SN_d_tot_V2.0.pkl")
 # Using pd.to_datetime to create a datetime object
 df["date"] = pd.to_datetime(df[["year", "month", "day"]])
 
@@ -27,33 +25,9 @@ source = ColumnDataSource(
 )
 
 # Create a scatter plot
-plot = figure(
-    title="Sunspot Number",
-    x_axis_label="Time (years)",
-    y_axis_label="Sunspot Number",
-    width=1000,
-    height=700,
-    sizing_mode="scale_both",
-)
-plot.line(
-    "dec_year", "sn_value", source=source, color="navy", alpha=0.5
-)  # make dec_year more human readable
-plot.y_range.start = 0
-plot.xaxis.minor_tick_line_color = "black"
-plot.xaxis.minor_tick_line_color = "black"
-plot.xgrid.grid_line_dash = "dashed"
-plot.ygrid.grid_line_dash = "dashed"
-
-# create hover tool
-renderer = plot.circle(
-    "dec_year", "sn_value", source=source, size=8, color="navy", alpha=0.0
-)
-
-hover = HoverTool(
-    tooltips=[("Year", "@dec_year{0.00}"), ("SSN", "@sn_value")], renderers=[renderer]
-)
-
-plot.add_tools(hover)
+ssn_plot = HVOPlot("Daily Sunspot Number", "Time (years)", "Sunspot Number")
+ssn_plot.line_plot("dec_year", "sn_value", source)
+ssn_plot.add_hover_tool(source)
 
 # Create DateRangeSlider
 min_date = datetime(1818, 1, 1).date()
@@ -84,24 +58,49 @@ download_txt_button = Button(label="Download TXT data", button_type="success")
 
 
 # CustomJS for downloading data
-js_code = (Path(__file__).parent / "callbacks.js").read_text("utf8")
+js_callbacks = (Path(__file__).parent / "callbacks.js").read_text("utf8")
+js_utils = (Path(__file__).parent / "utils.js").read_text("utf8")
 
 download_csv_button.js_on_click(
     CustomJS(
-        args=dict(source=source, format="csv", filename="ssn_data.csv"),
-        code=js_code + "downloadFile(source, filename, format);",
+        args=dict(source=source, format="csv"),
+        code=js_callbacks
+        + js_utils
+        + """
+        const data = source.data;
+        const dates = data['dec_year'];
+        const minValue = dates.reduce((min, current) => Math.min(min, current), Infinity);
+        const maxValue = dates.reduce((max, current) => Math.max(max, current), -Infinity);
+
+        const formatMin = decimalYearToYYYYMMDD(minValue);
+        const formatMax = decimalYearToYYYYMMDD(maxValue);
+        const fileName = `${formatMin}_${formatMax}_daily_ssn_data.csv`;
+        downloadFile(source, fileName, format);
+        """,
     )
 )
 download_txt_button.js_on_click(
     CustomJS(
-        args=dict(source=source, format="txt", filename="ssn_data.txt"),
-        code=js_code + "downloadFile(source, filename, format);",
+        args=dict(source=source, format="txt"),
+        code=js_callbacks
+        + js_utils
+        + """
+        const data = source.data;
+        const dates = data['dec_year'];
+        const minValue = dates.reduce((min, current) => Math.min(min, current), Infinity);
+        const maxValue = dates.reduce((max, current) => Math.max(max, current), -Infinity);
+
+        const formatMin = decimalYearToYYYYMMDD(minValue);
+        const formatMax = decimalYearToYYYYMMDD(maxValue);
+        const fileName = `${formatMin}_${formatMax}_daily_ssn_data.txt`;
+        downloadFile(source, fileName, format);
+        """,
     )
 )
 
 layout = column(
     row(date_range_picker, reset_button),
-    plot,
+    ssn_plot.get_plot(),
     row(download_csv_button, download_txt_button),
     sizing_mode="stretch_both",
 )
