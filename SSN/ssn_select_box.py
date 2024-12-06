@@ -1,3 +1,5 @@
+import pandas as pd
+
 from bokeh.layouts import column, row
 
 # from bokeh.models import CheckboxGroup
@@ -6,11 +8,11 @@ from bokeh.plotting import figure, curdoc
 from bokeh.palettes import Category10
 
 # from bokeh.embed import server_document
-from get_solar_data import *
 
 # from callbacks import update_plots, update_error_bars
 # from functools import partial
 from pathlib import Path
+from hvo_plots import *
 
 
 def errorbar(
@@ -43,8 +45,16 @@ def errorbar(
 
 
 # Get data
-temp_data = scrape_all_sources(URLS, COLUMNS)
-data = update_cols(temp_data)
+daily_data = pd.read_pickle("test/SN_d_tot_V2.0.pkl")
+monthly_smoothed_data = pd.read_pickle("test/SN_ms_tot_V2.0.pkl")
+monthly_data = pd.read_pickle("test/SN_m_tot_V2.0.pkl")
+yearly_data = pd.read_pickle("test/SN_y_tot_V2.0.pkl")
+data = {
+    "Yearly SSN": yearly_data,
+    "Monthly SSN": monthly_data,
+    "Smoothed SSN": monthly_smoothed_data,
+    "Daily SSN": daily_data,
+}
 
 colors = Category10[10]  # `Category10` can hold up to 10 different colors
 series_names = list(data.keys())
@@ -63,7 +73,7 @@ plot = figure(
 )
 plot.y_range.start = 0
 plot.xaxis.minor_tick_line_color = "black"
-plot.xaxis.minor_tick_line_color = "black"
+plot.yaxis.minor_tick_line_color = "black"
 plot.xgrid.grid_line_dash = "dashed"
 plot.ygrid.grid_line_dash = "dashed"
 
@@ -114,7 +124,8 @@ download_csv_button = Button(label="Download CSV Data", button_type="success")
 download_txt_button = Button(label="Download TXT Data", button_type="success")
 
 # JavaScript code for downloading data
-js_code = (Path(__file__).parent / "callbacks.js").read_text("utf8")
+js_callbacks = (Path(__file__).parent / "callbacks.js").read_text("utf8")
+js_utils = (Path(__file__).parent / "utils.js").read_text("utf8")
 
 # Attach the CustomJS callback
 download_csv_button.js_on_click(
@@ -126,7 +137,7 @@ download_csv_button.js_on_click(
             y_range=plot.y_range,
             filename="visible_data",
         ),
-        code=js_code
+        code=js_callbacks
         + """
         const x_start = x_range.start;
         const x_end = x_range.end;
@@ -145,7 +156,7 @@ download_txt_button.js_on_click(
             y_range=plot.y_range,
             filename="visible_data",
         ),
-        code=js_code
+        code=js_callbacks
         + """
         const x_start = x_range.start;
         const x_end = x_range.end;
