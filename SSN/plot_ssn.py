@@ -1,8 +1,7 @@
 import pandas as pd
 from hvo_plots import *
 
-from bokeh.plotting import figure
-from bokeh.models import ColumnDataSource, HoverTool, DateRangePicker, Button, CustomJS
+from bokeh.models import ColumnDataSource, DateRangePicker, Button, CustomJS
 from bokeh.layouts import column, row
 from bokeh.io import curdoc
 from datetime import datetime
@@ -26,7 +25,7 @@ source = ColumnDataSource(
 
 # Create a scatter plot
 ssn_plot = HVOPlot("Daily Sunspot Number", "Time (years)", "Sunspot Number")
-ssn_plot.line_plot("dec_year", "sn_value", source)
+ssn_plot.line_plot(source, "Daily SSN", "dec_year", "sn_value")
 ssn_plot.add_hover_tool(source)
 
 # Create DateRangeSlider

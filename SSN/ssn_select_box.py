@@ -4,7 +4,7 @@ from bokeh.layouts import column, row
 
 # from bokeh.models import CheckboxGroup
 from bokeh.models import ColumnDataSource, Button, CustomJS
-from bokeh.plotting import figure, curdoc
+from bokeh.plotting import curdoc
 from bokeh.palettes import Category10
 
 # from bokeh.embed import server_document
@@ -13,35 +13,6 @@ from bokeh.palettes import Category10
 # from functools import partial
 from pathlib import Path
 from hvo_plots import *
-
-
-def errorbar(
-    fig,
-    x,
-    y,
-    yerr=None,
-    color="red",
-    point_kwargs={},
-    error_kwargs={},
-    legend_label=None,
-):
-
-    points = fig.line(
-        x, y, color=color, legend_label=legend_label, line_width=2, **point_kwargs
-    )
-
-    error_lines = []
-
-    if yerr is not None:
-        y_err_x = []
-        y_err_y = []
-        for px, py, err in zip(x, y, yerr):
-            y_err_x.append((px, px))
-            y_err_y.append((py - err, py + err))
-        errors = fig.multi_line(y_err_x, y_err_y, color=color, **error_kwargs)
-        error_lines.append(errors)
-
-    return points, error_lines
 
 
 # Get data
@@ -63,61 +34,23 @@ series_names = list(data.keys())
 sources = {name: ColumnDataSource(data=series) for name, series in data.items()}
 
 # Create a figure
-plot = figure(
-    title="Sunspot Number",
-    x_axis_label="Time (years)",
-    y_axis_label="Sunspot Number",
-    width=1000,
-    height=700,
-    sizing_mode="scale_both",
-)
-plot.y_range.start = 0
-plot.xaxis.minor_tick_line_color = "black"
-plot.yaxis.minor_tick_line_color = "black"
-plot.xgrid.grid_line_dash = "dashed"
-plot.ygrid.grid_line_dash = "dashed"
+plot = HVOPlot("Sunspot Number", "Time (years)", "Sunspot Number")
 
 # Create plots and error bars for each series and make them initially invisible
 plots = {}
 for i, (name, source) in enumerate(sources.items()):
-    scatter, errors = errorbar(
-        plot,
-        x=source.data["decimal year"]
-        if "decimal year" in source.data
-        else source.data["mid year"],
-        y=source.data["SNvalue"],
-        yerr=None,  # source.data["SNerror"]
-        color=colors[i],
-        point_kwargs={"alpha": 0.5, "visible": False},
-        # error_kwargs={"alpha": 0.5, "line_width": 2, "visible": False},
+    scatter = plot.line_plot(
+        source,
         legend_label=name,
+        x="decimal year" if "decimal year" in source.data else "mid year",
+        y="SNvalue",
+        color=colors[i],
+        point_kwargs={"visible": False},
     )
 
-    plots[name] = {"scatter": scatter}  # , "error_bars": errors
+    plots[name] = {"scatter": scatter}
 
-plot.legend.click_policy = "hide"
-# Create CheckboxGroup with options
-# plot_checkbox_group = CheckboxGroup(labels=series_names, active=[])
-# error_checkbox_group = CheckboxGroup(
-#     labels=[f"{name} (error bars)" for name in series_names], active=[]
-# )
-
-# Attach the callback to checkbox group
-# plot_checkbox_group.on_change(
-#     "active",
-#     partial(
-#         update_plots, checkbox=plot_checkbox_group, series=series_names, plots=plots
-#     ),
-# )
-# error_checkbox_group.on_change(
-#     "active",
-#     partial(
-#         update_error_bars,
-#         checkbox=error_checkbox_group,
-#         series=series_names,
-#         plots=plots,
-#     ),
-# )
+plot.set_click_policy()
 
 # Create a button for downloading visible data
 download_csv_button = Button(label="Download CSV Data", button_type="success")
@@ -133,8 +66,8 @@ download_csv_button.js_on_click(
         args=dict(
             source=sources,
             plots=plots,
-            x_range=plot.x_range,
-            y_range=plot.y_range,
+            x_range=plot.get_plot().x_range,
+            y_range=plot.get_plot().y_range,
             filename="visible_data",
         ),
         code=js_callbacks
@@ -152,8 +85,8 @@ download_txt_button.js_on_click(
         args=dict(
             source=sources,
             plots=plots,
-            x_range=plot.x_range,
-            y_range=plot.y_range,
+            x_range=plot.get_plot().x_range,
+            y_range=plot.get_plot().y_range,
             filename="visible_data",
         ),
         code=js_callbacks
@@ -170,7 +103,7 @@ download_txt_button.js_on_click(
 # Layout the components
 layout = column(
     # row(plot_checkbox_group, error_checkbox_group),
-    plot,
+    plot.get_plot(),
     row(download_csv_button, download_txt_button),
     sizing_mode="stretch_both",
 )
