@@ -51,16 +51,41 @@ class HVOPlot:
 
         self.plot.add_tools(hover)
 
-    def line_plot(self, x: str, y: str, source):
+    def line_plot(
+        self, source, legend_label: str, x: str, y: str, color="navy", point_kwargs={}
+    ):
         """
-            Add line plot
-            Inputs:
-                x: key name of x-axis data
-                y: key name of y-axis data
-                source: bokeh ColumnDataSource containing relevant data
+        Add line plot
+        Inputs:
+            source: bokeh ColumnDataSource containing relevant data
+            legend_label: name of legend
+            x: key name of x-axis data
+            y: key name of y-axis data
+            color: color of plot
+            point_kwargs: optional argument(s) for bokeh line plot
         """
 
-        self.plot.line(x, y, source=source, color="navy", alpha=0.5, line_width=2)
+        return self.plot.line(
+            x,
+            y,
+            source=source,
+            color=color,
+            alpha=0.5,
+            line_width=2,
+            legend_label=legend_label,
+            **point_kwargs
+        )
+
+    def set_click_policy(self):
+        """
+        Set click policy for bokeh legend labels
+        """
+
+        self.plot.legend.click_policy = "hide"
 
     def get_plot(self):
+        """
+        Return HVOPlot class as bokeh plot object (glyph)
+        """
+
         return self.plot
