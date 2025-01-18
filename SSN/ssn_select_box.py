@@ -68,7 +68,6 @@ download_csv_button.js_on_click(
             plots=plots,
             x_range=plot.get_plot().x_range,
             y_range=plot.get_plot().y_range,
-            filename="visible_data",
         ),
         code=js_callbacks
         + """
@@ -76,10 +75,39 @@ download_csv_button.js_on_click(
         const x_end = x_range.end;
         const y_start = y_range.start;
         const y_end = y_range.end;
-        downloadAxes(source, filename, x_start, x_end, y_start, y_end, plots, "csv");
+
+        // Get names of visible plots
+        const visiblePlotNames = Object.keys(plots).filter(name => {
+            return plots[name].scatter.visible;
+        });
+
+        if (visiblePlotNames.length === 0) {
+            alert("No visible plots to download.");
+            return;
+        }
+
+        // Combine visible plot names into a string
+        const visibleHeader = "Visible Plots: " + visiblePlotNames.join(", ");
+
+        // Update filename with visible plots
+        const updatedFilename = visiblePlotNames.join("_");
+
+        // Download data with the visible plot names included
+        downloadAxes(
+            source,
+            updatedFilename,
+            x_start,
+            x_end,
+            y_start,
+            y_end,
+            plots,
+            "csv",
+            visibleHeader // Pass the header for visible plots
+        );
         """,
     )
 )
+
 download_txt_button.js_on_click(
     CustomJS(
         args=dict(
@@ -87,7 +115,6 @@ download_txt_button.js_on_click(
             plots=plots,
             x_range=plot.get_plot().x_range,
             y_range=plot.get_plot().y_range,
-            filename="visible_data",
         ),
         code=js_callbacks
         + """
@@ -95,7 +122,35 @@ download_txt_button.js_on_click(
         const x_end = x_range.end;
         const y_start = y_range.start;
         const y_end = y_range.end;
-        downloadAxes(source, filename, x_start, x_end, y_start, y_end, plots, "txt");
+
+        // Get names of visible plots
+        const visiblePlotNames = Object.keys(plots).filter(name => {
+            return plots[name].scatter.visible;
+        });
+
+        if (visiblePlotNames.length === 0) {
+            alert("No visible plots to download.");
+            return;
+        }
+
+        // Combine visible plot names into a string
+        const visibleHeader = "Visible Plots: " + visiblePlotNames.join(", ");
+
+        // Update filename with visible plots
+        const updatedFilename = visiblePlotNames.join("_");
+
+        // Download data with the visible plot names included
+        downloadAxes(
+            source,
+            updatedFilename,
+            x_start,
+            x_end,
+            y_start,
+            y_end,
+            plots,
+            "txt",
+            visibleHeader // Pass the header for visible plots
+        );
         """,
     )
 )
