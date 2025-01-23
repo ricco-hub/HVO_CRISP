@@ -62,8 +62,15 @@ def update_hover_data(attr, old, new, date_range, data, source) -> None:
     filtered_data = data[(data["date"] >= start_date) & (data["date"] <= end_date)]
     # Update the data source with filtered data
     source.data = {
+        "year": filtered_data["year"],
+        "month": filtered_data["month"],
+        "day": filtered_data["day"],
         "dec_year": filtered_data["decimal year"],
-        "sn_value": filtered_data["SNvalue"],
+        "date": filtered_data["date"],
+        "ssn_value": filtered_data["SNvalue"],
+        "ssn_err": filtered_data["SNerror"],
+        "num_obs": filtered_data["Nb observations"],
+        "status": filtered_data["Status"],
     }
 
 

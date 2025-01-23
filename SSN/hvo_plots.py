@@ -42,10 +42,10 @@ class HVOPlot:
         """
 
         renderer = self.plot.circle(
-            "dec_year", "sn_value", source=source, size=8, color="navy", alpha=0.0
+            "dec_year", "ssn_value", source=source, size=8, color="navy", alpha=0.0
         )
         hover = HoverTool(
-            tooltips=[("Year", "@dec_year{0.00}"), ("SSN", "@sn_value")],
+            tooltips=[("Year", "@dec_year{0.00}"), ("SSN", "@ssn_value")],
             renderers=[renderer],
         )
 

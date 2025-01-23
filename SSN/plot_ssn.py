@@ -16,16 +16,21 @@ df["date"] = pd.to_datetime(df[["year", "month", "day"]])
 
 source = ColumnDataSource(
     data=dict(
-        dec_year=df["decimal year"],
-        sn_value=df["SNvalue"],
-        date=df["date"],
         year=df["year"],
+        month=df["month"],
+        day=df["day"],
+        dec_year=df["decimal year"],
+        date=df["date"],
+        ssn_value=df["SNvalue"],
+        ssn_err=df["SNerror"],
+        num_obs=df["Nb observations"],
+        status=df["Status"],
     )
 )
 
 # Create a scatter plot
 ssn_plot = HVOPlot("Daily Sunspot Number", "Time (years)", "Sunspot Number")
-ssn_plot.line_plot(source, "Daily SSN", "dec_year", "sn_value")
+ssn_plot.line_plot(source, "Daily SSN", "dec_year", "ssn_value")
 ssn_plot.add_hover_tool(source)
 
 # Create DateRangeSlider
