@@ -66,7 +66,6 @@ def update_hover_data(attr, old, new, date_range, data, source) -> None:
         "month": filtered_data["month"],
         "day": filtered_data["day"],
         "dec_year": filtered_data["decimal year"],
-        "date": filtered_data["date"],
         "ssn_value": filtered_data["SNvalue"],
         "ssn_err": filtered_data["SNerror"],
         "num_obs": filtered_data["Nb observations"],
