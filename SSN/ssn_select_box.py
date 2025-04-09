@@ -58,7 +58,6 @@ download_txt_button = Button(label="Download TXT Data", button_type="success")
 
 # JavaScript code for downloading data
 js_callbacks = (Path(__file__).parent / "callbacks.js").read_text("utf8")
-js_utils = (Path(__file__).parent / "utils.js").read_text("utf8")
 
 # Attach the CustomJS callback
 download_csv_button.js_on_click(
@@ -76,33 +75,15 @@ download_csv_button.js_on_click(
         const y_start = y_range.start;
         const y_end = y_range.end;
 
-        // Get names of visible plots
-        const visiblePlotNames = Object.keys(plots).filter(name => {
-            return plots[name].scatter.visible;
-        });
-
-        if (visiblePlotNames.length === 0) {
-            alert("No visible plots to download.");
-            return;
-        }
-
-        // Combine visible plot names into a string
-        const visibleHeader = "Visible Plots: " + visiblePlotNames.join(", ");
-
-        // Update filename with visible plots
-        const updatedFilename = visiblePlotNames.join("_");
-
         // Download data with the visible plot names included
         downloadAxes(
             source,
-            updatedFilename,
             x_start,
             x_end,
             y_start,
             y_end,
             plots,
-            "csv",
-            visibleHeader // Pass the header for visible plots
+            "csv"
         );
         """,
     )
@@ -123,33 +104,15 @@ download_txt_button.js_on_click(
         const y_start = y_range.start;
         const y_end = y_range.end;
 
-        // Get names of visible plots
-        const visiblePlotNames = Object.keys(plots).filter(name => {
-            return plots[name].scatter.visible;
-        });
-
-        if (visiblePlotNames.length === 0) {
-            alert("No visible plots to download.");
-            return;
-        }
-
-        // Combine visible plot names into a string
-        const visibleHeader = "Visible Plots: " + visiblePlotNames.join(", ");
-
-        // Update filename with visible plots
-        const updatedFilename = visiblePlotNames.join("_");
-
         // Download data with the visible plot names included
         downloadAxes(
             source,
-            updatedFilename,
             x_start,
             x_end,
             y_start,
             y_end,
             plots,
-            "txt",
-            visibleHeader // Pass the header for visible plots
+            "txt"
         );
         """,
     )

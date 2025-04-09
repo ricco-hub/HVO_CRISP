@@ -1,6 +1,6 @@
 import pandas as pd
-from hvo_plots import *
 
+from hvo_plots import *
 from bokeh.models import ColumnDataSource, DateRangePicker, Button, CustomJS
 from bokeh.layouts import column, row
 from bokeh.io import curdoc
@@ -28,16 +28,21 @@ source = ColumnDataSource(
     )
 )
 
+
+data = {"Daily SSN": df}
+source_test = {name: ColumnDataSource(data=series) for name, series in data.items()}
+
 # Create a scatter plot
 ssn_plot = HVOPlot("Daily Sunspot Number", "Time (years)", "Sunspot Number")
 ssn_plot.line_plot(source, "Daily SSN", "dec_year", "ssn_value")
 ssn_plot.add_hover_tool(source)
+scatter = ssn_plot.line_plot(source, "Daily SSN", "dec_year", "ssn_value")
 
 # Create DateRangeSlider
 min_date = datetime(1818, 1, 1).date()
 max_date = max(df["date"]).date()
 date_range_picker = DateRangePicker(
-    title="Select data range manually. Double click to select a date.",
+    title="Select date range manually. Double click to select a date.",
     value=(min_date, max_date),
     min_date=min_date,
     max_date=max_date,
@@ -50,7 +55,7 @@ date_range_picker.on_change(
 )
 
 # Reset button
-reset_button = Button(label="Reset Data", button_type="primary")
+reset_button = Button(label="Reset Plot", button_type="primary")
 
 reset_button.on_click(
     partial(reset_data, original_data=df, date_picker=date_range_picker)
@@ -60,45 +65,67 @@ reset_button.on_click(
 download_csv_button = Button(label="Download CSV Data", button_type="success")
 download_txt_button = Button(label="Download TXT data", button_type="success")
 
-
 # CustomJS for downloading data
 js_callbacks = (Path(__file__).parent / "callbacks.js").read_text("utf8")
-js_utils = (Path(__file__).parent / "utils.js").read_text("utf8")
+
+plots = {}
+plots["Daily SSN"] = {"scatter": scatter}
 
 download_csv_button.js_on_click(
     CustomJS(
-        args=dict(source=source, format="csv"),
+        args=dict(
+            source=source_test,
+            plots=plots,
+            x_range=ssn_plot.get_plot().x_range,
+            y_range=ssn_plot.get_plot().y_range,
+        ),
         code=js_callbacks
-        + js_utils
         + """
-        const data = source.data;
-        const dates = data['dec_year'];
-        const minValue = dates.reduce((min, current) => Math.min(min, current), Infinity);
-        const maxValue = dates.reduce((max, current) => Math.max(max, current), -Infinity);
+        const x_start = x_range.start;
+        const x_end = x_range.end;
+        const y_start = y_range.start;
+        const y_end = y_range.end;
 
-        const formatMin = decimalYearToYYYYMMDD(minValue);
-        const formatMax = decimalYearToYYYYMMDD(maxValue);
-        const fileName = `${formatMin}_${formatMax}_daily_ssn_data.csv`;
-        downloadFile(source, fileName, format);
-        """,
+        // Download data with visible plot names included
+        downloadAxes(
+          source,
+          x_start,
+          x_end,
+          y_start,
+          y_end,
+          plots,
+          "csv"
+        );
+       """,
     )
 )
+
 download_txt_button.js_on_click(
     CustomJS(
-        args=dict(source=source, format="txt"),
+        args=dict(
+            source=source_test,
+            plots=plots,
+            x_range=ssn_plot.get_plot().x_range,
+            y_range=ssn_plot.get_plot().y_range,
+        ),
         code=js_callbacks
-        + js_utils
         + """
-        const data = source.data;
-        const dates = data['dec_year'];
-        const minValue = dates.reduce((min, current) => Math.min(min, current), Infinity);
-        const maxValue = dates.reduce((max, current) => Math.max(max, current), -Infinity);
+        const x_start = x_range.start;
+        const x_end = x_range.end;
+        const y_start = y_range.start;
+        const y_end = y_range.end;
 
-        const formatMin = decimalYearToYYYYMMDD(minValue);
-        const formatMax = decimalYearToYYYYMMDD(maxValue);
-        const fileName = `${formatMin}_${formatMax}_daily_ssn_data.txt`;
-        downloadFile(source, fileName, format);
-        """,
+        // Download data with visible plot names included
+        downloadAxes(
+          source,
+          x_start,
+          x_end,
+          y_start,
+          y_end,
+          plots,
+          "txt"
+        );
+       """,
     )
 )
 
