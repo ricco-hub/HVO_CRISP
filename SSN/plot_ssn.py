@@ -28,9 +28,9 @@ source = ColumnDataSource(
     )
 )
 
-
-data = {"Daily SSN": df}
-source_test = {name: ColumnDataSource(data=series) for name, series in data.items()}
+data = {"Daily SSN": df.copy()}
+del data["Daily SSN"]["date"]
+source_data = {name: ColumnDataSource(data=series) for name, series in data.items()}
 
 # Create a scatter plot
 ssn_plot = HVOPlot("Daily Sunspot Number", "Time (years)", "Sunspot Number")
@@ -74,7 +74,7 @@ plots["Daily SSN"] = {"scatter": scatter}
 download_csv_button.js_on_click(
     CustomJS(
         args=dict(
-            source=source_test,
+            source=source_data,
             plots=plots,
             x_range=ssn_plot.get_plot().x_range,
             y_range=ssn_plot.get_plot().y_range,
@@ -103,7 +103,7 @@ download_csv_button.js_on_click(
 download_txt_button.js_on_click(
     CustomJS(
         args=dict(
-            source=source_test,
+            source=source_data,
             plots=plots,
             x_range=ssn_plot.get_plot().x_range,
             y_range=ssn_plot.get_plot().y_range,
