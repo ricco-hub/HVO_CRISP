@@ -66,7 +66,7 @@
           You can select the date range manually from the dynamic plot or from the line plots menu.
           You can download images of the plots by pressing the save button attached to the right-hand side of the plot.
           Note that we do not include data where <code>SNValue = -1</code>. We also add an additional column <code>Status</code>
-          to signify if an observation is definitive (0) or provisional (1).
+          to signify if an observation is definitive (0) or provisional (1). Data are updated on the first of the previous month.
       </p>
 
       <!-- Bokeh plot iframe embeds -->
@@ -76,7 +76,7 @@
 
       <iframe src="http://10.2.202.13:5006/ssn_select_box" title="Selective Plot for SSN data"></iframe>
 
-      <p>Last updated date: <span id="date"></span></p>
+      <p>Last update: <span id="date"></span></p>
       <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/date.html" ?>
     </div>
 
