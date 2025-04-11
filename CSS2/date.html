@@ -1,7 +1,10 @@
 <script>
-n =  new Date();
-y = n.getFullYear();
-m = n.getMonth() + 1;
-d = n.getDate();
-document.getElementById("date").innerHTML = m + "/" + d + "/" + y;
+  const today = new Date();
+  const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+
+  // Format the date as "1 Month Year"
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const formattedDate = lastMonth.toLocaleDateString(undefined, options);
+
+  document.getElementById("date").textContent = formattedDate;
 </script>
