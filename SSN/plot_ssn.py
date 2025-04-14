@@ -1,11 +1,15 @@
 import pandas as pd
+import sys
+import os
 
-from hvo_plots import *
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from plots.hvo_plots import *
 from bokeh.models import ColumnDataSource, DateRangePicker, Button, CustomJS
 from bokeh.layouts import column, row
 from bokeh.io import curdoc
 from datetime import datetime
-from callbacks import update_hover_data, reset_data
+from plots.callbacks.callbacks import update_hover_data, reset_data
 from functools import partial
 from pathlib import Path
 
@@ -66,7 +70,9 @@ download_csv_button = Button(label="Download CSV Data", button_type="success")
 download_txt_button = Button(label="Download TXT data", button_type="success")
 
 # CustomJS for downloading data
-js_callbacks = (Path(__file__).parent / "callbacks.js").read_text("utf8")
+js_callbacks = (
+    Path(__file__).parent.parent / "plots" / "callbacks" / "callbacks.js"
+).read_text("utf8")
 
 plots = {}
 plots["Daily SSN"] = {"scatter": scatter}
