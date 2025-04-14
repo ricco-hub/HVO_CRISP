@@ -1,18 +1,15 @@
 import pandas as pd
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from bokeh.layouts import column, row
-
-# from bokeh.models import CheckboxGroup
 from bokeh.models import ColumnDataSource, Button, CustomJS
 from bokeh.plotting import curdoc
 from bokeh.palettes import Category10
-
-# from bokeh.embed import server_document
-
-# from callbacks import update_plots, update_error_bars
-# from functools import partial
 from pathlib import Path
-from hvo_plots import *
+from plots.hvo_plots import *
 
 
 # Get data
@@ -57,7 +54,9 @@ download_csv_button = Button(label="Download CSV Data", button_type="success")
 download_txt_button = Button(label="Download TXT Data", button_type="success")
 
 # JavaScript code for downloading data
-js_callbacks = (Path(__file__).parent / "callbacks.js").read_text("utf8")
+js_callbacks = (
+    Path(__file__).parent.parent / "plots" / "callbacks" / "callbacks.js"
+).read_text("utf8")
 
 # Attach the CustomJS callback
 download_csv_button.js_on_click(
@@ -128,6 +127,3 @@ layout = column(
 
 # Add the layout to the current document (this makes it live)
 curdoc().add_root(layout)
-
-# script = server_document()
-# print(script)
