@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sunspot Number Plots</title>
+
+    <!-- PHP includes -->
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/header.html" ?>
+
+    <!-- CSS styles -->
+    <style>
+        <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/style.html" ?>
+        <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/column3.html" ?>
+        img[usemap] {
+            border: none;
+            height: auto;
+            max-height: 70%;
+            max-width: 60%;
+            width: auto;
+        }
+        h3.centered-title {
+            color: rgb(60, 128, 214);
+            text-align: center;
+        }
+        iframe {
+            display: block;
+            margin: 30px auto;
+            border: none;
+            max-width: 100%;
+            width: 1000px;
+            height: 700px;
+        }
+        .main-content {
+            width: 75%;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .column {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            padding: 10px;
+        }
+        .left {
+            display: flex;
+            flex-direction: column;
+            width: 12%;
+        }
+    </style>
+</head>
+<body>
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/menu.html" ?>
+
+    <div class="column left">
+        <img src="/sunspot.gif" alt="Sun GIF">
+    </div>
+
+    <!-- "Main content section" -->
+    <div class="main-content">
+      <h3 class="centered-title"><b>Sunspot Data</b></h3>
+
+      <p>
+          This section is dedicated to sunspot number (SSN). Daily, monthly, smoothed (over 13 months), and yearly sunspot numbers are taken from
+          <a href="http://sidc.oma.be/silso/home" target="_blank">SILSO</a>.
+          You can select the date range manually from the dynamic plot or from the line plots menu.
+          You can download images of the plots by pressing the save button attached to the right-hand side of the plot.
+          Note that in the download files we do not include data where <code>SNValue = -1</code>. We also add an additional column <code>Status</code>
+          to signify if an observation is definitive (0) or provisional (1). Data are updated on the first of the previous month.
+      </p>
+
+      <!-- Bokeh plot iframe embeds -->
+      <iframe src="http://10.2.202.13:5006/plot_ssn" title="Dynamic SSN plot"></iframe>
+
+      <p style="text-align: left;">You can select the data-type from the plot legend below.</p>
+
+      <iframe src="http://10.2.202.13:5006/ssn_select_box" title="Selective Plot for SSN data"></iframe>
+
+      <p>Last update: <span id="date"></span></p>
+      <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/date.html" ?>
+    </div>
+
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/footer.html" ?>
+</body>
+</html>
