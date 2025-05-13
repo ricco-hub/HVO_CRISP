@@ -1,4 +1,8 @@
 import pandas as pd
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from bokeh.layouts import column, row
 
@@ -12,19 +16,24 @@ from bokeh.palettes import Category10
 # from callbacks import update_plots, update_error_bars
 # from functools import partial
 from pathlib import Path
-from hvo_plots import *
+from plots.hvo_plots import *
+from plots.callbacks.callbacks import update_hover_data, reset_data
 
 
 # Get data
-daily_data = pd.read_pickle("test/SN_d_tot_V2.0.pkl")
-monthly_smoothed_data = pd.read_pickle("test/SN_ms_tot_V2.0.pkl")
-monthly_data = pd.read_pickle("test/SN_m_tot_V2.0.pkl")
-yearly_data = pd.read_pickle("test/SN_y_tot_V2.0.pkl")
+northern_l = pd.read_pickle("data/Tilt_L_n.pkl")
+northern_r = pd.read_pickle("data/Tilt_R_n.pkl")
+southern_l = pd.read_pickle("data/Tilt_L_s.pkl")
+southern_r = pd.read_pickle("data/Tilt_R_s.pkl")
+average_l = pd.read_pickle("data/Tilt_L_av.pkl")
+average_r = pd.read_pickle("data/Tilt_R_av.pkl")
 data = {
-    "Yearly SSN": yearly_data,
-    "Monthly SSN": monthly_data,
-    "Smoothed SSN": monthly_smoothed_data,
-    "Daily SSN": daily_data,
+    "Northern (L)": northern_l,
+    "Northern (R)": northern_r,
+    "Southern (L)": southern_l,
+    "Southern (R)": southern_r,
+    "Average (L)": average_l,
+    "Average (R)": average_r,
 }
 
 colors = Category10[10]  # `Category10` can hold up to 10 different colors
@@ -34,7 +43,9 @@ series_names = list(data.keys())
 sources = {name: ColumnDataSource(data=series) for name, series in data.items()}
 
 # Create a figure
-plot = HVOPlot("Sunspot Number", "Time (years)", "Sunspot Number")
+plot = HVOPlot(
+    "Tilt Angle of Heliospheric Current Sheet", "Time (years)", "Angle (degrees)"
+)
 
 # Create plots and error bars for each series and make them initially invisible
 plots = {}
@@ -42,8 +53,8 @@ for i, (name, source) in enumerate(sources.items()):
     scatter = plot.line_plot(
         source,
         legend_label=name,
-        x="decimal year" if "decimal year" in source.data else "mid year",
-        y="SNvalue",
+        x="decimal_year",
+        y=list(source.data.keys())[2],
         color=colors[i],
         point_kwargs={"visible": False},
     )
@@ -57,7 +68,9 @@ download_csv_button = Button(label="Download CSV Data", button_type="success")
 download_txt_button = Button(label="Download TXT Data", button_type="success")
 
 # JavaScript code for downloading data
-js_callbacks = (Path(__file__).parent / "callbacks.js").read_text("utf8")
+js_callbacks = (
+    Path(__file__).parent.parent / "plots" / "callbacks" / "callbacks.js"
+).read_text("utf8")
 
 # Attach the CustomJS callback
 download_csv_button.js_on_click(
@@ -83,7 +96,8 @@ download_csv_button.js_on_click(
             y_start,
             y_end,
             plots,
-            "csv"
+            "csv",
+            "Tilt"
         );
         """,
     )
@@ -112,7 +126,8 @@ download_txt_button.js_on_click(
             y_start,
             y_end,
             plots,
-            "txt"
+            "txt",
+            "Tilt"
         );
         """,
     )
