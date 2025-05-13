@@ -109,8 +109,7 @@ function downloadFile(source, filename, format) {
 }
 
 /**
- * Grab current data on visible axes. Currently used in ssn_select_box but might be scaled to other scripts.
- * Allows users to download data as CSV or TXT file.
+ * Grab current data on visible axes. Allows users to download data as CSV or TXT file.
  *
  * @param {*} source - bokeh ColumnDataSource containing SSN data
  * @param {*} x_start - data object representing first visible x data point
@@ -119,8 +118,9 @@ function downloadFile(source, filename, format) {
  * @param {*} y_end - data object representing last visible y data point
  * @param {*} plots - python dictionary containing visible axes
  * @param {string} format - file format to be downloaded. Can choose from "csv" or "txt"
+ * @param {string} keys - name of input data to determine key naming scheme. Can choose from "SSN"
  */
-function downloadAxes(source, x_start, x_end, y_start, y_end, plots, format) {
+function downloadAxes(source, x_start, x_end, y_start, y_end, plots, format, keys) {
     format = format || "csv"; // Default format
     let globalMinX = Infinity;
     let globalMaxX = -Infinity;
@@ -129,8 +129,16 @@ function downloadAxes(source, x_start, x_end, y_start, y_end, plots, format) {
     const activePlots = Object.entries(plots).filter(([name, plot]) => plot.scatter.visible);
     const filteredData = activePlots.map(([name, plot]) => {
         const data = source[name].data;
-        const xKey = 'decimal year' in data ? 'decimal year' : 'mid year';
-        const yKey = 'SNvalue';
+
+        let xKey;
+        let yKey;
+        if (keys === "SSN") {
+          xKey = 'decimal year' in data ? 'decimal year' : 'mid year';
+          yKey = 'SNvalue';
+        } else {
+          xKey = 'decimal_year';
+          yKey = Object.keys(data)[2];
+        }
 
         const filteredIndices = data[xKey].map((x, i) =>
             (x >= x_start && x <= x_end && data[yKey][i] >= y_start && data[yKey][i] <= y_end) ? i : -1
@@ -145,7 +153,6 @@ function downloadAxes(source, x_start, x_end, y_start, y_end, plots, format) {
           if (localMin < globalMinX) globalMinX = localMin;
           if (localMax > globalMaxX) globalMaxX = localMax;
         }
-
 
         const filtered = {};
         Object.keys(data).forEach((key) => {
@@ -165,7 +172,7 @@ function downloadAxes(source, x_start, x_end, y_start, y_end, plots, format) {
         for (let i = 0; i < numRows; i++) {
             const row = keys.map((key) => {
                 let value = data[key][i];
-                if (key === 'decimal year' || key === 'mid year' && format === "txt") {
+                if (key === 'decimal year' || key === 'mid year' || key === 'decimal_year' && format === "txt") {
                     value = value.toFixed(3);
                 }
                 return value ?? "";
