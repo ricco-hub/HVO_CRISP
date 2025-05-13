@@ -100,7 +100,8 @@ download_csv_button.js_on_click(
           y_start,
           y_end,
           plots,
-          "csv"
+          "csv",
+          "SSN"
         );
        """,
     )
@@ -129,7 +130,8 @@ download_txt_button.js_on_click(
           y_start,
           y_end,
           plots,
-          "txt"
+          "txt",
+          "SSN"
         );
        """,
     )
