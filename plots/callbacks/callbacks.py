@@ -47,7 +47,7 @@ def update_error_bars(attr, old, new, checkbox, series: list, plots: dict) -> No
 
 def update_hover_data(attr, old, new, date_range, data, source) -> None:
     """
-    Python callback to update SSN data every time user picks new date range in calendar
+    Python callback to update data every time user picks new date range in calendar
     Inputs:
         date_range: bokeh DateRangePicker object
         data: pandas DataFrame containing data
@@ -68,16 +68,7 @@ def update_hover_data(attr, old, new, date_range, data, source) -> None:
     # Filter the data based on the selected date range
     filtered_data = data[(data["date"] >= start_date) & (data["date"] <= end_date)]
     # Update the data source with filtered data
-    source.data = {
-        "year": filtered_data["year"],
-        "month": filtered_data["month"],
-        "day": filtered_data["day"],
-        "dec_year": filtered_data["decimal year"],
-        "ssn_value": filtered_data["SNvalue"],
-        "ssn_err": filtered_data["SNerror"],
-        "num_obs": filtered_data["Nb observations"],
-        "status": filtered_data["Status"],
-    }
+    source.data = {col: filtered_data[col] for col in filtered_data.columns}
 
 
 def reset_data(original_data, date_picker) -> None:
