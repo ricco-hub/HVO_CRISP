@@ -2,7 +2,7 @@
  * Check if a year is a leap year
  *
  * @param {number} year - integer year
- * @returns {number} - returns 365 or 366
+ * @returns {boolean} - returns True or False
  */
 function isLeapYear(year) {
     return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
@@ -133,7 +133,7 @@ function downloadAxes(source, x_start, x_end, y_start, y_end, plots, format, key
         let xKey;
         let yKey;
         if (keys === "SSN") {
-          xKey = 'decimal year' in data ? 'decimal year' : 'mid year';
+          xKey = 'decimal_year' in data ? 'decimal_year' : 'mid_year';
           yKey = 'SNvalue';
         } else {
           xKey = 'decimal_year';
@@ -172,7 +172,7 @@ function downloadAxes(source, x_start, x_end, y_start, y_end, plots, format, key
         for (let i = 0; i < numRows; i++) {
             const row = keys.map((key) => {
                 let value = data[key][i];
-                if (key === 'decimal year' || key === 'mid year' || key === 'decimal_year' && format === "txt") {
+                if (key === 'decimal_year' || key === 'mid_year' && format === "txt") {
                     value = value.toFixed(3);
                 }
                 return value ?? "";
