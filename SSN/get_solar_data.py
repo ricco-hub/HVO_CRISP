@@ -18,37 +18,37 @@ COL_DATA_DAILY = [
     "year",
     "month",
     "day",
-    "decimal year",
+    "decimal_year",
     "SNvalue",
     "SNerror",
-    "Nb observations",
+    "Nb_observations",
     "Status",
 ]
 
 COL_DATA_MONTHLY = [
     "year",
     "month",
-    "decimal year",
+    "decimal_year",
     "SNvalue",
     "SNerror",
-    "Nb observations",
+    "Nb_observations",
     "Status",
 ]
 
 COL_DATA_SMOOTH = COL_DATA_MONTHLY
 
 COL_DATA_YEARLY = [
-    "mid year",
+    "mid_year",
     "SNvalue",
     "SNerror",
-    "Nb observations",
+    "Nb_observations",
     "Status",
 ]
 
 COLUMNS = [COL_DATA_DAILY, COL_DATA_MONTHLY, COL_DATA_SMOOTH, COL_DATA_YEARLY]
 
 
-def fetch_data(url: str, col_data: list, save_dir: str = "test") -> pd.DataFrame:
+def fetch_data(url: str, col_data: list, save_dir: str = "data") -> pd.DataFrame:
     """
     Scrape data from website and save in pickle file.
         In col_data, Status 0.0 means data is up to date,
