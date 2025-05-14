@@ -13,10 +13,10 @@ from plots.hvo_plots import *
 
 
 # Get data
-daily_data = pd.read_pickle("test/SN_d_tot_V2.0.pkl")
-monthly_smoothed_data = pd.read_pickle("test/SN_ms_tot_V2.0.pkl")
-monthly_data = pd.read_pickle("test/SN_m_tot_V2.0.pkl")
-yearly_data = pd.read_pickle("test/SN_y_tot_V2.0.pkl")
+daily_data = pd.read_pickle("data/SN_d_tot_V2.0.pkl")
+monthly_smoothed_data = pd.read_pickle("data/SN_ms_tot_V2.0.pkl")
+monthly_data = pd.read_pickle("data/SN_m_tot_V2.0.pkl")
+yearly_data = pd.read_pickle("data/SN_y_tot_V2.0.pkl")
 data = {
     "Yearly SSN": yearly_data,
     "Monthly SSN": monthly_data,
@@ -39,7 +39,7 @@ for i, (name, source) in enumerate(sources.items()):
     scatter = plot.line_plot(
         source,
         legend_label=name,
-        x="decimal year" if "decimal year" in source.data else "mid year",
+        x="decimal_year" if "decimal_year" in source.data else "mid_year",
         y="SNvalue",
         color=colors[i],
         point_kwargs={"visible": False},
