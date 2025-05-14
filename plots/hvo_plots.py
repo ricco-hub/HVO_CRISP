@@ -34,18 +34,32 @@ class HVOPlot:
         self.plot.xgrid.grid_line_dash = "dashed"
         self.plot.ygrid.grid_line_dash = "dashed"
 
-    def add_hover_tool(self, source):
+    def add_hover_tool(
+        self, source, x_key: str, y_key: str, x_label: str, y_label: str
+    ):
         """
         Add a hover tool to the plot.
-        Input:
+        Inputs:
             source: bokeh ColumnDataSource containing relevant data
+            x_key, name of x key in source to plot
+            y_key, name of y key in source to plot
+            x_label, label of x-coordinate in HoverTool
+            y_label, label of y-coordinate in HoverTool
         """
 
         renderer = self.plot.circle(
-            "dec_year", "ssn_value", source=source, size=8, color="navy", alpha=0.0
+            x_key,
+            y_key,
+            source=source,
+            size=8,
+            color="navy",
+            alpha=0.0,  # "dec_year", "ssn_value"
         )
         hover = HoverTool(
-            tooltips=[("Year", "@dec_year{0.00}"), ("SSN", "@ssn_value")],
+            tooltips=[
+                (x_label, f"@{x_key}{{0.00}}"),
+                (y_label, f"@{y_key}"),
+            ],  # ("Year", "@dec_year{0.00}"), ("SSN", "@ssn_value")
             renderers=[renderer],
         )
 
@@ -73,7 +87,7 @@ class HVOPlot:
             alpha=0.5,
             line_width=2,
             legend_label=legend_label,
-            **point_kwargs
+            **point_kwargs,
         )
 
     def set_click_policy(self):
