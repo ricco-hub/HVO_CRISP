@@ -111,7 +111,7 @@ function downloadFile(source, filename, format) {
 /**
  * Grab current data on visible axes. Allows users to download data as CSV or TXT file.
  *
- * @param {*} source - bokeh ColumnDataSource containing SSN data
+ * @param {*} source - bokeh ColumnDataSource containing data
  * @param {*} x_start - data object representing first visible x data point
  * @param {*} x_end - data object representing last visible x data point
  * @param {*} y_start - data object representing first visible y data point
@@ -197,9 +197,6 @@ function downloadAxes(source, x_start, x_end, y_start, y_end, plots, format, key
         return;
       }
 
-      // Combine visible plot names into a string
-      const visibleHeader = "Visible Plots: " + visiblePlotNames.join(", ");
-
       // Update file name with visible plots
       const plotNames = visiblePlotNames.join("_");
       const startEndFileName = `_${formatMin}_${formatMax}`;
@@ -215,6 +212,102 @@ function downloadAxes(source, x_start, x_end, y_start, y_end, plots, format, key
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = `${fileName}.${fileExtension}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function downloadAxesTilt(plots, x_start, x_end, y_start, y_end, format) {
+    const visibleKeys = Object.keys(plots).filter(name => {
+        const renderer = plots[name]?.renderer;
+        return renderer && renderer.visible;
+    });
+
+    if (visibleKeys.length === 0) {
+        alert("No visible plots to download.");
+        return;
+    }
+
+    let globalMinX = Infinity;
+    let globalMaxX = -Infinity;
+    let plotNamePart = "";
+    const allRows = [];
+
+    visibleKeys.forEach(name => {
+        const source = plots[name].source;
+        const data = source.data;
+
+        const xKey = "decimal_year";
+        const yKey = Object.keys(data).find(k => k !== xKey && k !== "date");
+
+        const filteredIndices = data[xKey].map((x, i) =>
+            (x >= x_start && x <= x_end && data[yKey][i] >= y_start && data[yKey][i] <= y_end) ? i : -1
+        ).filter(i => i !== -1);
+
+        if (filteredIndices.length === 0) return;
+
+        const filteredXValues = filteredIndices.map(i => data[xKey][i]);
+        const localMin = Math.min(...filteredXValues);
+        const localMax = Math.max(...filteredXValues);
+        if (localMin < globalMinX) globalMinX = localMin;
+        if (localMax > globalMaxX) globalMaxX = localMax;
+
+        const filteredData = {};
+        Object.keys(data).forEach(key => {
+            filteredData[key] = filteredIndices.map(i => data[key][i]);
+        });
+
+        const keys = Object.keys(filteredData).filter(col => col !== "date");
+        plotNamePart += name.concat("_");
+        allRows.push(`Data Series: ${name}`);
+        allRows.push(keys.join(format === "csv" ? "," : "\t"));
+
+        const numRows = filteredData[keys[0]].length;
+        for (let i = 0; i < numRows; i++) {
+            const row = keys.map(key => {
+                let val = filteredData[key][i];
+                if ((key === "decimal_year" || key === "mid_year") && format === "txt") {
+                    val = val.toFixed(3);
+                }
+                return val ?? "";
+            });
+            allRows.push(row.join(format === "csv" ? "," : "\t"));
+        }
+
+        allRows.push(""); // Extra newline between series
+    });
+
+    if (!isFinite(globalMinX) || !isFinite(globalMaxX)) {
+        alert("No data within selected view to download.");
+        return;
+    }
+
+    // Format dates
+    const formatDate = x => {
+        const year = Math.floor(x);
+        const remainder = x - year;
+        const daysInYear = (new Date(year + 1, 0, 1) - new Date(year, 0, 1)) / (1000 * 60 * 60 * 24);
+        const date = new Date(year, 0, 1 + Math.round(remainder * daysInYear));
+        return date.toISOString().slice(0, 10).replace(/-/g, "");
+    };
+
+    const formattedMin = formatDate(globalMinX);
+    const formattedMax = formatDate(globalMaxX);
+
+    // File name based on visible plots and date range
+    plotNamePart = plotNamePart.replace(/_$/, "");
+    const fileName = `${plotNamePart}_${formattedMin}_${formattedMax}`;
+
+    // Download
+    const blob = new Blob(
+        [allRows.join("\n")],
+        { type: format === "csv" ? "text/csv;charset=utf-8;" : "text/plain;charset=utf-8;" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `${fileName}.${format}`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
