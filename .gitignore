@@ -7,3 +7,5 @@ node-v8.4.0/
 myenv/
 __pycache__
 Wilcox_TILT/data/
+Wilcox_SFS/data/
+SSN/data/
