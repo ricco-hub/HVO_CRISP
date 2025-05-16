@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Heliospheric Current Sheet Tilt Angle</title>
+
+  <!-- PHP includes -->
+  <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/header.html" ?>
+
+  <!-- CSS styles -->
+  <style>
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/style.html" ?>
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/column3.html" ?>
+  </style>
+</head>
+<body>
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/menu.html" ?>
+
+    <div class="column left">
+        <img src="/HCS.gif" alt="centered image" style="max-width:70%" height="auto" width="auto" class="responsive" >
+    </div>
+
+    <!-- "Main content section" -->
+    <div class="main-content">
+      <h3 class="centered-title"><b>Tilt Angle</b></h3>
+
+      <p>
+          This section is dedicated to tilt angle of the Heliospheric Current Sheet (HCS).
+          Data are taken from the <a href="http://wso.stanford.edu/Tilts.html" target="_blank">Wilcox Solar Observatory</a>.
+          Values are provided for the maximum <b>northern</b> and <b>southern</b> extent of the HCS as well as the <b>average</b>.
+          The classic model <b>L</b> uses a line-of-sight boundary condition at the photosphere and includes a significant polar
+          field correction. A newer, possibly more accurate, model <b>R</b> uses a radial boundary condition at the photosphere,
+          and requires no polar field correction. Data are updated about every month.
+          You can select the date range manually from the dynamic plot or from the line plots menu.
+          You can download images of the plots by pressing the save button attached to the right-hand side of the plot.
+          Note that the angle measurements of the southern hemisphere are negative.
+      </p>
+
+      <!-- Bokeh plot iframe embeds -->
+      <iframe src="http://10.2.202.13:5006/plot_tilt" title="Dynamic Tilt Angle Plot"></iframe>
+
+      <p style="text-align: left;">You can select the data-type from the plot legend below.</p>
+
+      <iframe src="http://10.2.202.13:5006/tilt_select_line" title="Interactive Plot for Angle Data"></iframe>
+
+      <p>Last update: <span id="date"></span></p>
+      <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/date.html" ?>
+    </div>
+
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/footer.html" ?>
+</body>
+</html>
+
+
+
+<!-- <?php include "/var/www/html/CSS2/TILT/java.html" ?> -->
+<!-- <?php include "/var/www/html/CSS2/TILT/script.html" ?> -->
