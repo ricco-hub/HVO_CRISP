@@ -25,7 +25,7 @@ del data["Daily SSN"]["date"]
 source_data = {name: ColumnDataSource(data=series) for name, series in data.items()}
 
 # Create a scatter plot
-ssn_plot = HVOPlot("Daily Sunspot Number", "Time (years)", "Sunspot Number")
+ssn_plot = HVOPlot("Daily Sunspot Number", "Time (years)", "Sunspot Number", True)
 ssn_plot.line_plot(source, "Daily SSN", "decimal_year", "SNvalue")
 ssn_plot.add_hover_tool(source, "decimal_year", "SNvalue", "Year", "SSN")
 scatter = ssn_plot.line_plot(source, "Daily SSN", "decimal_year", "SNvalue")

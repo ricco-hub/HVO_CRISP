@@ -3,13 +3,16 @@ from bokeh.models import HoverTool
 
 
 class HVOPlot:
-    def __init__(self, title: str, x_label: str, y_label: str):
+    def __init__(
+        self, title: str, x_label: str, y_label: str, y_start_zero: bool = False
+    ):
         """
         Initialize the HVOPlot class
         Inputs:
-            title: title of plot
-            x_label: x-axis label
-            y_label: y-axis label
+            title, title of plot
+            x_label, x-axis label
+            y_label, y-axis label
+            y_start_zero, configure graph to plot starting at y = 0
         """
 
         self.plot = figure(
@@ -21,12 +24,17 @@ class HVOPlot:
             sizing_mode="scale_both",
         )
 
-        self._configure_axes()
+        self._configure_axes(y_start_zero)
 
-    def _configure_axes(self):
-        """Configure the axes."""
+    def _configure_axes(self, y_start_zero: bool):
+        """
+        Configure the axes.
+        Input:
+          y_start_zero, configure graph to plot starting at y = 0
+        """
 
-        self.plot.y_range.start = 0
+        if y_start_zero:
+            self.plot.y_range.start = 0
 
         self.plot.xaxis.minor_tick_line_color = "black"
         self.plot.yaxis.minor_tick_line_color = "black"
@@ -40,7 +48,7 @@ class HVOPlot:
         """
         Add a hover tool to the plot.
         Inputs:
-            source: bokeh ColumnDataSource containing relevant data
+            source, bokeh ColumnDataSource containing relevant data
             x_key, name of x key in source to plot
             y_key, name of y key in source to plot
             x_label, label of x-coordinate in HoverTool
@@ -48,18 +56,10 @@ class HVOPlot:
         """
 
         renderer = self.plot.circle(
-            x_key,
-            y_key,
-            source=source,
-            size=8,
-            color="navy",
-            alpha=0.0,  # "dec_year", "ssn_value"
+            x_key, y_key, source=source, size=8, color="navy", alpha=0.0
         )
         hover = HoverTool(
-            tooltips=[
-                (x_label, f"@{x_key}{{0.00}}"),
-                (y_label, f"@{y_key}"),
-            ],  # ("Year", "@dec_year{0.00}"), ("SSN", "@ssn_value")
+            tooltips=[(x_label, f"@{x_key}{{0.00}}"), (y_label, f"@{y_key}")],
             renderers=[renderer],
         )
 
@@ -71,12 +71,12 @@ class HVOPlot:
         """
         Add line plot
         Inputs:
-            source: bokeh ColumnDataSource containing relevant data
-            legend_label: name of legend
-            x: key name of x-axis data
-            y: key name of y-axis data
-            color: color of plot
-            point_kwargs: optional argument(s) for bokeh line plot
+            source, bokeh ColumnDataSource containing relevant data
+            legend_label, name of legend
+            x, key name of x-axis data
+            y, key name of y-axis data
+            color, color of plot
+            point_kwargs, optional argument(s) for bokeh line plot
         """
 
         return self.plot.line(
