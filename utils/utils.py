@@ -37,6 +37,7 @@ def is_leap_year(year: float) -> bool:
     """
   Determine if year is a leap year
   """
+
     return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
 
 
@@ -46,6 +47,7 @@ def decimal_year_to_YYYYMMDD(decimal_year: float):
     Output:
       ymd, a datetime64 object in the form YYYY-MM-DD
   """
+
     # get integer year
     year = math.floor(decimal_year)
 
@@ -67,6 +69,22 @@ def decimal_year_to_YYYYMMDD(decimal_year: float):
     ymd = np.datetime64(final_date, "D")
 
     return ymd
+
+
+def timestamp_to_decimal_year(timestamp_str: str) -> float:
+    """
+    Convert timestamp of the form YYYY:MM:DD_HHh:MMm:SSs to decimal year in the form YYYY.xx
+    Input:
+      timestamp_str, a timestamp in the form YYYY:MM:DD_HHh:MMm:SSs
+    """
+
+    dt = datetime.strptime(timestamp_str, "%Y:%m:%d_%Hh:%Mm:%Ss")
+    year_start = datetime(dt.year, 1, 1)
+    year_end = datetime(dt.year + 1, 1, 1)
+    seconds_in_year = (year_end - year_start).total_seconds()
+    seconds_elapsed = (dt - year_start).total_seconds()
+
+    return dt.year + seconds_elapsed / seconds_in_year
 
 
 # Create CheckboxGroup with options
