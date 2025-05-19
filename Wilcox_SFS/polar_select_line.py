@@ -41,7 +41,7 @@ series_names = list(data.keys())
 sources = {name: ColumnDataSource(data=series) for name, series in data.items()}
 
 # Create a figure
-plot = HVOPlot("Solar Polar Field Strength", "Time (years)", "Polar Field (G)")
+plot = HVOPlot("Polar Field Strength of the Sun", "Time (years)", "Polar Field (G)")
 
 # Create plots and error bars for each series and make them initially invisible
 plots = {}
