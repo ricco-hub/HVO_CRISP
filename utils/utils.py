@@ -33,6 +33,20 @@ def errorbar(
     return points, error_lines
 
 
+def day_year_to_decimal_year(day: int, year: int) -> float:
+    """
+    Return decimal year based on year and day, accounting for leap years
+    Inputs:
+      day, day
+      year, year
+    """
+
+    if (year - 1976) % 4 == 0:
+        return year + day / 366.0
+    else:
+        return year + day / 365.0
+
+
 def is_leap_year(year: float) -> bool:
     """
   Determine if year is a leap year
