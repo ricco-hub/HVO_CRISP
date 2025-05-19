@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sun's Polar Field Strength</title>
+
+    <!-- PHP includes -->
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/header.html" ?>
+
+    <!-- CSS styles -->
+    <style>
+        <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/style.html" ?>
+        <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/column3.html" ?>
+    </style>
+</head>
+<body>
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/menu.html" ?>
+
+    <div class="column left">
+        <img src="/magneticSUN.png" alt="Sun GIF">
+    </div>
+
+    <!-- "Main content section" -->
+    <div class="main-content">
+      <h3 class="centered-title"><b>Polar Field Strength Data</b></h3>
+
+      <p>
+        This section is dedicated to the <b>Sun's polar field strength</b>.
+        Data are taken from the <a href="http://wso.stanford.edu" target="_blank">Wilcox Solar Observatory</a>.
+        A 20 nHz low pass filter eliminates yearly geometric projection effects.
+        You can select the date range manually from the dynamic plot or from the line plots menu.
+        You can download images of the plots by pressing the save button attached to the right-hand side of the plot.
+        Data are updated about once a month.
+      </p>
+
+      <!-- Bokeh plot iframe embeds -->
+      <iframe src="http://10.2.202.13:5006/plot_polar" title="Dynamic Polar Plot"></iframe>
+
+      <p style="text-align: left;">You can select the data-type from the plot legend below.</p>
+
+      <iframe src="http://10.2.202.13:5006/polar_select_line" title="Interactive Plot for Polar Data"></iframe>
+
+      <p>Last update: <span id="date"></span></p>
+      <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/date.html" ?>
+    </div>
+
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/footer.html" ?>
+</body>
+</html>
