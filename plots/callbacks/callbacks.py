@@ -1,11 +1,16 @@
 import pickle
 import pandas as pd
 import json
+import sys
+import os
 
 from datetime import datetime
 from bokeh.io import curdoc
 from bokeh.models import ColumnDataSource, Button
 from bokeh.layouts import column
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from plots.hvo_plots import HVOPlot
 
 
 def update_plots(attr, old, new, checkbox, series: list, plots: dict) -> None:
@@ -45,6 +50,33 @@ def update_error_bars(attr, old, new, checkbox, series: list, plots: dict) -> No
             line.visible = is_active
 
 
+def sync_hover_tool_icon(attr, old, new, plots: dict, plot) -> None:
+    """
+    Toggle visibility of HoverTool icons based on visibility of plots (e.g., if plots are visible, so are the icons in the bokeh toolbar)
+    Inputs:
+      plots, dictionary of HVOPlot line plot objects
+      plot, HVOPlot object, instantiated plot object defined by user
+    """
+
+    tools_to_keep = []
+
+    for label, obj in plots.items():
+        line = obj["scatter"]
+        hover = obj["hover"]
+
+        if line.visible:
+            hover.renderers = [line]
+            if hover not in plot.get_plot().tools:
+                plot.get_plot().add_tools(hover)
+        else:
+            hover.renderers = []
+            if hover in plot.get_plot().tools:
+                plot.get_plot().tools.remove(hover)
+
+        # rebuild toolbar tools list (for full control)
+        tools_to_keep.append(hover if line.visible else None)
+
+
 def update_hover_data(attr, old, new, date_range, data, source) -> None:
     """
     Python callback to update data every time user picks new date range in calendar
@@ -55,20 +87,28 @@ def update_hover_data(attr, old, new, date_range, data, source) -> None:
     """
 
     # Get the date range selected in the DateRangeSlider
-    start_date, end_date = date_range.value
+    # start_date, end_date = date_range.value
 
     # convert to datetime.date
-    start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
-    end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
+    # start_date = datetime.strptime(start_date, "%Y-%m-%d").date()
+    # end_date = datetime.strptime(end_date, "%Y-%m-%d").date()
 
     # convert to datetime.datetime
-    start_date = datetime.combine(start_date, datetime.min.time())
-    end_date = datetime.combine(end_date, datetime.max.time())
+    # start_date = datetime.combine(start_date, datetime.min.time())
+    # end_date = datetime.combine(end_date, datetime.max.time())
 
     # Filter the data based on the selected date range
-    filtered_data = data[(data["date"] >= start_date) & (data["date"] <= end_date)]
+    # filtered_data = data[(data["date"] >= start_date) & (data["date"] <= end_date)]
     # Update the data source with filtered data
-    source.data = {col: filtered_data[col] for col in filtered_data.columns}
+    # source.data = {col: filtered_data[col] for col in filtered_data.columns}
+
+    start_date, end_date = date_range.value
+    mask = (data["date"] >= pd.to_datetime(start_date)) & (
+        data["date"] <= pd.to_datetime(end_date)
+    )
+    filtered = data.loc[mask]
+
+    source.data = {key: filtered[key] for key in filtered.columns}
 
 
 def update_all_sources(
@@ -122,3 +162,22 @@ def reset_all(min_date, max_date, date_picker, data: dict, source_data: dict) ->
     date_picker.value = (min_date, max_date)
     for label, df in data.items():
         source_data[label].data = {col: df[col] for col in df.columns}
+
+
+def reset_data_combined(data_dict, sources, date_picker) -> None:
+    """
+    Reset all data sources and date range picker to their original state.
+
+    Parameters:
+        data_dict: dict of {label: original pandas DataFrame}
+        sources: dict of {label: ColumnDataSource}
+        date_picker: Bokeh DateRangePicker
+    """
+    # Reset each data source
+    for label, df in data_dict.items():
+        sources[label].data = {col: df[col] for col in df.columns}
+
+    # Reset the date picker range
+    min_date = min(df["date"].min() for df in data_dict.values()).date()
+    max_date = max(df["date"].max() for df in data_dict.values()).date()
+    date_picker.value = (min_date, max_date)
