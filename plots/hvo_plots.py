@@ -43,7 +43,13 @@ class HVOPlot:
         self.plot.ygrid.grid_line_dash = "dashed"
 
     def add_hover_tool(
-        self, source, x_key: str, y_key: str, x_label: str, y_label: str
+        self,
+        source,
+        x_key: str,
+        y_key: str,
+        x_label: str,
+        y_label: str,
+        text_color: str = "#000080",
     ):
         """
         Add a hover tool to the plot.
@@ -53,15 +59,20 @@ class HVOPlot:
             y_key, name of y key in source to plot
             x_label, label of x-coordinate in HoverTool
             y_label, label of y-coordinate in HoverTool
+            text_color, color of text when hovering over data point. Default color navy. Accepts hex format (#RRGGBB)
         """
 
         renderer = self.plot.circle(
             x_key, y_key, source=source, size=8, color="navy", alpha=0.0
         )
-        hover = HoverTool(
-            tooltips=[(x_label, f"@{x_key}{{0.00}}"), (y_label, f"@{y_key}")],
-            renderers=[renderer],
-        )
+        hover_html = f"""
+        <div style="background-color:#f0f8ff; color:{text_color}; padding:5px; border:1px solid #aaa;">
+          <span style="font-size: 14px;"><b>{x_label}:</b> @{x_key}{{0.00}}</span><br>
+          <span style="font-size: 14px;"><b>{y_label}:</b> @{y_key}</span>
+        </div>
+        """
+
+        hover = HoverTool(tooltips=hover_html, renderers=[renderer],)
 
         self.plot.add_tools(hover)
 
