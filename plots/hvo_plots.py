@@ -1,5 +1,8 @@
+import numpy as np
+
 from bokeh.plotting import figure
 from bokeh.models import HoverTool
+from PIL import ImageColor, Image, ImageDraw
 
 
 class HVOPlot:
@@ -49,7 +52,7 @@ class HVOPlot:
         y_key: str,
         x_label: str,
         y_label: str,
-        text_color: str = "#000080",
+        hover_color: str = "#000080",
     ):
         """
         Add a hover tool to the plot.
@@ -59,22 +62,33 @@ class HVOPlot:
             y_key, name of y key in source to plot
             x_label, label of x-coordinate in HoverTool
             y_label, label of y-coordinate in HoverTool
-            text_color, color of text when hovering over data point. Default color navy. Accepts hex format (#RRGGBB)
+            hover_color, color of HoverTool. Default color navy. Accepts hex format (#RRGGBB)
+        Output,
+          hover, bokeh HoverTool object
         """
 
         renderer = self.plot.circle(
             x_key, y_key, source=source, size=8, color="navy", alpha=0.0
         )
         hover_html = f"""
-        <div style="background-color:#f0f8ff; color:{text_color}; padding:5px; border:1px solid #aaa;">
+        <div style="background-color:#f0f8ff; color:{hover_color}; padding:5px; border:1px solid #aaa;">
           <span style="font-size: 14px;"><b>{x_label}:</b> @{x_key}{{0.00}}</span><br>
           <span style="font-size: 14px;"><b>{y_label}:</b> @{y_key}</span>
         </div>
         """
-
-        hover = HoverTool(tooltips=hover_html, renderers=[renderer],)
+        alpha = 128
+        img = Image.new("RGBA", (32, 32), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(img)
+        rgba = ImageColor.getcolor(hover_color, "RGB") + (alpha,)
+        # vertical bar
+        draw.rectangle([13, 0, 19, 32], fill=rgba)
+        # horizontal bar
+        draw.rectangle([0, 13, 32, 19], fill=rgba)
+        hover = HoverTool(tooltips=hover_html, renderers=[renderer], icon=img)
 
         self.plot.add_tools(hover)
+
+        return hover
 
     def line_plot(
         self, source, legend_label: str, x: str, y: str, color="navy", point_kwargs={}
