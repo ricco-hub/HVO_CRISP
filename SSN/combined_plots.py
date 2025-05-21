@@ -127,7 +127,7 @@ js_callbacks = (
 download_csv_button.js_on_click(
     CustomJS(
         args=dict(
-            source=source_data,
+            source=sources,
             plots=plots,
             x_range=plot.get_plot().x_range,
             y_range=plot.get_plot().y_range,
@@ -142,7 +142,7 @@ download_csv_button.js_on_click(
 download_txt_button.js_on_click(
     CustomJS(
         args=dict(
-            source=source_data,
+            source=sources,
             plots=plots,
             x_range=plot.get_plot().x_range,
             y_range=plot.get_plot().y_range,
