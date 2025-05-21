@@ -28,17 +28,14 @@
           This section is dedicated to sunspot number (SSN). Daily, monthly, smoothed (over 13 months), and yearly sunspot numbers are taken from
           <a href="http://sidc.oma.be/silso/home" target="_blank">SILSO</a>.
           You can select the date range manually from the dynamic plot or from the line plots menu.
+          You can also select the data-type from the plot legend below
           You can download images of the plots by pressing the save button attached to the right-hand side of the plot.
           Note that in the download files we do not include data where <code>SNValue = -1</code>. We also add an additional column <code>Status</code>
           to signify if an observation is definitive (0) or provisional (1). Data are updated on the first of the previous month.
       </p>
 
       <!-- Bokeh plot iframe embeds -->
-      <iframe src="http://10.2.202.13:5006/plot_ssn" title="Dynamic SSN plot"></iframe>
-
-      <p style="text-align: left;">You can select the data-type from the plot legend below.</p>
-
-      <iframe src="http://10.2.202.13:5006/ssn_select_box" title="Selective Plot for SSN data"></iframe>
+      <iframe src="http://10.2.202.13:5006/combined_plots_ssn" title="Dynamic SSN Plot"></iframe>
 
       <p>Last update: <span id="date"></span></p>
       <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/date.html" ?>
