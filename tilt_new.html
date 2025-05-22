@@ -17,7 +17,7 @@
     <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/menu.html" ?>
 
     <div class="column left">
-        <img src="/HCS.gif" alt="centered image" style="max-width:70%" height="auto" width="auto" class="responsive" >
+        <img src="/HCS.gif" alt="HCS GIF"> <!-- style="max-width:70%" height="auto" width="auto" class="responsive" -->
     </div>
 
     <!-- "Main content section" -->
@@ -32,16 +32,12 @@
           field correction. A newer, possibly more accurate, model <b>R</b> uses a radial boundary condition at the photosphere,
           and requires no polar field correction. Data are updated about every month.
           You can select the date range manually from the dynamic plot or from the line plots menu.
+          You can also select the data-type from the plot legend below.
           You can download images of the plots by pressing the save button attached to the right-hand side of the plot.
-          Note that the angle measurements of the southern hemisphere are negative.
       </p>
 
       <!-- Bokeh plot iframe embeds -->
-      <iframe src="http://10.2.202.13:5006/plot_tilt" title="Dynamic Tilt Angle Plot"></iframe>
-
-      <p style="text-align: left;">You can select the data-type from the plot legend below.</p>
-
-      <iframe src="http://10.2.202.13:5006/tilt_select_line" title="Interactive Plot for Angle Data"></iframe>
+      <iframe src="http://10.2.202.13:5006/combined_plots_tilt" title="Dynamic Tilt Angle Plot"></iframe>
 
       <p>Last update: <span id="date"></span></p>
       <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/date.html" ?>
@@ -50,8 +46,3 @@
     <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/footer.html" ?>
 </body>
 </html>
-
-
-
-<!-- <?php include "/var/www/html/CSS2/TILT/java.html" ?> -->
-<!-- <?php include "/var/www/html/CSS2/TILT/script.html" ?> -->
