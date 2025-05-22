@@ -11,6 +11,7 @@ class HVOPlot:
         title: str,
         x_label: str,
         y_label: str,
+        y_end: None,
         y_start_zero: bool = False,
         y_label_color: str = "black",
     ):
@@ -34,7 +35,7 @@ class HVOPlot:
         )
 
         self.x_label = x_label
-        self._configure_axes(y_start_zero, y_label_color)
+        self._configure_axes(y_start_zero, y_end, y_label_color)
 
     def add_y_axis(
         self,
@@ -59,7 +60,7 @@ class HVOPlot:
         """
 
         self.plot.extra_y_ranges["foo"] = Range1d(
-            min(source.data[y_key]), max(source.data[y_key])
+            min(source.data[y_key]), max(source.data[y_key]) * 1.05
         )
         ax2 = LinearAxis(y_range_name="foo", axis_label=y_label)
         ax2.axis_label_text_color = color
@@ -77,7 +78,7 @@ class HVOPlot:
             **point_kwargs,
         )
 
-    def _configure_axes(self, y_start_zero: bool, y_lab_color: str):
+    def _configure_axes(self, y_start_zero: bool, y_end, y_lab_color: str):
         """
         Configure the axes
         Input:
@@ -87,6 +88,8 @@ class HVOPlot:
 
         if y_start_zero:
             self.plot.y_range.start = 0
+        if y_end is not None:
+            self.plot.y_range.end = y_end
 
         self.plot.xaxis.minor_tick_line_color = "black"
         self.plot.yaxis.minor_tick_line_color = "black"
