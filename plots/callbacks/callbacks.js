@@ -137,7 +137,7 @@ function downloadAxes(source, x_start, x_end, y_start, y_end, plots, format, key
           yKey = 'SNvalue';
         } else {
           xKey = 'decimal_year';
-          yKey = Object.keys(data)[2];
+          yKey = Object.keys(data)[1];
         }
 
         const filteredIndices = data[xKey].map((x, i) =>
