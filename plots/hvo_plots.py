@@ -11,7 +11,7 @@ class HVOPlot:
         title: str,
         x_label: str,
         y_label: str,
-        y_end: None,
+        y_end=None,
         y_start_zero: bool = False,
         y_label_color: str = "black",
     ):
@@ -21,6 +21,7 @@ class HVOPlot:
             title, title of plot
             x_label, x-axis label
             y_label, y-axis label
+            y_end, float or int, optionally set the upper y-axis bound when plotting. Useful when plotting twin axes
             y_start_zero, configure graph to plot starting at y = 0
             y_label_color, configure color of y-axis label
         """
@@ -83,6 +84,7 @@ class HVOPlot:
         Configure the axes
         Input:
           y_start_zero, configure graph to plot starting at y = 0
+          y_end, float or int, optionally set the upper y-axis bound when plotting. Useful when plotting twin axes
           y_lab_color, configure color of y-axis label
         """
 
@@ -108,6 +110,7 @@ class HVOPlot:
         x_label: str,
         y_label: str,
         hover_color: str = "#000080",
+        renderer=None,
     ):
         """
         Add a hover tool to the plot
@@ -118,13 +121,15 @@ class HVOPlot:
             x_label, label of x-coordinate in HoverTool
             y_label, label of y-coordinate in HoverTool
             hover_color, color of HoverTool. Default color navy. Accepts hex format (#RRGGBB)
-        Output,
-          hover, bokeh HoverTool object
+            renderer, HVOPlot object, optionally set renderer for second y-axis plot
+        Output:
+            hover, bokeh HoverTool object
         """
 
-        renderer = self.plot.circle(
-            x_key, y_key, source=source, size=8, color="navy", alpha=0.0
-        )
+        if renderer is None:
+            renderer = self.plot.circle(
+                x_key, y_key, source=source, size=8, color="navy", alpha=0.0
+            )
         hover_html = f"""
         <div style="background-color:#f0f8ff; color:{hover_color}; padding:5px; border:1px solid #aaa;">
           <span style="font-size: 14px;"><b>{x_label}:</b> @{x_key}{{0.00}}</span><br>
