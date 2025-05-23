@@ -130,6 +130,7 @@ function downloadAxes(source, x_start, x_end, y_start, y_end, plots, format, key
     const filteredData = activePlots.map(([name, plot]) => {
         const data = source[name].data;
 
+        // handle different key values
         let xKey;
         let yKey;
         if (keys === "SSN") {
@@ -140,9 +141,17 @@ function downloadAxes(source, x_start, x_end, y_start, y_end, plots, format, key
           yKey = Object.keys(data)[1];
         }
 
-        const filteredIndices = data[xKey].map((x, i) =>
-            (x >= x_start && x <= x_end && data[yKey][i] >= y_start && data[yKey][i] <= y_end) ? i : -1
-        ).filter(i => i !== -1);
+        // handle twin y-axes
+        let filteredIndices;
+        if (keys === "Wind") {
+          filteredIndices = data[xKey].map((x, i) =>
+                (x >= x_start && x <= x_end) ? i : -1
+            ).filter(i => i !== -1);
+        } else {
+          filteredIndices = data[xKey].map((x, i) =>
+              (x >= x_start && x <= x_end && data[yKey][i] >= y_start && data[yKey][i] <= y_end) ? i : -1
+          ).filter(i => i !== -1);
+        }
 
         // Find min and max values for naming file in the format minDate_maxDate.fileType
         // need to find global minima and maxima for multiple datasets (plots)
