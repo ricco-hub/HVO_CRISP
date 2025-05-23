@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Solar Wind and Proton Density</title>
+
+    <!-- PHP includes -->
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/header.html" ?>
+
+    <!-- CSS styles -->
+    <style>
+        <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/style.html" ?>
+        <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/column3.html" ?>
+    </style>
+</head>
+<body>
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/menu.html" ?>
+
+    <div class="column left">
+        <img src="/wind.png" alt="Solar Wind">
+    </div>
+
+    <!-- "Main content section" -->
+    <div class="main-content">
+      <h3 class="centered-title"><b>Wind and Proton Density Data</b></h3>
+
+      <p>
+        This section is dedicated to <b>solar wind</b>.
+        The <b>solar wind speed</b> and <b>proton density</b> data are taken from the
+        <a href="https://spdf.gsfc.nasa.gov" target="_blank">Space Physics Data Facility</a>.
+        You can select the date range manually from the dynamic plot and optionally select data from the plot legend below.
+        You can download images of the plots by pressing the save button attached to the right-hand side of the plot.
+      </p>
+
+      <!-- Bokeh plot iframe embeds -->
+      <iframe src="http://10.2.202.13:5006/combined_plots_wind" title="Dynamic Wind Plot"></iframe>
+
+      <p>Last update: <span id="date"></span></p>
+      <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/date.html" ?>
+    </div>
+
+    <?php include "/var/www/ricco_website/HVO_CRISP/CSS2/footer.html" ?>
+</body>
+</html>
