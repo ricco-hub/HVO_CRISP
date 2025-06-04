@@ -9,3 +9,6 @@ __pycache__
 Wilcox_TILT/data/
 Wilcox_SFS/data/
 SSN/data/
+WIND/data/
+WIND/test.py
+NeutronMonitor_Rate/data/
